@@ -1,0 +1,1 @@
+export const BASE_API_URL: string = process.env.BASE_API_URL || '';
