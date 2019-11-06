@@ -1,4 +1,4 @@
-import React from 'react';
+export {}
 
 describe('App Tests', () => {
 	it('Should be truthy', () => {
