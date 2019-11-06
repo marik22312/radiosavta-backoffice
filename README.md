@@ -1,4 +1,7 @@
 ![Travis (.org)](https://img.shields.io/travis/marik22312/radiosavta-backoffice?label=Master%20Build)
+![](https://img.shields.io/github/languages/top/marik22312/radiosavta-backoffice)
+![](https://img.shields.io/snyk/vulnerabilities/github/marik22312/radiosavta-backoffice)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
