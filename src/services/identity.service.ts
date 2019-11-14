@@ -1,6 +1,5 @@
 import BaseApiService from "./base.api.service";
 import { AxiosInstance, AxiosResponse } from "axios";
-import { observable, action } from "mobx";
 
 export interface TryLogigArgs {
 	email: string;

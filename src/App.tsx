@@ -1,24 +1,26 @@
 import React from 'react';
 import logo from './logo.svg';
+
+import { Provider } from 'mobx-react';
 import './App.scss';
+
+import httpClient from './services/http.client';
+import IdentityStore from './stores/identity.store';
+import IdentityService from './services/identity.service';
+import Routes from './routes';
+
+const identityService = new IdentityService(httpClient);
+
+const stores = {
+  identityStore: new IdentityStore(identityService)
+}
 
 const App: React.FC = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Provider {...stores}>
+          <Routes />
+        </Provider>
     </div>
   );
 }
