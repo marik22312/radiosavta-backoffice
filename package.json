@@ -69,10 +69,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-	"build": "node scripts/build.js",
-	"test": "yarn test:watch",
-	"test:once": "node scripts/test.js --watchAll=false",
-	"test:watch": "node scripts/test.js --watchAll=true"
+    "build": "node scripts/build.js",
+    "test": "node scripts/test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -90,6 +88,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.7.4",
     "@types/axios": "^0.14.0",
     "jest-puppeteer": "^4.3.0",
     "node-sass": "^4.13.0"
