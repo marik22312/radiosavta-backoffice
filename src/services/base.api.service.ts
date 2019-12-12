@@ -1,4 +1,4 @@
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosPromise } from 'axios';
+import { AxiosInstance, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { BASE_API_URL } from '../config/api.config';
 
 export default class BaseApiService {

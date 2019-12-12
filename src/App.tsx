@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 
 import { Provider } from 'mobx-react';
 import './App.scss';
@@ -9,11 +8,14 @@ import IdentityStore from './stores/identity.store';
 import IdentityService from './services/identity.service';
 import Routes from './routes';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const identityService = new IdentityService(httpClient);
 
 const stores = {
   identityStore: new IdentityStore(identityService)
 }
+
 
 const App: React.FC = () => {
   return (

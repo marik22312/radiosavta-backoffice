@@ -1,5 +1,5 @@
-import BaseApiService from "./base.api.service";
 import { AxiosInstance, AxiosResponse } from "axios";
+import BaseApiService from "./base.api.service";
 
 export interface TryLogigArgs {
 	email: string;

@@ -6,11 +6,13 @@ export default class IdentityStore {
 	private _identityService: IdentityServiceInterface;
 
 	@observable public token: string | null;
+	@observable public user: any ;
 
 	constructor(identityService: IdentityServiceInterface) {
 		this._identityService = identityService;
 
 		this.token = null;
+		this.user = {}
 	}
 
 	@computed public get isLoggedIn() {
@@ -22,6 +24,7 @@ export default class IdentityStore {
 		try {
 			const response = await this._identityService.preformLogin(credentials);
 			this.token = response.data.token;
+			this.user = response.data.user;
 			setToken(this.token);
 		} catch (e) {
 			console.error(e);
