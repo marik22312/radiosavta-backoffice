@@ -19,7 +19,7 @@ module.exports = {
 		  '^.+\\.css$': require.resolve(
 			'./config/jest/cssTransform.js'
 		  ),
-		  '^(?!.*\\.(js|jsx|mjs|css|json)$)': require.resolve(
+		  '^(?!.*\\.(js|jsx|ts|tsx|mjs|css|json)$)': require.resolve(
 			'./config/jest/fileTransform.js'
 		  )
 		},
