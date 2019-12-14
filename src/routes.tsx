@@ -15,7 +15,13 @@ import { ProgramsPage } from "./pages/protected/programs-page/programs.page";
 import { SettingsPage } from "./pages/protected/settings-page/settings.page";
 import { UsersPage } from "./pages/protected/users-page/users.page";
 
-const DefaultContainer: React.FC = () => {
+const DefaultContainer: React.FC<{isLoggedIn: boolean}> = (props) => {
+
+	const { isLoggedIn } = props;
+
+	if (!isLoggedIn) {
+		return <Redirect to="/login" />
+	}
   return (
     <main style={{ height: "100%" }}>
       <SideNav />
@@ -53,6 +59,8 @@ export default class Routes extends React.Component<Props, {}> {
   }
   render() {
 	const { identityStore } = this.props;
+
+	const isLoggedIn = identityStore!.isLoggedIn;
 	
     return (
       <Router>
@@ -60,11 +68,7 @@ export default class Routes extends React.Component<Props, {}> {
           <Route path="/login" component={LoginPage} />
           <Route
             component={() =>
-              identityStore!.isLoggedIn ? (
-                <DefaultContainer />
-              ) : (
-                <Redirect to="/login" />
-              )
+                <DefaultContainer isLoggedIn={isLoggedIn}/>
             }
           />
         </Switch>

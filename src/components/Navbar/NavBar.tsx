@@ -1,5 +1,5 @@
-import { inject, observer } from 'mobx-react';
-import React, { useState } from 'react';
+import { inject, observer } from "mobx-react";
+import React, { useState } from "react";
 import {
   Collapse,
   DropdownItem,
@@ -13,48 +13,50 @@ import {
   NavItem,
   NavLink,
   UncontrolledDropdown
-} from 'reactstrap';
+} from "reactstrap";
 
-import IdentityStore from '../../stores/identity.store';
+import IdentityStore from "../../stores/identity.store";
 
-
-
-@inject('identityStore')
+@inject("identityStore")
 @observer
-export class NavigationBar extends React.Component<{
-	identityStore?: IdentityStore
-}, {
-	isOpen: boolean
-}> {
+export class NavigationBar extends React.Component<
+  {
+    identityStore?: IdentityStore;
+  },
+  {
+    isOpen: boolean;
+  }
+> {
+  constructor(props: any) {
+    super(props);
 
-	constructor(props: any) {
-		super(props);
+    this.state = {
+      isOpen: false
+    };
+  }
 
-		this.state = {
-			isOpen: false
-		}
-	}
-
-  public toggle = () => this.setState({isOpen: !this.state.isOpen});
+  public toggle = () => this.setState({ isOpen: !this.state.isOpen });
+  public logout = () => {
+	  return this.props.identityStore?.logout()
+};
 
   public render() {
-
-	const { isOpen } = this.state;
-	const { identityStore } = this.props;
-	  return (
-    <div>
-      <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">Radiosavta Backoffice</NavbarBrand>
-        <NavbarToggler onClick={this.toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            {/* <NavItem>
+    const { isOpen } = this.state;
+    const { identityStore } = this.props;
+    return (
+      <div>
+        <Navbar color="light" light expand="md">
+          <NavbarBrand href="/">Radiosavta Backoffice</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={isOpen} navbar>
+            <Nav className="mr-auto" navbar>
+              {/* <NavItem>
               <NavLink href="/components/">Components</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
             </NavItem> */}
-            {/* <UncontrolledDropdown nav inNavbar>
+              {/* <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Options
               </DropdownToggle>
@@ -71,10 +73,21 @@ export class NavigationBar extends React.Component<{
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown> */}
-          </Nav>
-          <NavbarText>{identityStore?.user.name}</NavbarText>
-        </Collapse>
-      </Navbar>
-    </div>
-  )};
+            </Nav>
+            <UncontrolledDropdown>
+              <DropdownToggle nav caret>
+                <NavbarText>{identityStore?.user.name}</NavbarText>
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>Option 1</DropdownItem>
+                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem onClick={this.logout}>Logout</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </Collapse>
+        </Navbar>
+      </div>
+    );
+  }
 }

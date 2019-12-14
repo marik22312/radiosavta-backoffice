@@ -16,6 +16,7 @@ export interface IdentityServiceInterface {
 	getUser: (token: string) => Promise<AxiosResponse<LoginSuccessResponse>>
 	getTokenFromStorage: () => any
 	setTokenToStorage: (user: any) => Promise<any>
+	logout: () => void
 }
 
 
@@ -46,5 +47,9 @@ export default class IdentityService extends BaseApiService implements IdentityS
 
 	public getUser(token: string) {
 		return this.get('/me');
+	}
+
+	public logout() {
+		return this.cookieOven.clear('auth')
 	}
 }

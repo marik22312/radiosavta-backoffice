@@ -21,7 +21,7 @@ export default class IdentityStore {
 	}
 
 	@computed public get isLoggedIn() {
-		return this.token;
+		return !!this.token;
 	}
 
 	@action
@@ -49,5 +49,13 @@ export default class IdentityStore {
 
 	public setToken(token: string) {
 		return setToken(token);
+	}
+	
+	@action
+	public async logout() {
+		this.identityService.logout();
+		this.token = null;
+		this.user = {};
+		this.setToken('');
 	}
 }

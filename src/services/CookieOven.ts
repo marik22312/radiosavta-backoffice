@@ -21,6 +21,11 @@ export class CookieOven {
 	constructor() {
 		this.cookies = new Cookie('radiosavta');
 	}
+
+	public clear(name: string, options?: CookieSetOptions) {
+		return this.cookies.remove(name, options)
+	}
+
 	public bakeCookie(name: string, value: any, options?: CookieSetOptions): void {
 		return this.cookies.set(name, value, options)
 	}
