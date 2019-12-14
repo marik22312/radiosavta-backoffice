@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Col, Row } from "reactstrap";
 import { CardBase, CardContent, CardHeader, CardTitle } from "../base/CardBase";
 
 interface HeaderProps {

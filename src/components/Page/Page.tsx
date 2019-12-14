@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Col, Row } from "reactstrap";
 import { PageBase, PageContent, PageHeader, PageTitle } from "../base/PageBase";
 
 interface HeaderProps {
