@@ -2,10 +2,10 @@ import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import * as Yup from "yup";
-import IdentityStore from "../../stores/identity.store";
+import IdentityStore from "../../../stores/identity.store";
 
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import { Page } from "../../components/Page/Page";
+import { Page } from "../../../components/Page/Page";
 
 interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
@@ -18,7 +18,7 @@ interface LoginFormValues {
 
 @inject("identityStore")
 @observer
-export class HomePage extends React.Component<Props, {}> {
+export class UsersPage extends React.Component<Props, {}> {
   constructor(props: Props) {
     super(props);
   }
@@ -30,7 +30,7 @@ export class HomePage extends React.Component<Props, {}> {
       <Page>
 		  <Page.Header>
 			  <Page.Title
-				  title='Home Page'
+				  title='users Page'
 				  />
 		  </Page.Header>
 		  <Page.Content>

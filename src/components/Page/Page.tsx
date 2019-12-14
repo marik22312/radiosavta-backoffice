@@ -34,7 +34,7 @@ export class Page extends React.Component<{},{}> {
 		const { children } = this.props;
 		return (
 		<PageBase>
-			<Row>
+			<Row style={{height: '100%'}}>
 				<Col xs={12}>{children}</Col>
 			</Row>
 		</PageBase>

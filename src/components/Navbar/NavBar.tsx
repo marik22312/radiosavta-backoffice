@@ -1,3 +1,4 @@
+import { inject, observer } from 'mobx-react';
 import React, { useState } from 'react';
 import {
   Collapse,
@@ -14,25 +15,46 @@ import {
   UncontrolledDropdown
 } from 'reactstrap';
 
-export const NavigationBar = (props: any) => {
-  const [isOpen, setIsOpen] = useState(false);
+import IdentityStore from '../../stores/identity.store';
 
-  const toggle = () => setIsOpen(!isOpen);
 
-  return (
+
+@inject('identityStore')
+@observer
+export class NavigationBar extends React.Component<{
+	identityStore?: IdentityStore
+}, {
+	isOpen: boolean
+}> {
+
+	constructor(props: any) {
+		super(props);
+
+		this.state = {
+			isOpen: false
+		}
+	}
+
+  public toggle = () => this.setState({isOpen: !this.state.isOpen});
+
+  public render() {
+
+	const { isOpen } = this.state;
+	const { identityStore } = this.props;
+	  return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
+        <NavbarBrand href="/">Radiosavta Backoffice</NavbarBrand>
+        <NavbarToggler onClick={this.toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
-            <NavItem>
+            {/* <NavItem>
               <NavLink href="/components/">Components</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-            </NavItem>
-            <UncontrolledDropdown nav inNavbar>
+            </NavItem> */}
+            {/* <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Options
               </DropdownToggle>
@@ -48,11 +70,11 @@ export const NavigationBar = (props: any) => {
                   Reset
                 </DropdownItem>
               </DropdownMenu>
-            </UncontrolledDropdown>
+            </UncontrolledDropdown> */}
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+          <NavbarText>{identityStore?.user.name}</NavbarText>
         </Collapse>
       </Navbar>
     </div>
-  );
+  )};
 }
