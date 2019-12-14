@@ -52,7 +52,8 @@ export default class Routes extends React.Component<Props, {}> {
     this.state = {};
   }
   render() {
-    const { identityStore } = this.props;
+	const { identityStore } = this.props;
+	
     return (
       <Router>
         <Switch>

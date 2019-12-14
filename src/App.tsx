@@ -9,11 +9,13 @@ import IdentityService from './services/identity.service';
 import Routes from './routes';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CookieOven } from './services/CookieOven';
 
-const identityService = new IdentityService(httpClient);
+const cookieOven = new CookieOven();
+const identityService = new IdentityService(httpClient, cookieOven);
 
 const stores = {
-  identityStore: new IdentityStore(identityService)
+  identityStore: new IdentityStore(identityService),
 }
 
 
