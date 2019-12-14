@@ -25,17 +25,17 @@ export class SideNav extends React.Component<Props, {}> {
         title: "home"
       },
       {
-        id: 1,
+        id: 2,
         link: "/users",
         title: "Users"
       },
       {
-        id: 1,
+        id: 3,
         link: "/programs",
         title: "programs"
       },
       {
-        id: 1,
+        id: 4,
         link: "/settings",
         title: "settings"
       }

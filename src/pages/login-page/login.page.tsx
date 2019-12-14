@@ -61,7 +61,6 @@ export class LoginPage extends React.Component<Props, {}> {
   }
 
   private renderForm(formikProps: FormikProps<LoginFormValues>) {
-	  console.log('env', process.env)
     return (
       <Form>
         <FormGroup row>
