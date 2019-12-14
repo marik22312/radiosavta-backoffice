@@ -6,7 +6,9 @@
     ],
     "jsRules": {},
     "rules": {
-        "no-unused-variable": true
+		"no-unused-variable": true,
+		"interface-name": false,
+		"object-literal-sort-keys": false
     },
     "rulesDirectory": []
 }
