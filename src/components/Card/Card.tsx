@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Col, Row } from "reactstrap";
-import { PageBase, PageContent, PageHeader, PageTitle } from "../base/PageBase";
+import { CardBase, CardContent, CardHeader, CardTitle } from "../base/CardBase";
 
 interface HeaderProps {
   title: string;
@@ -10,17 +10,20 @@ interface PageContentProps {
   title?: string;
 }
 
-export class Page extends React.Component<{}, {}> {
+export class Card extends React.Component<{}, {}> {
   public static Title: React.FC<HeaderProps> = props => {
-    return <PageTitle>{props.title}</PageTitle>;
+    return <CardTitle>{props.title}</CardTitle>;
   };
 
   public static Header: React.FC = props => (
-    <PageHeader>{props.children}</PageHeader>
+    <React.Fragment>
+      <CardHeader>{props.children}</CardHeader>
+      <hr />
+    </React.Fragment>
   );
 
   public static Content: React.FC<PageContentProps> = props => (
-    <PageContent>{props.children}</PageContent>
+    <CardContent>{props.children}</CardContent>
   );
 
   constructor(props: any) {
@@ -31,6 +34,6 @@ export class Page extends React.Component<{}, {}> {
 
   public render() {
     const { children } = this.props;
-    return <PageBase>{children}</PageBase>;
+    return <CardBase>{children}</CardBase>;
   }
 }

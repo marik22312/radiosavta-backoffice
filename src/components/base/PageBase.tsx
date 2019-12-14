@@ -12,7 +12,6 @@ export const PageHeader = styled.div`
 	color: #000000;
 	padding-right: 15px;
 	padding-left: 15px;
-	margin-bottom: 30px;
 `;
 
 export const PageTitle = styled.h1`
@@ -22,9 +21,5 @@ export const PageTitle = styled.h1`
 
 export const PageContent = styled.main`
 	overflow: visible;
-	background-color: #fafafa;
-	border-radius: 5px;
 	min-height: 60%;
-	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-	padding-top: 15px;
 `;
