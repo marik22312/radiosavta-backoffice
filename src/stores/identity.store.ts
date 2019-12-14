@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx';
 import { IdentityServiceInterface, TryLogigArgs } from '../services/identity.service';
 import { setToken } from '../services/http.client';
+import { AxiosError } from 'axios';
 
 export default class IdentityStore {
 	private identityService: IdentityServiceInterface;
@@ -40,10 +41,16 @@ export default class IdentityStore {
 	@action
 	public async getUser(): Promise<void> {
 		if (this.token) {
-			const { data } = await this.identityService.getUser(this.token);
-			this.user = data;
+			try {
+				const { data } = await this.identityService.getUser(this.token);
+				this.user = data;
+			} catch (e) {
+				if (e.response.status === 401) {
+					this.logout();
+				}
+			}
 		} else {
-			console.log('No Token!')
+			this.logout();
 		}
 	}
 
