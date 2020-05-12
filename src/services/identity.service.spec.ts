@@ -1,12 +1,18 @@
+import { ApiServiceMock } from '../../__tests__/mocks/services/base.service.mock';
+import { CookieOvenMock } from '../../__tests__/mocks/services/cookieOven.mock';
+import { IBaseApiService } from './base.api.service';
+import { ICookieOven } from './CookieOven';
 import IdentityService, { IdentityServiceInterface } from './identity.service';
-import { axiosMock } from '../../__tests__/mocks/axios.mock';
-import { BASE_API_URL } from '../config/api.config';
 
 describe('Identity Service', () => {
 	let identityService: IdentityServiceInterface;
-
+	let apiService: IBaseApiService;
+	let cookieOvenMock: ICookieOven;
+	
 	beforeEach(() => {
-		identityService = new IdentityService(axiosMock);
+		apiService = ApiServiceMock()
+		cookieOvenMock = CookieOvenMock();
+		identityService = new IdentityService(apiService, cookieOvenMock);
 	});
 
 	describe('Preform Login', () => {
@@ -18,7 +24,7 @@ describe('Identity Service', () => {
 	
 			await identityService.preformLogin(credentials);
 	
-			expect(axiosMock.post).toBeCalledWith(BASE_API_URL + '/login', credentials, undefined);
+			expect(apiService.post).toBeCalledWith('/login', credentials);
 		})
 	})
 

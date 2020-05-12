@@ -1,19 +1,19 @@
 import * as React from "react";
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
-  Switch,
-  Redirect
+  Switch
 } from "react-router-dom";
 
-import { observer, inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
+import { SideNav } from "./components/Navbar/SideNav";
 import { LoginPage } from "./pages/login-page/login.page";
 import { HomePage } from "./pages/protected/home-page/home.page";
-import IdentityStore from "./stores/identity.store";
-import { SideNav } from "./components/Navbar/SideNav";
 import { ProgramsPage } from "./pages/protected/programs-page/programs.page";
 import { SettingsPage } from "./pages/protected/settings-page/settings.page";
 import { UsersPage } from "./pages/protected/users-page/users.page";
+import IdentityStore from "./stores/identity.store";
 
 const DefaultContainer: React.FC<{isLoggedIn: boolean}> = (props) => {
 
@@ -57,7 +57,7 @@ export default class Routes extends React.Component<Props, {}> {
 
     this.state = {};
   }
-  render() {
+  public render() {
 	const { identityStore } = this.props;
 
 	const isLoggedIn = identityStore!.isLoggedIn;

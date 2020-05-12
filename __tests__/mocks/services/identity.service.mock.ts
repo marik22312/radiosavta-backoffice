@@ -1,5 +1,4 @@
-import { AxiosInstance, AxiosResponse } from "axios";
-import { IdentityServiceInterface, LoginSuccessResponse, TryLogigArgs} from '../../../src/services/identity.service'
+import { IdentityServiceInterface} from '../../../src/services/identity.service'
 
 export class IdentityServiceMock implements IdentityServiceInterface {
 	public preformLogin = jest.fn();
