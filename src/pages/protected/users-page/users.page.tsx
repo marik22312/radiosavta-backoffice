@@ -1,10 +1,9 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import * as Yup from "yup";
 import IdentityStore from "../../../stores/identity.store";
 
-import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
 import { Page } from "../../../components/Page/Page";
 
 interface Props extends RouteComponentProps {
@@ -24,7 +23,6 @@ export class UsersPage extends React.Component<Props, {}> {
   }
 
   public render() {
-	const initialValues: LoginFormValues = { email: '', password: '' };
 
     return (
       <Page>

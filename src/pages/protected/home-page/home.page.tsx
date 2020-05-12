@@ -1,10 +1,10 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import * as Yup from "yup";
 import IdentityStore from "../../../stores/identity.store";
 
-import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import { Col, Container, Row } from "reactstrap";
+import { Card } from "../../../components/Card/Card";
 import { Page } from "../../../components/Page/Page";
 
 interface Props extends RouteComponentProps {
@@ -34,10 +34,22 @@ export class HomePage extends React.Component<Props, {}> {
 				  />
 		  </Page.Header>
 		  <Page.Content>
-			  <Container>
+			  <Container fluid>
 				  <Row>
-					  <Col xs={12}>
-						  Hello Home Page!
+					  <Col xs={6}>
+						  <Card>
+							  <Card.Header>
+								  <Card.Title title="Server stats"/>
+							  </Card.Header>
+							  <Card.Content>
+								  <Container>
+									  <Row>
+										  <Col xs={6}>some stat</Col>
+										  <Col xs={6}>some stat</Col>
+									  </Row>
+								  </Container>
+							  </Card.Content>
+						  </Card>
 					  </Col>
 				  </Row>
 			  </Container>

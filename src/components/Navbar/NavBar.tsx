@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React, { useState } from "react";
+import React from "react";
 import {
   Collapse,
   DropdownItem,
@@ -10,8 +10,6 @@ import {
   NavbarBrand,
   NavbarText,
   NavbarToggler,
-  NavItem,
-  NavLink,
   UncontrolledDropdown
 } from "reactstrap";
 

@@ -1,55 +1,54 @@
-import { AxiosInstance, AxiosResponse } from "axios";
-import BaseApiService from "./base.api.service";
-import { CookieOven } from "./CookieOven";
+import { AxiosResponse } from "axios";
+import { IBaseApiService } from "./base.api.service";
+import { ICookieOven } from "./CookieOven";
 
 export interface TryLogigArgs {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 }
 
 export interface LoginSuccessResponse {
-	token: string;
-	user: any // TODO: Add user interface
+  token: string;
+  user: any; // TODO: Add user interface
 }
 export interface IdentityServiceInterface {
-	preformLogin: (credentials: TryLogigArgs) => Promise<AxiosResponse<LoginSuccessResponse>>
-	getUser: (token: string) => Promise<AxiosResponse<LoginSuccessResponse>>
-	getTokenFromStorage: () => any
-	setTokenToStorage: (user: any) => Promise<any>
-	logout: () => void
+  preformLogin: (
+    credentials: TryLogigArgs
+  ) => Promise<AxiosResponse<LoginSuccessResponse>>;
+  getUser: (token: string) => Promise<AxiosResponse<LoginSuccessResponse>>;
+  getTokenFromStorage: () => any;
+  setTokenToStorage: (user: any) => Promise<any>;
+  logout: () => void;
 }
 
+export default class IdentityService implements IdentityServiceInterface {
+  constructor(
+	private api: IBaseApiService,
+    private cookieOven: ICookieOven
+  ) {}
 
-export default class IdentityService extends BaseApiService implements IdentityServiceInterface {
+  public preformLogin(
+    credentials: TryLogigArgs
+  ): Promise<AxiosResponse<LoginSuccessResponse>> {
+    return this.api.post("/login", credentials);
+  }
 
-	private cookieOven: CookieOven;
+  public getTokenFromStorage(): any {
+    const user: any = this.cookieOven.eatCookie("auth");
+    return user;
+  }
 
-	constructor(axiosInstance: AxiosInstance, cookieOven: CookieOven) {
-		super(axiosInstance);
+  public async setTokenToStorage(token: string): Promise<void> {
+    return this.cookieOven.bakeCookie("auth", token, {
+      maxAge: 60 * 24 * 14,
+    });
+  }
 
-		this.cookieOven = cookieOven;
-	}
+  public getUser(token: string) {
+    return this.api.get("/me");
+  }
 
-	public preformLogin(credentials: TryLogigArgs): Promise<AxiosResponse<LoginSuccessResponse>> {
-		return this.post('/login', credentials);
-	}
-
-	public getTokenFromStorage(): any {
-		const user: any = this.cookieOven.eatCookie('auth');
-		return user;
-	}
-
-	public async setTokenToStorage(token: string): Promise<void> {
-		return this.cookieOven.bakeCookie('auth', token, {
-			maxAge: 60 * 24 * 14
-		});
-	}
-
-	public getUser(token: string) {
-		return this.get('/me');
-	}
-
-	public logout() {
-		return this.cookieOven.clear('auth')
-	}
+  public logout() {
+    return this.cookieOven.clear("auth");
+  }
 }

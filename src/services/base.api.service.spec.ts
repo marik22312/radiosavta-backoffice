@@ -1,12 +1,12 @@
-import BaseApiService from './base.api.service';
-import { BASE_API_URL } from '../config/api.config';
 import { axiosMock } from '../../__tests__/mocks/axios.mock';
+import { BASE_API_URL } from '../config/api.config';
+import BaseApiService from './base.api.service';
 
 describe('Base API Service', () => {
 	
 	let baseApiService: BaseApiService;
 	beforeEach(() => {
-		baseApiService = new BaseApiService(axiosMock);
+		baseApiService = new BaseApiService(BASE_API_URL, axiosMock);
 	});
 
 	it('Should preform GET request', async () => {
