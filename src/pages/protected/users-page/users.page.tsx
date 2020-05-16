@@ -5,21 +5,31 @@ import IdentityStore from "../../../stores/identity.store";
 
 import { Col, Container, Row } from "reactstrap";
 import { Page } from "../../../components/Page/Page";
+import { IUser } from '../../../models/types';
+import UsersStore from '../../../stores/users.store';
 
 interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
+  usersStore: UsersStore;
 }
 
-interface LoginFormValues {
-	email: string;
-	password: string;
+interface State {
+	users: IUser[]
+}
+
+@inject("identityStore", "usersStore")
+@observer
+export class UsersPage extends React.Component<Props, State> {
+  constructor(props: Props) {
+	super(props);
+	
+	this.state = {
+		users: []
+	}
   }
 
-@inject("identityStore")
-@observer
-export class UsersPage extends React.Component<Props, {}> {
-  constructor(props: Props) {
-    super(props);
+  public async componentDidMount() {
+	await this.getAllUsers();
   }
 
   public render() {
@@ -42,6 +52,14 @@ export class UsersPage extends React.Component<Props, {}> {
 		  </Page.Content>
       </Page>
     );
+  }
+
+  private async getAllUsers() {
+	  const users = await this.props.usersStore.fetchAllUsers();
+	  this.setState({
+		  users
+	  })
+
   }
 }
 

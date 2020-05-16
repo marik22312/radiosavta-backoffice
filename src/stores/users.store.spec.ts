@@ -1,33 +1,38 @@
-import Chance from 'chance';
+	import Chance from "chance";
 
-import UsersStore from './users.store';
-import {mockUser} from '../../__tests__/mocks/data.mock';
-import { UsersService } from '../services/users.service';
+	import { mockUser } from "../../__tests__/mocks/data.mock";
+	import {
+	UsersServiceMock
+	} from "../../__tests__/mocks/services/base.service.mock";
+	import UsersStore from "./users.store";
 
-describe('Users Store', () => {
-    const chance = Chance();
+	describe("Users Store", () => {
+	const chance = Chance();
 
-    describe('User', () => {
-        it('Should be a user', async () => {
+	describe("User", () => {
+		it("Should be a user", async () => {
+			
+		const user = mockUser();
+		let externalPromise: any;
 
-            const user = mockUser();
-            const response = UsersStore.fetchAllUsers();
-        
+		const usersServiceMock = new UsersServiceMock();
+		usersServiceMock.getAllUsers.mockImplementation(() => new Promise(res => {
+			externalPromise = res;
+		}));
 
-        // identityService.preformLogin.mockReturnValue({
-        //     data: {
-        //         token
-        //     }
-        // })
-        // const credentials: TryLogigArgs = {
-        //     email,
-        //     password
-        // }
+		const usersStore = new UsersStore(usersServiceMock);
 
-        // await identityStore.preformLogin(credentials);
+		expect(usersStore.isLoading).toBe(false);
 
-        // expect(identityStore.token).toBe(token);
-        // expect(identityService.preformLogin).toBeCalledWith(credentials);
-        // expect(identityService.setTokenToStorage).toBeCalledWith(token);
-    })
-})
+		const response = usersStore.fetchAllUsers();
+
+		expect(usersStore.isLoading).toBe(true);
+
+		externalPromise([user]);
+		
+		expect(usersServiceMock.getAllUsers).toBeCalledTimes(1);
+		expect(await response).toStrictEqual([user]);
+		expect(usersStore.isLoading).toBe(false);
+		});
+	});
+	});
