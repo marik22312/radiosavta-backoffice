@@ -1,22 +1,25 @@
 export interface ModelWithTimestamps {
-	created_at: string;
-	updated_at: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface IUser extends ModelWithTimestamps {
-	id: string;
-	name: string;
-	quote: string;
-	location: string;
-	profile_image: string;
-	email: string;
+  id: number;
+  name: string;
+  quote: string;
+  location: string;
+  profile_image: string;
+  email: string;
+}
+export interface IUserWithProgram extends IUser {
+  programs: IProgram[];
 }
 
 export interface IProgram extends ModelWithTimestamps {
-	id: string;
-	name_en: string;
-	name_he?: string;
-	description: string;
-	cover_image: string;
-	is_displayed?: boolean
+  id: number;
+  name_en: string;
+  name_he?: string;
+  description: string;
+  cover_image: string;
+  is_displayed?: boolean;
 }
