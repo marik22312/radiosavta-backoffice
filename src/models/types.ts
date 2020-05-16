@@ -11,8 +11,19 @@ export interface IUser extends ModelWithTimestamps {
   profile_image: string;
   email: string;
 }
-export interface IUserWithProgram extends IUser {
+export interface IFullUser extends IUser {
   programs: IProgram[];
+}
+
+
+export interface IRecordedShow extends ModelWithTimestamps {
+	id: number;
+	program_id: number;
+	url: string;
+	name: string;
+	duration: string;
+	is_displayed: boolean;
+	recorded_at: string;
 }
 
 export interface IProgram extends ModelWithTimestamps {
@@ -22,4 +33,9 @@ export interface IProgram extends ModelWithTimestamps {
   description: string;
   cover_image: string;
   is_displayed?: boolean;
+}
+
+export interface IFullProgram extends ModelWithTimestamps, IProgram {
+	users: IUser[];
+	recorded_shows: IRecordedShow[];
 }
