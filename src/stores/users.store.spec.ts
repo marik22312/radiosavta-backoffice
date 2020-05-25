@@ -15,7 +15,7 @@
 		const user = mockUser();
 		let externalPromise: any;
 
-		const usersServiceMock = new UsersServiceMock();
+		const usersServiceMock = UsersServiceMock();
 		usersServiceMock.getAllUsers.mockImplementation(() => new Promise(res => {
 			externalPromise = res;
 		}));

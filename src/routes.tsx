@@ -15,7 +15,7 @@ import { SettingsPage } from "./pages/protected/settings-page/settings.page";
 import { UsersPage } from "./pages/protected/users-page/users.page";
 import IdentityStore from "./stores/identity.store";
 
-const DefaultContainer: React.FC<{isLoggedIn: boolean}> = (props) => {
+const ProtectedRoute: React.FC<{isLoggedIn: boolean}> = (props) => {
 
 	const { isLoggedIn } = props;
 
@@ -68,7 +68,7 @@ export default class Routes extends React.Component<Props, {}> {
           <Route path="/login" component={LoginPage} />
           <Route
             component={() =>
-                <DefaultContainer isLoggedIn={isLoggedIn}/>
+                <ProtectedRoute isLoggedIn={isLoggedIn}/>
             }
           />
         </Switch>

@@ -15,13 +15,13 @@ export const mockUser = (data?: IUser): IUser => ({
 });
 
 export const mockProgram = (data?: IProgram): IProgram => ({
-  id: data.id || chance.integer(),
-  name_en: data.name_en || chance.word(),
-  name_he: data.name_he || chance.word(),
-  description: data.description || chance.word(),
-  cover_image: data.cover_image || chance.word(),
-  is_displayed: data.is_displayed || true,
-  created_at: data.created_at || chance.date().toString(),
-  updated_at: data.updated_at || chance.date().toString()
+  id: data?.id || chance.integer(),
+  name_en: data?.name_en || chance.word(),
+  name_he: data?.name_he || chance.word(),
+  description: data?.description || chance.word(),
+  cover_image: data?.cover_image || chance.word(),
+  is_displayed: data?.is_displayed || true,
+  created_at: data?.created_at || chance.date().toString(),
+  updated_at: data?.updated_at || chance.date().toString()
 });
 export const mockRecordedShow = () => ({});
