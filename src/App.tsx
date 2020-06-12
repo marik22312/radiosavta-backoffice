@@ -22,7 +22,8 @@ const usersService = new UsersService(apiService);
 
 const stores = {
   identityStore: new IdentityStore(identityService),
-  usersStore: new UsersStore(usersService)
+  usersStore: new UsersStore(usersService),
+  apiStore: apiService,
 }
 
 
