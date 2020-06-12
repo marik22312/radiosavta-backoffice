@@ -1,10 +1,22 @@
-import styled from 'styled-components';
+import styled, { StyledFunction } from 'styled-components';
+
 
 export const CardBase = styled.section`
 	background-color: #fafafa;
 	border-radius: 5px;
 	box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.25);
-	margin: 15px;
+	padding: 15px;
+	// @ts-ignore
+	height: ${props => props.fullHeight ? '100%' : 'unset'}
+`;
+
+export const InteractiveCardBase = styled(CardBase)`
+	&:hover {
+		box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.25);
+		transform: translate(-1px, -1px);
+		transition: transform .3s ease-in-out
+		cursor: pointer;
+	}
 `;
 
 export const CardHeader = styled.div`
@@ -20,5 +32,4 @@ export const CardTitle = styled.h2`
 `;
 
 export const CardContent = styled.div`
-	padding-left: 15px;
 `;
