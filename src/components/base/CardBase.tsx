@@ -11,7 +11,7 @@ export const CardBase = styled.section`
 
 export const InteractiveCardBase = styled(CardBase)`
 	transform: translate(0, 0);
-	transition: all .3s ease-in-out;
+	transition: all .15s ease-out;
 	
 	&:hover {
 		box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.25);
