@@ -11,11 +11,11 @@ export const CardBase = styled.section`
 
 export const InteractiveCardBase = styled(CardBase)`
 	transform: translate(0, 0);
+	transition: all .3s ease-in-out;
 	
 	&:hover {
 		box-shadow: 4px 4px 11px rgba(0, 0, 0, 0.25);
 		transform: translate(-1px, -1px);
-		transition: all .3s ease-in-out;
 		cursor: pointer;
 	}
 `;
