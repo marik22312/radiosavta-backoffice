@@ -74,6 +74,7 @@ const date = new Intl.DateTimeFormat('en-GB', options).format(new Date(stats.str
   }
 
   private readonly fetchStats = async () => {
+	  // TODO: Move logic to stats store
 	  const { apiStore } = this.props;
 
 	try {
