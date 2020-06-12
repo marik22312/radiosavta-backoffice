@@ -1,5 +1,11 @@
 import * as React from "react";
-import { CardBase, CardContent, CardHeader, CardTitle, InteractiveCardBase } from "../base/CardBase";
+import {
+  CardBase,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  InteractiveCardBase
+} from "../base/CardBase";
 
 interface HeaderProps {
   title: string;
@@ -9,14 +15,13 @@ interface PageContentProps {
   title?: string;
 }
 
-export class Card extends React.Component<
-  {
-    fullHeight?: boolean;
-    interactive?: boolean;
-    onClick?(e: any): void;
-  },
-  {}
-> {
+interface CardProps {
+  fullHeight?: boolean;
+  interactive?: boolean;
+  onClick?(e: any): void;
+}
+
+export class Card extends React.Component<CardProps, {}> {
   public static Title: React.FC<HeaderProps> = props => {
     return <CardTitle>{props.title}</CardTitle>;
   };
@@ -44,8 +49,8 @@ export class Card extends React.Component<
       return (
         <InteractiveCardBase
           // @ts-ignore
-		  fullHeight={fullHeight}
-		  onClick={this.props.onClick}
+          fullHeight={fullHeight}
+          onClick={this.props.onClick}
         >
           {children}
         </InteractiveCardBase>
