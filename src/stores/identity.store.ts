@@ -4,9 +4,15 @@ import {
   IdentityServiceInterface,
   TryLogigArgs
 } from "../services/identity.service";
+import { validatePasswordResetAndTransform } from '../utils/identity.utils';
+
+export interface ResetPasswordObj {
+  newPassword: string;
+  passwordRepeat: string;
+  oldPassword: string
+}
 
 export default class IdentityStore {
-
   @computed public get isLoggedIn() {
     return !!this.token;
   }
@@ -66,5 +72,27 @@ export default class IdentityStore {
     this.token = null;
     this.user = {};
     this.setToken("");
+  }
+
+  @action
+  public async resetPassword(passwordObj: ResetPasswordObj) {
+
+	const {oldPassword, newPassword, passwordRepeat} = passwordObj;
+
+	const validatedPassword = validatePasswordResetAndTransform({newPassword, passwordRepeat});
+	if (validatedPassword.error) {
+		return validatedPassword.error;
+	}
+
+	try {
+		const response = await this.identityService.resetPassword({
+			currentPassword: oldPassword,
+			newPassword: validatedPassword.password
+		});
+		console.log('Success')
+		return response.data;
+	} catch (error) {
+		console.log('Error', error);
+	}
   }
 }

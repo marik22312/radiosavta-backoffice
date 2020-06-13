@@ -2,7 +2,8 @@ import Chance from 'chance';
 
 import { IdentityServiceMock } from '../../__tests__/mocks/services/identity.service.mock';
 import { TryLogigArgs } from '../services/identity.service';
-import IdentityStore from './identity.store';
+import { ValidatePasswordObj } from '../utils/identity.utils';
+import IdentityStore, { ResetPasswordObj } from './identity.store';
 
 describe('Identity Store', () => {
 	const chance = Chance();
@@ -13,7 +14,6 @@ describe('Identity Store', () => {
 		identityService = new IdentityServiceMock();
 		identityStore = new IdentityStore(identityService);
 	})
-	describe('Login', () => {
 		it('Should Preform Login', async () => {
 
 			const token = chance.guid();
@@ -36,5 +36,49 @@ describe('Identity Store', () => {
 			expect(identityService.preformLogin).toBeCalledWith(credentials);
 			expect(identityService.setTokenToStorage).toBeCalledWith(token);
 		})
+
+	it('Should call resetPassword correctly', async () => {
+		const newPassword = chance.string({ length: 10});
+		const oldPassword = chance.string({ length: 10});
+
+		const passwordObj: ResetPasswordObj = {
+			passwordRepeat: newPassword,
+			newPassword,
+			oldPassword,
+		}
+
+		identityService.resetPassword.mockReturnValue({
+			data: {
+				successMessage: 'Yay'
+			}
+		})
+
+		const response = await identityStore.resetPassword(passwordObj);
+
+		expect(identityService.resetPassword).toBeCalledWith({
+			currentPassword: oldPassword,
+			newPassword
+		});
+	})
+
+	it('Should call resetPassword with invalid password', async () => {
+		const newPassword = chance.string({ length: 10});
+		const oldPassword = chance.string({ length: 10});
+
+		const passwordObj: ResetPasswordObj = {
+			passwordRepeat: '',
+			newPassword,
+			oldPassword,
+		}
+
+		identityService.resetPassword.mockReturnValue({
+			data: {
+				successMessage: 'Yay'
+			}
+		})
+
+		const response = await identityStore.resetPassword(passwordObj);
+
+		expect(identityService.resetPassword).not.toBeCalled();
 	})
 })
