@@ -11,6 +11,14 @@ export interface LoginSuccessResponse {
   token: string;
   user: any; // TODO: Add user interface
 }
+
+interface ResetPasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+export interface ResetPasswordResponse {
+  successMessage: string;
+}
 export interface IdentityServiceInterface {
   preformLogin: (
     credentials: TryLogigArgs
@@ -19,13 +27,13 @@ export interface IdentityServiceInterface {
   getTokenFromStorage: () => any;
   setTokenToStorage: (user: any) => Promise<any>;
   logout: () => void;
+  resetPassword: (
+    passwordObj: ResetPasswordRequest
+  ) => Promise<AxiosResponse<ResetPasswordResponse>>;
 }
 
 export default class IdentityService implements IdentityServiceInterface {
-  constructor(
-	private api: IBaseApiService,
-    private cookieOven: ICookieOven
-  ) {}
+  constructor(private api: IBaseApiService, private cookieOven: ICookieOven) {}
 
   public preformLogin(
     credentials: TryLogigArgs
@@ -40,7 +48,7 @@ export default class IdentityService implements IdentityServiceInterface {
 
   public async setTokenToStorage(token: string): Promise<void> {
     return this.cookieOven.bakeCookie("auth", token, {
-      maxAge: 60 * 24 * 14,
+      maxAge: 60 * 24 * 14
     });
   }
 
@@ -50,5 +58,11 @@ export default class IdentityService implements IdentityServiceInterface {
 
   public logout() {
     return this.cookieOven.clear("auth");
+  }
+
+  public resetPassword(
+    passwordObj: ResetPasswordRequest
+  ): Promise<AxiosResponse<ResetPasswordResponse>> {
+    return;
   }
 }

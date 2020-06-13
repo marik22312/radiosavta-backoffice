@@ -5,8 +5,22 @@ import {
   TryLogigArgs
 } from "../services/identity.service";
 
-export default class IdentityStore {
+export interface ResetPasswordObj {
+  newPassword: string;
+  passwordRepeat: string;
+}
+export enum PasswordValidationError {
+  PASSWORDS_NOT_MATCH = "PASSWORDS_NOT_MATCH",
+  PASSWORDS_TOO_SHORT = "PASSWORDS_TOO_SHORT",
+  EMPTY_PASSWORD = "EMPTY_PASSWORD",
+}
 
+export interface ValidatePasswordResponse {
+  password: ResetPasswordObj["newPassword"] | null;
+  error: PasswordValidationError | null;
+}
+
+export default class IdentityStore {
   @computed public get isLoggedIn() {
     return !!this.token;
   }
@@ -66,5 +80,16 @@ export default class IdentityStore {
     this.token = null;
     this.user = {};
     this.setToken("");
+  }
+
+  public validatePasswordResetAndTransform(
+    passwordObj: ResetPasswordObj
+  ): ValidatePasswordResponse {
+	const { newPassword, passwordRepeat } = passwordObj;
+	
+	return {
+		password: newPassword,
+		error: null
+	}
   }
 }

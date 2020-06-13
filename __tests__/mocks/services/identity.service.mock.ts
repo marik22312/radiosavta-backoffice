@@ -6,4 +6,5 @@ export class IdentityServiceMock implements IdentityServiceInterface {
 	public getTokenFromStorage = jest.fn();
 	public setTokenToStorage = jest.fn();
 	public logout = jest.fn();
+	public resetPassword = jest.fn();
 }
