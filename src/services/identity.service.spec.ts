@@ -30,7 +30,7 @@ describe('Identity Service', () => {
 			expect(apiService.post).toBeCalledWith('/login', credentials);
 		})
 
-		it('Should preform POST to /me/reset-password', async () => {
+		it('Should preform POST to /me/change-password', async () => {
 			const credentials = {
 				currentPassword: chance.string(),
 				newPassword: chance.string(),
@@ -38,7 +38,7 @@ describe('Identity Service', () => {
 	
 			await identityService.resetPassword(credentials);
 	
-			expect(apiService.post).toBeCalledWith('/me/reset-password', credentials);
+			expect(apiService.post).toBeCalledWith('/me/change-password', credentials);
 		})
 
 })

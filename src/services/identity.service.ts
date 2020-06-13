@@ -63,6 +63,6 @@ export default class IdentityService implements IdentityServiceInterface {
   public resetPassword(
     passwordObj: ResetPasswordRequest
   ): Promise<AxiosResponse<ResetPasswordResponse>> {
-    return;
+    return this.api.post("/me/change-password", passwordObj);
   }
 }
