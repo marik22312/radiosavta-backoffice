@@ -1,6 +1,7 @@
 import { Formik, FormikProps } from "formik";
 import * as React from "react";
 import {
+  Alert,
   Button,
   Col,
   Form,
@@ -10,35 +11,49 @@ import {
   Modal,
   ModalBody,
   ModalFooter,
-  ModalHeader
+  ModalHeader,
+  Spinner
 } from "reactstrap";
+import { ValidatePasswordResponse } from '../../utils/identity.utils';
 
 interface Props {
   isOpen: boolean;
   toggle: any;
+  onSubmit(values: ChangeFormFields): Promise<any>;
 }
 
-interface ResetFormFields {
+interface ChangeFormFields {
 	newPassword: string;
 	passwordRepeat: string;
 	oldPassword: string;
-  }
-
-interface State {
-  isLoading: boolean
 }
 
-export class ResetPasswordModal extends React.PureComponent<Props, State> {
+interface State {
+	isLoading: boolean;
+	error: ValidatePasswordResponse | null
+}
+
+export class ChangePasswordModal extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
-		isLoading: false
+		isLoading: false,
+		error: null,
 	};
   }
 
+  public componentDidUpdate(prevProps: Props) {
+	  if (this.props.isOpen && !prevProps.isOpen) {
+		  this.setState({
+			  isLoading: false,
+			  error: null
+		  })
+	  }
+  }
+
   public render() {
-    const initialValues: ResetFormFields = {
+    const initialValues: ChangeFormFields = {
 		newPassword: "",
 		passwordRepeat: "",
 		oldPassword: ""
@@ -47,27 +62,45 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
     return (
       <Formik
         initialValues={initialValues}
-        onSubmit={this.onFormSubmit}
+        onSubmit={values => this.handleSubmit(values)}
         render={(values) => this.renderForm(values)}
       />
     );
   }
 
-  public onFormSubmit = async (values: ResetFormFields) => {
-    try {
-		console.log('SUCC')
-      // TODO: implement identity store functionallity here
-    } catch (error) {
-		// TODO: implement error toast here
-      console.log("ERR");
-    }
-  };
+  private async handleSubmit(values: ChangeFormFields) {
+	  this.setState({
+		  isLoading: true
+	  })
+	  const response = await this.props.onSubmit(values);
+	  if (response) {
+		  return this.setState({
+			  error: response,
+			  isLoading: false
+		  })
+	  }
+	  return this.setState({
+		  error: null,
+		  isLoading: false,
+	  })
+  }
 
-  private renderForm(formikProps: FormikProps<ResetFormFields>) {
-    const { isOpen, toggle } = this.props;
+  private renderAlert() {
+	  return (
+		<FormGroup row>
+			<Col sm={12}>
+				<Alert color="danger">Command failed with error {this.state.error}</Alert>
+			</Col>
+		</FormGroup>
+	  )
+  }
+
+  private renderForm(formikProps: FormikProps<ChangeFormFields>) {
+	const { isOpen, toggle } = this.props;
+	const { isLoading } = this.state;
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Reset Password</ModalHeader>
+        <ModalHeader toggle={toggle}>Change Password</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup row>
@@ -76,6 +109,7 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
               </Label>
               <Col sm={12}>
                 <Input
+				disabled={isLoading}
                   type="password"
                   name="oldPassword"
                   id="oldPassword"
@@ -90,6 +124,7 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
               </Label>
               <Col sm={12}>
                 <Input
+				disabled={isLoading}
                   type="password"
                   name="newPassword"
                   id="newPassword"
@@ -104,6 +139,7 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
               </Label>
               <Col sm={12}>
                 <Input
+				disabled={isLoading}
                   type="password"
                   name="passwordRepeat"
                   id="passwordRepeat"
@@ -112,13 +148,15 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
                 />
               </Col>
             </FormGroup>
+			{this.state.error && this.renderAlert()}
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color={"secondary"} onClick={toggle}>
+		  {isLoading && <Spinner color="primary" />}
+          <Button color={"secondary"} onClick={toggle} disabled={isLoading}>
             Cancel
           </Button>
-          <Button color={"primary"} onClick={formikProps.handleSubmit}>Change Password</Button>
+          <Button color={"primary"} onClick={formikProps.handleSubmit} disabled={isLoading}>Change Password</Button>
         </ModalFooter>
       </Modal>
     );

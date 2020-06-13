@@ -1,5 +1,9 @@
-import { inject, observer } from "mobx-react";
 import React from "react";
+
+import { inject, observer } from "mobx-react";
+
+import { toast } from 'react-toastify';
+
 import {
   Collapse,
   DropdownItem,
@@ -14,11 +18,11 @@ import {
 } from "reactstrap";
 
 import IdentityStore from "../../stores/identity.store";
-import { ResetPasswordModal } from "../ResetPasswordModal/ResetPasswordModal";
+import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
 
 interface State {
   isOpen: boolean;
-  isResetPasswordModalOpen: boolean;
+  isChangePasswordModalOpen: boolean;
 }
 interface Props {
   identityStore?: IdentityStore;
@@ -32,7 +36,7 @@ export class NavigationBar extends React.Component<Props, State> {
 
     this.state = {
       isOpen: false,
-      isResetPasswordModalOpen: false
+      isChangePasswordModalOpen: false
     };
   }
 
@@ -70,7 +74,7 @@ export class NavigationBar extends React.Component<Props, State> {
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  Reset
+                  Change
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown> */}
@@ -83,23 +87,40 @@ export class NavigationBar extends React.Component<Props, State> {
                 <DropdownItem onClick={() => this.openChangePasswordModal()}>
                   Change password
                 </DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.logout}>Logout</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Collapse>
         </Navbar>
-        <ResetPasswordModal
-          isOpen={this.state.isResetPasswordModalOpen}
-          toggle={() => this.openChangePasswordModal()}
+        <ChangePasswordModal
+          isOpen={this.state.isChangePasswordModalOpen}
+		  toggle={() => this.openChangePasswordModal()}
+		  onSubmit={values => this.onChangePassword(values)}
         />
       </div>
     );
   }
 
   private openChangePasswordModal(): void {
-    const { isResetPasswordModalOpen } = this.state;
-    this.setState({ isResetPasswordModalOpen: !isResetPasswordModalOpen });
+    const { isChangePasswordModalOpen } = this.state;
+    this.setState({ isChangePasswordModalOpen: !isChangePasswordModalOpen });
+  }
+
+  private async onChangePassword({
+	  newPassword = '',
+	  oldPassword = '',
+	  passwordRepeat = ''
+  }) {
+		  const response = await this.props.identityStore!.resetPassword({newPassword, oldPassword, passwordRepeat});
+		  if (response.error) {
+			  return response.error;
+		  }
+		  this.openChangePasswordModal();
+		  toast.success('Password changed successfully!', {
+			  position: "bottom-right",
+			  autoClose: 3000
+		  })
+		  return null;
   }
 }

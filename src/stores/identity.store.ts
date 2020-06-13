@@ -4,12 +4,12 @@ import {
   IdentityServiceInterface,
   TryLogigArgs
 } from "../services/identity.service";
-import { validatePasswordResetAndTransform } from '../utils/identity.utils';
+import { PasswordValidationError, validatePasswordResetAndTransform } from "../utils/identity.utils";
 
 export interface ResetPasswordObj {
   newPassword: string;
   passwordRepeat: string;
-  oldPassword: string
+  oldPassword: string;
 }
 
 export default class IdentityStore {
@@ -76,23 +76,51 @@ export default class IdentityStore {
 
   @action
   public async resetPassword(passwordObj: ResetPasswordObj) {
+    const { oldPassword, newPassword, passwordRepeat } = passwordObj;
 
-	const {oldPassword, newPassword, passwordRepeat} = passwordObj;
+    const validatedPassword = validatePasswordResetAndTransform({
+      newPassword,
+      passwordRepeat
+    });
 
-	const validatedPassword = validatePasswordResetAndTransform({newPassword, passwordRepeat});
-	if (validatedPassword.error) {
-		return validatedPassword.error;
-	}
+    if (validatedPassword.error) {
+      return {
+        error: validatedPassword.error,
+        data: null
+      };
+    }
+    try {
 
-	try {
-		const response = await this.identityService.resetPassword({
-			currentPassword: oldPassword,
-			newPassword: validatedPassword.password
-		});
-		console.log('Success')
-		return response.data;
-	} catch (error) {
-		console.log('Error', error);
+      const { data } = await this.identityService.resetPassword({
+        currentPassword: oldPassword,
+        newPassword: validatedPassword.password
+	  });
+	  
+      return {
+        error: null,
+        data
+	  };
+	  
+    } catch (error) {
+		console.log(error.response)
+		let stringError = PasswordValidationError.UKNOWN_ERROR
+		
+		switch (error.response?.status) {
+			case(401):
+				stringError = PasswordValidationError.UNAUTHORIZED;
+				break;
+			case(403):
+				stringError = PasswordValidationError.WRONG_PASSWORD;
+				break;
+			default: 
+				stringError=  PasswordValidationError.UKNOWN_ERROR;
+				break;
+		}
+
+		return {
+			error: stringError,
+			data: null
+		}
 	}
   }
 }
