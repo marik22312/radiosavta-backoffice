@@ -1,4 +1,4 @@
-import { action, computed, observable } from "mobx";
+import { action, observable } from "mobx";
 import { IUser } from '../models/types';
 import { IUsersService } from '../services/users.service';
 

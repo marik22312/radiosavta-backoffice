@@ -7,6 +7,10 @@ import {
 } from "react-router-dom";
 
 import { inject, observer } from "mobx-react";
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import { SideNav } from "./components/Navbar/SideNav";
 import { LoginPage } from "./pages/login-page/login.page";
 import { HomePage } from "./pages/protected/home-page/home.page";
@@ -40,6 +44,7 @@ const ProtectedRoute: React.FC<{isLoggedIn: boolean}> = (props) => {
           <Route path="/users" exact component={UsersPage} />
           <Route component={HomePage} />
         </Switch>
+		<ToastContainer />
       </div>
     </main>
   );

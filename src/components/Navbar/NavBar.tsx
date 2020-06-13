@@ -1,5 +1,9 @@
-import { inject, observer } from "mobx-react";
 import React from "react";
+
+import { inject, observer } from "mobx-react";
+
+import { toast } from 'react-toastify';
+
 import {
   Collapse,
   DropdownItem,
@@ -14,29 +18,32 @@ import {
 } from "reactstrap";
 
 import IdentityStore from "../../stores/identity.store";
+import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
+
+interface State {
+  isOpen: boolean;
+  isChangePasswordModalOpen: boolean;
+}
+interface Props {
+  identityStore?: IdentityStore;
+}
 
 @inject("identityStore")
 @observer
-export class NavigationBar extends React.Component<
-  {
-    identityStore?: IdentityStore;
-  },
-  {
-    isOpen: boolean;
-  }
-> {
+export class NavigationBar extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isChangePasswordModalOpen: false
     };
   }
 
   public toggle = () => this.setState({ isOpen: !this.state.isOpen });
   public logout = () => {
-	  return this.props.identityStore?.logout()
-};
+    return this.props.identityStore?.logout();
+  };
 
   public render() {
     const { isOpen } = this.state;
@@ -67,7 +74,7 @@ export class NavigationBar extends React.Component<
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>
-                  Reset
+                  Change
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown> */}
@@ -77,15 +84,43 @@ export class NavigationBar extends React.Component<
                 <NavbarText>{identityStore?.user.name}</NavbarText>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem onClick={() => this.openChangePasswordModal()}>
+                  Change password
+                </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.logout}>Logout</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Collapse>
         </Navbar>
+        <ChangePasswordModal
+          isOpen={this.state.isChangePasswordModalOpen}
+		  toggle={() => this.openChangePasswordModal()}
+		  onSubmit={values => this.onChangePassword(values)}
+        />
       </div>
     );
+  }
+
+  private openChangePasswordModal(): void {
+    const { isChangePasswordModalOpen } = this.state;
+    this.setState({ isChangePasswordModalOpen: !isChangePasswordModalOpen });
+  }
+
+  private async onChangePassword({
+	  newPassword = '',
+	  oldPassword = '',
+	  passwordRepeat = ''
+  }) {
+		  const response = await this.props.identityStore!.resetPassword({newPassword, oldPassword, passwordRepeat});
+		  if (response.error) {
+			  return response.error;
+		  }
+		  this.openChangePasswordModal();
+		  toast.success('Password changed successfully!', {
+			  position: "bottom-right",
+			  autoClose: 3000
+		  })
+		  return null;
   }
 }

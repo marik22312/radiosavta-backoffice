@@ -3,8 +3,9 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../stores/identity.store";
 
+import Interval from 'react-interval';
+
 import { Col, Container, Row } from "reactstrap";
-import { Card } from "../../../components/Card/Card";
 import { Page } from "../../../components/Page/Page";
 import { StatCard } from "../../../components/StatCard/StatCart";
 import BaseApiService from "../../../services/base.api.service";
@@ -18,14 +19,11 @@ interface State {
   stats: any;
 }
 
-interface LoginFormValues {
-  email: string;
-  password: string;
-}
-
 @inject("identityStore", "apiStore")
 @observer
 export class HomePage extends React.Component<Props, State> {
+
+	private DEFAULT_INTERVAL_MS: number = 30000;
   constructor(props: Props) {
     super(props);
 
@@ -82,6 +80,11 @@ export class HomePage extends React.Component<Props, State> {
             </Row>
           </Container>
         </Page.Content>
+		<Interval 
+			callback={() => this.fetchStats()}
+			enabled={true}
+			timeout={this.DEFAULT_INTERVAL_MS}
+		/>
       </Page>
     );
   }
