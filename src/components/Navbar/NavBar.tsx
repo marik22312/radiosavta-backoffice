@@ -14,29 +14,32 @@ import {
 } from "reactstrap";
 
 import IdentityStore from "../../stores/identity.store";
+import { ResetPasswordModal } from "../ResetPasswordModal/ResetPasswordModal";
+
+interface State {
+  isOpen: boolean;
+  isResetPasswordModalOpen: boolean;
+}
+interface Props {
+  identityStore?: IdentityStore;
+}
 
 @inject("identityStore")
 @observer
-export class NavigationBar extends React.Component<
-  {
-    identityStore?: IdentityStore;
-  },
-  {
-    isOpen: boolean;
-  }
-> {
+export class NavigationBar extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
 
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isResetPasswordModalOpen: false
     };
   }
 
   public toggle = () => this.setState({ isOpen: !this.state.isOpen });
   public logout = () => {
-	  return this.props.identityStore?.logout()
-};
+    return this.props.identityStore?.logout();
+  };
 
   public render() {
     const { isOpen } = this.state;
@@ -77,7 +80,9 @@ export class NavigationBar extends React.Component<
                 <NavbarText>{identityStore?.user.name}</NavbarText>
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
+                <DropdownItem onClick={() => this.openChangePasswordModal()}>
+                  Change password
+                </DropdownItem>
                 <DropdownItem>Option 2</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem onClick={this.logout}>Logout</DropdownItem>
@@ -85,7 +90,16 @@ export class NavigationBar extends React.Component<
             </UncontrolledDropdown>
           </Collapse>
         </Navbar>
+        <ResetPasswordModal
+          isOpen={this.state.isResetPasswordModalOpen}
+          toggle={() => this.openChangePasswordModal()}
+        />
       </div>
     );
+  }
+
+  private openChangePasswordModal(): void {
+    const { isResetPasswordModalOpen } = this.state;
+    this.setState({ isResetPasswordModalOpen: !isResetPasswordModalOpen });
   }
 }
