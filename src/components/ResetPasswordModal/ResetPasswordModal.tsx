@@ -55,6 +55,7 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
 
   public onFormSubmit = async (values: ResetFormFields) => {
     try {
+		console.log('SUCC')
       // TODO: implement identity store functionallity here
     } catch (error) {
 		// TODO: implement error toast here
