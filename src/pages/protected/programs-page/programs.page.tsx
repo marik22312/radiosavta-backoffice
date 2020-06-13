@@ -10,10 +10,6 @@ interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
 }
 
-interface LoginFormValues {
-	email: string;
-	password: string;
-  }
 
 @inject("identityStore")
 @observer
@@ -23,7 +19,6 @@ export class ProgramsPage extends React.Component<Props, {}> {
   }
 
   public render() {
-	const initialValues: LoginFormValues = { email: '', password: '' };
 
     return (
       <Page>

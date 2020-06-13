@@ -1,6 +1,3 @@
-import { IBaseApiService } from '../../../src/services/base.api.service';
-import { IProgramsService } from '../../../src/services/programs.service';
-import { IUsersService } from '../../../src/services/users.service';
 
 export const ApiServiceMock = () => ({
 	get: jest.fn(),
