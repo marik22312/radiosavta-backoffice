@@ -25,12 +25,14 @@ export const validatePasswordResetAndTransform = (
       password: newPassword,
       error: PasswordValidationError.EMPTY_PASSWORD
     }
-  } else if (newPassword.length < MIN_PASSWORD_LENGTH) {
+  }
+  if (newPassword.length < MIN_PASSWORD_LENGTH) {
     return {
       password: newPassword,
       error: PasswordValidationError.PASSWORDS_TOO_SHORT
     }
-  } else if (newPassword !== passwordRepeat) {
+  }
+  if (newPassword !== passwordRepeat) {
     return {
       password: newPassword,
       error: PasswordValidationError.PASSWORDS_NOT_MATCH
