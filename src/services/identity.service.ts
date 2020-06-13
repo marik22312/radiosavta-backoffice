@@ -12,7 +12,7 @@ export interface LoginSuccessResponse {
   user: any; // TODO: Add user interface
 }
 
-interface ResetPasswordRequest {
+export interface ResetPasswordRequest {
   currentPassword: string;
   newPassword: string;
 }
