@@ -63,7 +63,7 @@ export class ResetPasswordModal extends React.PureComponent<Props, State> {
     }
   };
 
-  private renderForm(formikProps: FormikProps<any>) {
+  private renderForm(formikProps: FormikProps<ResetFormFields>) {
     const { isOpen, toggle } = this.props;
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
