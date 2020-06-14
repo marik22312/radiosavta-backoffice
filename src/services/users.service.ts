@@ -6,6 +6,7 @@ export interface IUsersService {
 	getUserById(id: IUser['id']): Promise<IUser>;
 	updateUserById(id: IUser['id'], data: any): Promise<IUser>;
 	disableUser(id: IUser['id']): Promise<IUser>;
+	createUser(user: any): Promise<IUser>;
 }
 
 export class UsersService implements IUsersService {
@@ -25,6 +26,14 @@ export class UsersService implements IUsersService {
 
 	public async updateUserById(id: IUser['id'], data: any) {
 		const response = await this.api.put<IUser>(`/users/${id}`, data);
+		return response.data;
+	}
+	public async createUser(user: any) {
+		const response = await this.api.post<IUser>(`/admin/users/`, user, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded'
+			}
+		});
 		return response.data;
 	}
 
