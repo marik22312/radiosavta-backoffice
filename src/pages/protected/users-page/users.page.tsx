@@ -78,8 +78,6 @@ export class UsersPage extends React.Component<Props, State> {
   }
 
   private onFileChanged(event: any) {
-    // const newFile = new File(event.target.files[0], '')
-    const newFile = URL.createObjectURL(event.target.files[0]);
     this.setState({
       fileUrl: URL.createObjectURL(event.target.files[0]),
       fileToUpload: event.target.files[0]
