@@ -20,8 +20,9 @@ export default class UsersStore {
 	}
 
 	@action
-	public async createUser(user: any): Promise<IUser> {
-		if (!await this.validatenewUser(user)) {
+	public async createUser(user: any): Promise<any> {
+		const isValid = await this.validatenewUser(user);
+		if (!isValid) {
 			throw new Error('Something went wrong')
 		}
 
@@ -30,11 +31,12 @@ export default class UsersStore {
 
 	private async validatenewUser(user: any): Promise<boolean> {
 		const schema = Yup.object().shape({
-			name: Yup.string().required(),
+			fullname: Yup.string().required(),
 			email: Yup.string().required(),
 			location: Yup.string().required(),
 			showOnWebsite: Yup.array(),
 			password: Yup.string().required(),
+			profile_picture: Yup.string().required()
 		});
 
 		return await schema.isValid(user);

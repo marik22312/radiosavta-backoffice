@@ -17,7 +17,8 @@ interface Props extends RouteComponentProps {
 
 interface State {
   users: IUser[];
-  file: any;
+  fileToUpload: any;
+  fileUrl: string;
 }
 
 @inject("identityStore", "usersStore")
@@ -28,7 +29,8 @@ export class UsersPage extends React.Component<Props, State> {
 
     this.state = {
 	  users: [],
-	  file: ''
+	  fileUrl: '',
+	  fileToUpload: null,
     };
   }
 
@@ -37,9 +39,13 @@ export class UsersPage extends React.Component<Props, State> {
   }
 
   private async onFormSubmit(values: any) {
-	console.log("Submi", values);
+	const {fileToUpload} = this.state;
+	const newValues = {
+		...values,
+		profile_picture: fileToUpload
+	}
 	try{
-		const response = await this.props.usersStore.createUser(values);
+		const response = await this.props.usersStore.createUser(newValues);
 	} catch(err) {
 		console.log(err)
 	}
@@ -49,16 +55,16 @@ export class UsersPage extends React.Component<Props, State> {
 	// const newFile = new File(event.target.files[0], '')
 	const newFile = URL.createObjectURL(event.target.files[0])
 	this.setState({
-		file: URL.createObjectURL(event.target.files[0])
+		fileUrl: URL.createObjectURL(event.target.files[0]),
+		fileToUpload: event.target.files[0],
 	})
-	console.log(newFile);
   }
 
   private renderCreateUserForm(props: FormikProps<any>) {
     return (
       <>
         <Col xs={6}>
-			<img src={this.state.file} />
+			<img src={this.state.fileUrl} />
           <FormGroup>
             <Label>Full name</Label>
             <Input
@@ -77,9 +83,9 @@ export class UsersPage extends React.Component<Props, State> {
               type="file"
               accept="image/jpeg image/png"
 			  name="profile_picture"
-			  onChange={file => {
-				  this.onFileChanged(file);
-				  props.handleChange(file);
+			  onChange={e => {
+				  this.onFileChanged(e);
+				  props.handleChange(e);
 				}
 			}
             />

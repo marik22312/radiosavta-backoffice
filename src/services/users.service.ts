@@ -29,7 +29,16 @@ export class UsersService implements IUsersService {
 		return response.data;
 	}
 	public async createUser(user: any) {
-		const response = await this.api.post<IUser>(`/admin/users/`, user, {
+		const form = new FormData();
+		form.append('email', user.email);
+		form.append('name', user.fullname);
+		form.append('location', user.location);
+		form.append('password', user.password);
+		form.append('profile_picture', user.profile_picture);
+		if (user.showOnWebsite) {
+			form.append('showOnWebsite', 'true');
+		}
+		const response = await this.api.post<IUser>(`/admin/users/`, form, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
