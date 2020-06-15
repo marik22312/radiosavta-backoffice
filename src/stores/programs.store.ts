@@ -16,4 +16,11 @@ export default class UsersStore {
     const program = await this.api.getProgramById(id);
     return program;
   }
+  @action
+  public async getAvailableUsers(
+    id: IProgram["id"]
+  ): Promise<{ users: IProgram["users"] }> {
+    const users = await this.api.getAvailableUsersFor(id);
+    return users;
+  }
 }

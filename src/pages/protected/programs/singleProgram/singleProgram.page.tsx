@@ -20,6 +20,7 @@ interface Props extends RouteComponentProps<SingleProgramPageParams> {
 interface State {
   program?: IProgram;
   isLoading: boolean;
+  availableUsers?: IProgram["users"];
 }
 
 @inject("identityStore", "programsStore")
@@ -34,19 +35,37 @@ export class SingleProgramPage extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    await this.fetchProgram();
+    await this.initPage();
   }
 
-  private async fetchProgram() {
+  private async initPage() {
     this.setState({
       isLoading: true,
     });
+    await this.fetchProgram();
+    await this.fetchAvailableUsers();
+
+    this.setState({
+      isLoading: false,
+    });
+  }
+
+  private async fetchAvailableUsers() {
+    const { users } = await this.props.programsStore.getAvailableUsers(
+      this.state.program!.id
+    );
+
+    return this.setState({
+      availableUsers: users,
+    });
+  }
+
+  private async fetchProgram() {
     const program = await this.props.programsStore.fetchById(
       this.props.match.params.id
     );
     this.setState({
       program,
-      isLoading: false,
     });
   }
 

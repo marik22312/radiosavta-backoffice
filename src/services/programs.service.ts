@@ -6,6 +6,9 @@ export interface IProgramsService {
   getProgramById(id: IProgram["id"]): Promise<IProgram>;
   updateProgramById(id: IProgram["id"] | string, data: any): Promise<IProgram>;
   disableProgram(id: IProgram["id"]): Promise<IProgram>;
+  getAvailableUsersFor(
+    id: IProgram["id"]
+  ): Promise<{ users: IProgram["users"] }>;
 }
 
 export class ProgramsService implements IProgramsService {
@@ -28,6 +31,13 @@ export class ProgramsService implements IProgramsService {
 
   public async disableProgram(id: IProgram["id"]) {
     const response = await this.api.delete<IProgram>(`/programs/${id}`);
+    return response.data;
+  }
+
+  public async getAvailableUsersFor(id: IProgram["id"]) {
+    const response = await this.api.get<IProgram>(
+      `/admin/programs/${id}/availableUsers`
+    );
     return response.data;
   }
 }
