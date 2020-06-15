@@ -23,8 +23,6 @@ export const InteractiveCardBase = styled(CardBase)`
 export const CardHeader = styled.div`
   color: #000000;
   padding-top: 15px;
-  padding-right: 15px;
-  padding-left: 15px;
 `;
 
 export const CardTitle = styled.h2`

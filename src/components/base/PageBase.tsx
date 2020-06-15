@@ -3,7 +3,9 @@ import styled from "styled-components";
 export const PageBase = styled.div`
   padding-top: 15px;
   background-color: #e6f9ee;
-  height: 100%;
+  padding-bottom: 15px;
+  overflow: auto;
+  height: calc(100% - 72px);
 `;
 
 export const PageHeader = styled.div`

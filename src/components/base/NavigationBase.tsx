@@ -5,4 +5,5 @@ export const NavigationWrapper = styled.div`
   height: 100%;
   display: inline-block;
   background-color: gray;
+  height: calc(100% - 72px);
 `;

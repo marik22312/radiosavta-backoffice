@@ -12,29 +12,31 @@ describe("Program", () => {
   beforeEach(() => {
     programsServiceMock = ProgramsServiceMock();
   });
-  it("Should be a program", async () => {
-    const program = mockProgram();
-    let externalPromise: any;
 
-    programsServiceMock.getAllPrograms.mockImplementation(
-      () =>
-        new Promise((res) => {
-          externalPromise = res;
-        })
-    );
+  it("Should call fetchAll correctly", async () => {
+    const program = mockProgram();
+
+    programsServiceMock.getAllPrograms.mockResolvedValue([program]);
 
     programsStore = new ProgramsStore(programsServiceMock);
 
-    expect(programsStore.isLoading).toBe(false);
-
-    const response = programsStore.fetchAll();
-
-    expect(programsStore.isLoading).toBe(true);
-
-    externalPromise([program]);
+    const response = await programsStore.fetchAll();
 
     expect(programsServiceMock.getAllPrograms).toBeCalledTimes(1);
-    expect(await response).toStrictEqual([program]);
-    expect(programsStore.isLoading).toBe(false);
+    expect(response).toStrictEqual([program]);
+  });
+
+  it("Should call fetchById correctly", async () => {
+    const program = mockProgram();
+    const programId = chance.guid();
+
+    programsServiceMock.getProgramById.mockResolvedValue(program);
+
+    programsStore = new ProgramsStore(programsServiceMock);
+
+    const response = await programsStore.fetchById(programId);
+
+    expect(programsServiceMock.getProgramById).toBeCalledTimes(1);
+    expect(response).toStrictEqual(program);
   });
 });

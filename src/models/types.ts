@@ -26,12 +26,20 @@ export interface IRecordedShow extends ModelWithTimestamps {
 }
 
 export interface IProgram extends ModelWithTimestamps {
-  id: number;
+  id: number | string;
   name_en: string;
   name_he?: string;
   description: string;
   cover_image: string;
   is_displayed?: boolean;
+  users: {
+    id: IUser["id"];
+    name: IUser["name"];
+    quote: IUser["quote"];
+    location: IUser["location"];
+    profile_image: IUser["profile_image"];
+  }[];
+  recorded_shows: IRecordedShow[];
 }
 
 export interface IFullProgram extends ModelWithTimestamps, IProgram {

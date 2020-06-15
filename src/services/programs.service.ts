@@ -4,7 +4,7 @@ import { IBaseApiService } from "./base.api.service";
 export interface IProgramsService {
   getAllPrograms(): Promise<IProgram[]>;
   getProgramById(id: IProgram["id"]): Promise<IProgram>;
-  updateProgramById(id: IProgram["id"], data: any): Promise<IProgram>;
+  updateProgramById(id: IProgram["id"] | string, data: any): Promise<IProgram>;
   disableProgram(id: IProgram["id"]): Promise<IProgram>;
 }
 
