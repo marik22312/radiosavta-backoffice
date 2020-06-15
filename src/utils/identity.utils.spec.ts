@@ -10,7 +10,7 @@ const chance = Chance();
 
 describe("Identity utils", () => {
   it("Should return PASSWORDS_NOT_MATCH when new password and password repeat not match", () => {
-    const password = chance.string();
+    const password = chance.string({ length: 10 });
     const passwordObj: ValidatePasswordObj = {
       passwordRepeat: "",
       newPassword: password,
