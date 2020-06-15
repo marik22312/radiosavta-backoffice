@@ -4,6 +4,11 @@ node_js:
 dist: trusty
 cache:
   yarn: true
+
+branches:
+ only:
+  - master
+  - stable
   
 install: yarn install
 script: yarn test
