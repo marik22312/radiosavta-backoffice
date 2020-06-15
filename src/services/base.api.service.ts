@@ -1,28 +1,24 @@
-import {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from "axios";
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export interface IBaseApiService {
-	get<T = any>(
-		url: string,
-		config?: AxiosRequestConfig
-	  ): Promise<AxiosResponse<T>>
-	post<T = any>(
-		url: string,
-		data?: any,
-		config?: AxiosRequestConfig
-	  ): Promise<AxiosResponse<T>>
-	put<T = any>(
-		url: string,
-		data?: any,
-		config?: AxiosRequestConfig
-	  ): Promise<AxiosResponse<T>>
-	delete<T = any>(
-		url: string,
-		config?: AxiosRequestConfig
-	  ): Promise<AxiosResponse<T>>
+  get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>>;
+  post<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>>;
+  put<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>>;
+  delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig
+  ): Promise<AxiosResponse<T>>;
 }
 
 export default class BaseApiService implements IBaseApiService {

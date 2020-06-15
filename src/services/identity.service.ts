@@ -48,7 +48,7 @@ export default class IdentityService implements IdentityServiceInterface {
 
   public async setTokenToStorage(token: string): Promise<void> {
     return this.cookieOven.bakeCookie("auth", token, {
-      maxAge: 60 * 24 * 14
+      maxAge: 60 * 24 * 14,
     });
   }
 

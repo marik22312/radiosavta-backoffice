@@ -10,7 +10,6 @@ interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
 }
 
-
 @inject("identityStore")
 @observer
 export class ProgramsPage extends React.Component<Props, {}> {
@@ -19,25 +18,19 @@ export class ProgramsPage extends React.Component<Props, {}> {
   }
 
   public render() {
-
     return (
       <Page>
-		  <Page.Header>
-			  <Page.Title
-				  title='programs Page'
-				  />
-		  </Page.Header>
-		  <Page.Content>
-			  <Container>
-				  <Row>
-					  <Col xs={12}>
-						  Hello Home Page!
-					  </Col>
-				  </Row>
-			  </Container>
-		  </Page.Content>
+        <Page.Header>
+          <Page.Title title="programs Page" />
+        </Page.Header>
+        <Page.Content>
+          <Container>
+            <Row>
+              <Col xs={12}>Hello Home Page!</Col>
+            </Row>
+          </Container>
+        </Page.Content>
       </Page>
     );
   }
 }
-

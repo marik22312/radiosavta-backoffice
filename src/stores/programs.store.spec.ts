@@ -7,18 +7,18 @@ import ProgramsStore from "./programs.store";
 const chance = Chance();
 
 describe("Program", () => {
-	let programsServiceMock: any;
-	let programsStore: ProgramsStore;
-	beforeEach(() => {
-		programsServiceMock = ProgramsServiceMock();
-	})
+  let programsServiceMock: any;
+  let programsStore: ProgramsStore;
+  beforeEach(() => {
+    programsServiceMock = ProgramsServiceMock();
+  });
   it("Should be a program", async () => {
     const program = mockProgram();
     let externalPromise: any;
 
     programsServiceMock.getAllPrograms.mockImplementation(
       () =>
-        new Promise(res => {
+        new Promise((res) => {
           externalPromise = res;
         })
     );

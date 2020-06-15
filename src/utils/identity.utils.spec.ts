@@ -3,17 +3,17 @@ import Chance from "chance";
 import {
   PasswordValidationError,
   ValidatePasswordObj,
-  validatePasswordResetAndTransform
+  validatePasswordResetAndTransform,
 } from "./identity.utils";
 
 const chance = Chance();
 
 describe("Identity utils", () => {
   it("Should return PASSWORDS_NOT_MATCH when new password and password repeat not match", () => {
-    const password = chance.string();
+    const password = chance.string({ length: 10 });
     const passwordObj: ValidatePasswordObj = {
       passwordRepeat: "",
-      newPassword: password
+      newPassword: password,
     };
 
     const response = validatePasswordResetAndTransform(passwordObj);
@@ -25,7 +25,7 @@ describe("Identity utils", () => {
     const password = chance.string({ length: 7 });
     const passwordObj: ValidatePasswordObj = {
       passwordRepeat: password,
-      newPassword: password
+      newPassword: password,
     };
 
     const response = validatePasswordResetAndTransform(passwordObj);
@@ -36,7 +36,7 @@ describe("Identity utils", () => {
   it("Should return EMPTY_PASSWORD if new password is empty", () => {
     const passwordObj: ValidatePasswordObj = {
       passwordRepeat: "",
-      newPassword: ""
+      newPassword: "",
     };
 
     const response = validatePasswordResetAndTransform(passwordObj);
@@ -49,7 +49,7 @@ describe("Identity utils", () => {
 
     const passwordObj: ValidatePasswordObj = {
       passwordRepeat: newPassword,
-      newPassword
+      newPassword,
     };
 
     const response = validatePasswordResetAndTransform(passwordObj);
