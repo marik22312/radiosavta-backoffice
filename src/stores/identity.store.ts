@@ -2,9 +2,12 @@ import { action, computed, observable } from "mobx";
 import { setToken } from "../services/http.client";
 import {
   IdentityServiceInterface,
-  TryLogigArgs
+  TryLogigArgs,
 } from "../services/identity.service";
-import { PasswordValidationError, validatePasswordResetAndTransform } from "../utils/identity.utils";
+import {
+  PasswordValidationError,
+  validatePasswordResetAndTransform,
+} from "../utils/identity.utils";
 
 export interface ResetPasswordObj {
   newPassword: string;
@@ -80,47 +83,45 @@ export default class IdentityStore {
 
     const validatedPassword = validatePasswordResetAndTransform({
       newPassword,
-      passwordRepeat
+      passwordRepeat,
     });
 
     if (validatedPassword.error) {
       return {
         error: validatedPassword.error,
-        data: null
+        data: null,
       };
     }
     try {
-
       const { data } = await this.identityService.resetPassword({
         currentPassword: oldPassword,
-        newPassword: validatedPassword.password
-	  });
-	  
+        newPassword: validatedPassword.password,
+      });
+
       return {
         error: null,
-        data
-	  };
-	  
+        data,
+      };
     } catch (error) {
-		console.log(error.response)
-		let stringError = PasswordValidationError.UKNOWN_ERROR
-		
-		switch (error.response?.status) {
-			case(401):
-				stringError = PasswordValidationError.UNAUTHORIZED;
-				break;
-			case(403):
-				stringError = PasswordValidationError.WRONG_PASSWORD;
-				break;
-			default: 
-				stringError=  PasswordValidationError.UKNOWN_ERROR;
-				break;
-		}
+      console.log(error.response);
+      let stringError = PasswordValidationError.UKNOWN_ERROR;
 
-		return {
-			error: stringError,
-			data: null
-		}
-	}
+      switch (error.response?.status) {
+        case 401:
+          stringError = PasswordValidationError.UNAUTHORIZED;
+          break;
+        case 403:
+          stringError = PasswordValidationError.WRONG_PASSWORD;
+          break;
+        default:
+          stringError = PasswordValidationError.UKNOWN_ERROR;
+          break;
+      }
+
+      return {
+        error: stringError,
+        data: null,
+      };
+    }
   }
 }

@@ -11,7 +11,7 @@ export const mockUser = (data?: IUser): IUser => ({
   location: data?.location || chance.address(),
   profile_image:
     data?.profile_image || chance.url({ extensions: ["png", "jpeg"] }),
-  email: data?.email || chance.email()
+  email: data?.email || chance.email(),
 });
 
 export const mockProgram = (data?: IProgram): IProgram => ({
@@ -22,6 +22,6 @@ export const mockProgram = (data?: IProgram): IProgram => ({
   cover_image: data?.cover_image || chance.word(),
   is_displayed: data?.is_displayed || true,
   created_at: data?.created_at || chance.date().toString(),
-  updated_at: data?.updated_at || chance.date().toString()
+  updated_at: data?.updated_at || chance.date().toString(),
 });
 export const mockRecordedShow = () => ({});

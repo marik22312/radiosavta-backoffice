@@ -1,7 +1,4 @@
-import {
-  Formik,
-  FormikProps,
-} from "formik";
+import { Formik, FormikProps } from "formik";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";

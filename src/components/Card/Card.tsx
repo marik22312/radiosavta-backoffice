@@ -4,7 +4,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  InteractiveCardBase
+  InteractiveCardBase,
 } from "../base/CardBase";
 
 interface HeaderProps {
@@ -22,17 +22,17 @@ interface CardProps {
 }
 
 export class Card extends React.Component<CardProps, {}> {
-  public static Title: React.FC<HeaderProps> = props => {
+  public static Title: React.FC<HeaderProps> = (props) => {
     return <CardTitle>{props.title}</CardTitle>;
   };
 
-  public static Header: React.FC = props => (
+  public static Header: React.FC = (props) => (
     <React.Fragment>
       <CardHeader>{props.children}</CardHeader>
     </React.Fragment>
   );
 
-  public static Content: React.FC<PageContentProps> = props => (
+  public static Content: React.FC<PageContentProps> = (props) => (
     <CardContent>{props.children}</CardContent>
   );
 
@@ -48,7 +48,6 @@ export class Card extends React.Component<CardProps, {}> {
     if (interactive) {
       return (
         <InteractiveCardBase
-          // @ts-ignore
           fullHeight={fullHeight}
           onClick={this.props.onClick}
         >
@@ -56,13 +55,6 @@ export class Card extends React.Component<CardProps, {}> {
         </InteractiveCardBase>
       );
     }
-    return (
-      <CardBase
-        // @ts-ignore
-        fullHeight={fullHeight}
-      >
-        {children}
-      </CardBase>
-    );
+    return <CardBase fullHeight={fullHeight}>{children}</CardBase>;
   }
 }

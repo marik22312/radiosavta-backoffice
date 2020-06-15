@@ -1,7 +1,5 @@
-export {}
-
-describe('App Tests', () => {
-	it('Should be truthy', () => {
-		expect(true).toBeTruthy();
-	})
-})
+describe("App Tests", () => {
+  it("Should be truthy", () => {
+    expect(true).toBeTruthy();
+  });
+});

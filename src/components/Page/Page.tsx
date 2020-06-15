@@ -10,15 +10,15 @@ interface PageContentProps {
 }
 
 export class Page extends React.Component<{}, {}> {
-  public static Title: React.FC<HeaderProps> = props => {
+  public static Title: React.FC<HeaderProps> = (props) => {
     return <PageTitle>{props.title}</PageTitle>;
   };
 
-  public static Header: React.FC = props => (
+  public static Header: React.FC = (props) => (
     <PageHeader>{props.children}</PageHeader>
   );
 
-  public static Content: React.FC<PageContentProps> = props => (
+  public static Content: React.FC<PageContentProps> = (props) => (
     <PageContent>{props.children}</PageContent>
   );
 

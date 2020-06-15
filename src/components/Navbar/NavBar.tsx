@@ -2,7 +2,7 @@ import React from "react";
 
 import { inject, observer } from "mobx-react";
 
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 import {
   Collapse,
@@ -14,7 +14,7 @@ import {
   NavbarBrand,
   NavbarText,
   NavbarToggler,
-  UncontrolledDropdown
+  UncontrolledDropdown,
 } from "reactstrap";
 
 import IdentityStore from "../../stores/identity.store";
@@ -36,7 +36,7 @@ export class NavigationBar extends React.Component<Props, State> {
 
     this.state = {
       isOpen: false,
-      isChangePasswordModalOpen: false
+      isChangePasswordModalOpen: false,
     };
   }
 
@@ -95,8 +95,8 @@ export class NavigationBar extends React.Component<Props, State> {
         </Navbar>
         <ChangePasswordModal
           isOpen={this.state.isChangePasswordModalOpen}
-		  toggle={() => this.openChangePasswordModal()}
-		  onSubmit={values => this.onChangePassword(values)}
+          toggle={() => this.openChangePasswordModal()}
+          onSubmit={(values) => this.onChangePassword(values)}
         />
       </div>
     );
@@ -108,19 +108,23 @@ export class NavigationBar extends React.Component<Props, State> {
   }
 
   private async onChangePassword({
-	  newPassword = '',
-	  oldPassword = '',
-	  passwordRepeat = ''
+    newPassword = "",
+    oldPassword = "",
+    passwordRepeat = "",
   }) {
-		  const response = await this.props.identityStore!.resetPassword({newPassword, oldPassword, passwordRepeat});
-		  if (response.error) {
-			  return response.error;
-		  }
-		  this.openChangePasswordModal();
-		  toast.success('Password changed successfully!', {
-			  position: "bottom-right",
-			  autoClose: 3000
-		  })
-		  return null;
+    const response = await this.props.identityStore!.resetPassword({
+      newPassword,
+      oldPassword,
+      passwordRepeat,
+    });
+    if (response.error) {
+      return response.error;
+    }
+    this.openChangePasswordModal();
+    toast.success("Password changed successfully!", {
+      position: "bottom-right",
+      autoClose: 3000,
+    });
+    return null;
   }
 }

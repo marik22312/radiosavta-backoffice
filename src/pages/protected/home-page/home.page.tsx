@@ -3,7 +3,7 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../stores/identity.store";
 
-import Interval from 'react-interval';
+import Interval from "react-interval";
 
 import { Col, Container, Row } from "reactstrap";
 import { Page } from "../../../components/Page/Page";
@@ -22,13 +22,12 @@ interface State {
 @inject("identityStore", "apiStore")
 @observer
 export class HomePage extends React.Component<Props, State> {
-
-	private DEFAULT_INTERVAL_MS: number = 30000;
+  private DEFAULT_INTERVAL_MS = 30000;
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      stats: {}
+      stats: {},
     };
   }
 
@@ -42,7 +41,7 @@ export class HomePage extends React.Component<Props, State> {
       weekday: "long",
       year: "numeric",
       month: "numeric",
-      day: "numeric"
+      day: "numeric",
     };
     const date = new Intl.DateTimeFormat("en-GB", options).format(
       new Date(stats.stream_start || null)
@@ -50,10 +49,16 @@ export class HomePage extends React.Component<Props, State> {
     return (
       <Page>
         <Page.Header>
-          <Page.Title title="Home Page" />
+          <Container>
+            <Row>
+              <Col xs={12}>
+                <Page.Title title="Radiosavta Dashboard" />
+              </Col>
+            </Row>
+          </Container>
         </Page.Header>
         <Page.Content>
-          <Container fluid>
+          <Container>
             <Row>
               <Col xs={4}>
                 <StatCard
@@ -72,19 +77,18 @@ export class HomePage extends React.Component<Props, State> {
                 <StatCard
                   interactive
                   title="Create User"
-				  body="+"
-				  // TODO: Open create user page
-                  onClick={() => alert("Coming soon!")}
+                  body="+"
+                  onClick={() => this.props.history.push("/users/create")}
                 ></StatCard>
               </Col>
             </Row>
           </Container>
         </Page.Content>
-		<Interval 
-			callback={() => this.fetchStats()}
-			enabled={true}
-			timeout={this.DEFAULT_INTERVAL_MS}
-		/>
+        <Interval
+          callback={() => this.fetchStats()}
+          enabled={true}
+          timeout={this.DEFAULT_INTERVAL_MS}
+        />
       </Page>
     );
   }
@@ -96,10 +100,10 @@ export class HomePage extends React.Component<Props, State> {
     try {
       const { data } = await apiStore.get("/statistics/server");
       this.setState({
-        stats: data
+        stats: data,
       });
     } catch (error) {
-		// TODO: Add notifications module to support HTTP errors
-	}
+      // TODO: Add notifications module to support HTTP errors
+    }
   };
 }
