@@ -8,6 +8,7 @@ import { Col, Container, Row, Table, Button } from "reactstrap";
 import { Page } from "../../../../components/Page/Page";
 import { IProgram } from "../../../../models/types";
 import { Card } from "../../../../components/Card/Card";
+import { AddRecordedShowPopup } from "../../../../components/popups/addRecordedShowPopup";
 
 interface SingleProgramPageParams {
   id: string;
@@ -20,6 +21,7 @@ interface Props extends RouteComponentProps<SingleProgramPageParams> {
 interface State {
   program?: IProgram;
   isLoading: boolean;
+  isAddRecordedShowOpen: boolean;
 }
 
 @inject("identityStore", "programsStore")
@@ -30,6 +32,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
 
     this.state = {
       isLoading: true,
+      isAddRecordedShowOpen: false,
     };
   }
 
@@ -47,6 +50,12 @@ export class SingleProgramPage extends React.Component<Props, State> {
     this.setState({
       program,
       isLoading: false,
+    });
+  }
+
+  private toggleAddRecordedShowModal() {
+    this.setState({
+      isAddRecordedShowOpen: !this.state.isAddRecordedShowOpen,
     });
   }
 
@@ -82,6 +91,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
   public render() {
     return (
       <Page>
+        {this.state.isAddRecordedShowOpen && <AddRecordedShowPopup />}
         <Page.Header>
           <Container>
             <Row>
@@ -161,7 +171,12 @@ export class SingleProgramPage extends React.Component<Props, State> {
                           <Card.Title title="Recorded shows" />
                         </Col>
                         <Col xs={3}>
-                          <Button color="primary" disabled>
+                          <Button
+                            color="primary"
+                            onClick={(e: any) =>
+                              this.toggleAddRecordedShowModal()
+                            }
+                          >
                             Add show
                           </Button>
                         </Col>

@@ -42,6 +42,14 @@ export interface IProgram extends ModelWithTimestamps {
   recorded_shows: IRecordedShow[];
 }
 
+export interface IValidatedRecordedProgram {
+  name: string;
+  duration: string;
+  url: string;
+  is_displayed: boolean;
+  recorded_at: string;
+}
+
 export interface IFullProgram extends ModelWithTimestamps, IProgram {
   users: IUser[];
   recorded_shows: IRecordedShow[];

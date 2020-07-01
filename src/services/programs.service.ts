@@ -1,4 +1,4 @@
-import { IProgram } from "../models/types";
+import { IProgram, IValidatedRecordedProgram } from "../models/types";
 import { IBaseApiService } from "./base.api.service";
 
 export interface IProgramsService {
@@ -28,6 +28,12 @@ export class ProgramsService implements IProgramsService {
 
   public async disableProgram(id: IProgram["id"]) {
     const response = await this.api.delete<IProgram>(`/programs/${id}`);
+    return response.data;
+  }
+  public async getRecordedShow(url: string) {
+    const response = await this.api.get<IValidatedRecordedProgram>(
+      "/admin/programs/recordings/validate"
+    );
     return response.data;
   }
 }
