@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const UserTagBase = styled.div<any>`
+export const TagBase = styled.div<any>`
   background-color: #7f7f7f;
   display: inline-block;
   padding: 2px 5px;
@@ -8,7 +8,7 @@ export const UserTagBase = styled.div<any>`
   color: white;
   margin-right: ${(props) => (props.removeable ? "0" : "5px")};
 `;
-export const UserTagSuffixBase = styled.div`
+export const TagSuffixBase = styled.div`
   background-color: #7f7f7f;
   display: inline-block;
   padding: 2px 5px;

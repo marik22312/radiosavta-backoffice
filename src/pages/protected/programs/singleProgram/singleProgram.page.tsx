@@ -9,7 +9,7 @@ import { Page } from "../../../../components/Page/Page";
 import { IProgram, ProgramUser } from "../../../../models/types";
 import { Card } from "../../../../components/Card/Card";
 import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
-import { UserTag } from "../../../../components/UserTag/UserTag";
+import { Tag } from "../../../../components/Tag/Tag";
 
 interface SingleProgramPageParams {
   id: string;
@@ -213,7 +213,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
                         <Col xs={12}>
                           {this.state.program?.users.map((user) => {
                             return (
-                              <UserTag
+                              <Tag
                                 onClick={() =>
                                   this.props.history.push(`/users/${user.id}`)
                                 }
@@ -223,7 +223,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
                                 }
                               >
                                 {user.name}
-                              </UserTag>
+                              </Tag>
                             );
                           })}
                         </Col>
