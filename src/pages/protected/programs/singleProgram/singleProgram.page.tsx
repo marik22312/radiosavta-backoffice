@@ -1,13 +1,15 @@
 import { inject, observer } from "mobx-react";
-import * as React from "react";
+import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../../stores/identity.store";
 import ProgramsStore from "../../../../stores/programs.store";
 
 import { Col, Container, Row, Table, Button } from "reactstrap";
 import { Page } from "../../../../components/Page/Page";
-import { IProgram } from "../../../../models/types";
+import { IProgram, ProgramUser } from "../../../../models/types";
 import { Card } from "../../../../components/Card/Card";
+import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
+import { UserTag } from "../../../../components/UserTag/UserTag";
 
 interface SingleProgramPageParams {
   id: string;
@@ -17,10 +19,16 @@ interface Props extends RouteComponentProps<SingleProgramPageParams> {
   programsStore: ProgramsStore;
 }
 
+enum ProgramsLoaderTypes {
+  ADD_USER_TO_PROGRAM = "ADD_USER_TO_PROGRAM",
+}
 interface State {
   program?: IProgram;
   isLoading: boolean;
-  availableUsers?: IProgram["users"];
+  loader: ProgramsLoaderTypes | null;
+  availableUsers: ProgramUser[];
+  isAddMemberOpen: boolean;
+  selectedUserToAdd: number | null;
 }
 
 @inject("identityStore", "programsStore")
@@ -31,6 +39,10 @@ export class SingleProgramPage extends React.Component<Props, State> {
 
     this.state = {
       isLoading: true,
+      availableUsers: [],
+      isAddMemberOpen: false,
+      selectedUserToAdd: null,
+      loader: null,
     };
   }
 
@@ -57,6 +69,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
 
     return this.setState({
       availableUsers: users,
+      isAddMemberOpen: false,
     });
   }
 
@@ -98,7 +111,46 @@ export class SingleProgramPage extends React.Component<Props, State> {
       />
     );
   }
+
+  private toggleAddCrewMember() {
+    this.setState({
+      isAddMemberOpen: !this.state.isAddMemberOpen,
+    });
+  }
+
+  private renderAddMemberRow() {
+    return (
+      <Row>
+        <AddUserToShowCard
+          availableUsers={this.state.availableUsers}
+          onCancel={() => {
+            this.toggleAddCrewMember();
+          }}
+          onSave={(userId) => this.onSaveUserToShow(userId)}
+        />
+      </Row>
+    );
+  }
+
+  private async onSaveUserToShow(userId: number) {
+    console.log("OnSave", userId);
+    await this.props.programsStore.addUserToShow(
+      this.props.match.params.id,
+      userId
+    );
+
+    await this.fetchAvailableUsers();
+    await this.fetchProgram();
+  }
+
+  private removeUserFromProgram(id: number) {
+    // TODO: Add remove user from program functionality
+    console.log(`Removing user ${id}`);
+  }
+
   public render() {
+    const { program } = this.state;
+    const allowRemovingUsers = !!program && program.users.length > 1;
     return (
       <Page>
         <Page.Header>
@@ -145,27 +197,36 @@ export class SingleProgramPage extends React.Component<Props, State> {
                           <Card.Title title="Crew" />
                         </Col>
                         <Col xs={3}>
-                          <Button color="primary" disabled>
+                          <Button
+                            color="primary"
+                            disabled={this.state.availableUsers?.length == 0}
+                            onClick={(e: any) => this.toggleAddCrewMember()}
+                          >
                             Add crew member
                           </Button>
                         </Col>
                       </Row>
                     </Card.Header>
                     <Card.Content>
+                      {this.state.isAddMemberOpen && this.renderAddMemberRow()}
                       <Row>
-                        {this.state.program?.users.map((user) => {
-                          return (
-                            <Col xs={4}>
-                              <div
+                        <Col xs={12}>
+                          {this.state.program?.users.map((user) => {
+                            return (
+                              <UserTag
                                 onClick={() =>
                                   this.props.history.push(`/users/${user.id}`)
                                 }
+                                removeable={allowRemovingUsers}
+                                onRemove={() =>
+                                  this.removeUserFromProgram(user.id)
+                                }
                               >
                                 {user.name}
-                              </div>
-                            </Col>
-                          );
-                        })}
+                              </UserTag>
+                            );
+                          })}
+                        </Col>
                       </Row>
                     </Card.Content>
                   </Card>
@@ -241,3 +302,5 @@ export class SingleProgramPage extends React.Component<Props, State> {
     );
   }
 }
+
+////////////////////////////////////

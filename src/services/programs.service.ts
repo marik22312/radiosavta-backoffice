@@ -1,4 +1,4 @@
-import { IProgram } from "../models/types";
+import { IProgram, IUser } from "../models/types";
 import { IBaseApiService } from "./base.api.service";
 
 export interface IProgramsService {
@@ -9,6 +9,7 @@ export interface IProgramsService {
   getAvailableUsersFor(
     id: IProgram["id"]
   ): Promise<{ users: IProgram["users"] }>;
+  addUserToShow(programId: IProgram["id"], userId: IUser["id"]): Promise<any>;
 }
 
 export class ProgramsService implements IProgramsService {
@@ -37,6 +38,16 @@ export class ProgramsService implements IProgramsService {
   public async getAvailableUsersFor(id: IProgram["id"]) {
     const response = await this.api.get<IProgram>(
       `/admin/programs/${id}/availableUsers`
+    );
+    return response.data;
+  }
+
+  public async addUserToShow(programId: IProgram["id"], userId: IUser["id"]) {
+    const response = await this.api.post<any>(
+      `/admin/programs/${programId}/availableUsers`,
+      {
+        userId,
+      }
     );
     return response.data;
   }

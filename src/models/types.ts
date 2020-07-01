@@ -25,6 +25,14 @@ export interface IRecordedShow extends ModelWithTimestamps {
   recorded_at: string;
 }
 
+export type ProgramUserKeys =
+  | "id"
+  | "name"
+  | "quote"
+  | "location"
+  | "profile_image";
+
+export type ProgramUser = Pick<IUser, ProgramUserKeys>;
 export interface IProgram extends ModelWithTimestamps {
   id: number | string;
   name_en: string;
@@ -32,13 +40,7 @@ export interface IProgram extends ModelWithTimestamps {
   description: string;
   cover_image: string;
   is_displayed?: boolean;
-  users: {
-    id: IUser["id"];
-    name: IUser["name"];
-    quote: IUser["quote"];
-    location: IUser["location"];
-    profile_image: IUser["profile_image"];
-  }[];
+  users: ProgramUser[];
   recorded_shows: IRecordedShow[];
 }
 

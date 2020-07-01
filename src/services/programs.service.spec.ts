@@ -48,18 +48,16 @@ describe("Programs Service Tests", () => {
 
   it("Should call getAvailableUsersForProgram api service correctly", async () => {
     const programId = chance.guid();
-    apiService.get.mockResolvedValue({
-      data: {
-        users: [{ id: programId }],
-      },
+    const userId = chance.guid();
+    apiService.post.mockResolvedValue({
+      data: {},
     });
     const programsService = new ProgramsService(apiService);
 
-    const program = await programsService.getAvailableUsersFor(programId);
+    const program = await programsService.addUserToShow(programId, userId);
 
-    expect(apiService.get).toBeCalledWith(
-      `/admin/programs/${programId}/availableUsers`
-    );
-    expect(program.users).toStrictEqual([{ id: programId }]);
+    expect(
+      apiService.post
+    ).toBeCalledWith(`/admin/programs/${programId}/availableUsers`, { userId });
   });
 });

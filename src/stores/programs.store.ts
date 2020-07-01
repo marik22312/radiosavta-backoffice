@@ -1,8 +1,8 @@
 import { action, observable } from "mobx";
-import { IProgram } from "../models/types";
+import { IProgram, IUser } from "../models/types";
 import { IProgramsService } from "../services/programs.service";
 
-export default class UsersStore {
+export default class ProgramStore {
   constructor(private api: IProgramsService) {}
 
   @action
@@ -22,5 +22,16 @@ export default class UsersStore {
   ): Promise<{ users: IProgram["users"] }> {
     const users = await this.api.getAvailableUsersFor(id);
     return users;
+  }
+
+  @action
+  public async addUserToShow(programId: IProgram["id"], userId: IUser["id"]) {
+    try {
+      const response = await this.api.addUserToShow(programId, userId);
+      return response;
+    } catch (err) {
+      console.log(err);
+      // TODO: Handle it!
+    }
   }
 }
