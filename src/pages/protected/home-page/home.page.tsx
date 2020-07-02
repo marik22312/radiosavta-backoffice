@@ -48,42 +48,31 @@ export class HomePage extends React.Component<Props, State> {
     );
     return (
       <Page>
-        <Page.Header>
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Page.Title title="Radiosavta Dashboard" />
-              </Col>
-            </Row>
-          </Container>
-        </Page.Header>
-        <Page.Content>
-          <Container>
-            <Row>
-              <Col xs={4}>
-                <StatCard
-                  title="Live Listeners"
-                  body={this.state.stats.listeners}
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <StatCard
-                  title={"Listeners Peak"}
-                  body={this.state.stats.listener_peak}
-                  units={`Since ${date}`}
-                />
-              </Col>
-              <Col xs={12} md={4}>
-                <StatCard
-                  interactive
-                  title="Create User"
-                  body="+"
-                  onClick={() => this.props.history.push("/users/create")}
-                ></StatCard>
-              </Col>
-            </Row>
-          </Container>
-        </Page.Content>
+        <Container>
+          <Row>
+            <Col xs={4}>
+              <StatCard
+                title="Live Listeners"
+                body={this.state.stats.listeners}
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <StatCard
+                title={"Listeners Peak"}
+                body={this.state.stats.listener_peak}
+                units={`Since ${date}`}
+              />
+            </Col>
+            <Col xs={12} md={4}>
+              <StatCard
+                interactive
+                title="Create User"
+                body="+"
+                onClick={() => this.props.history.push("/users/create")}
+              ></StatCard>
+            </Col>
+          </Row>
+        </Container>
         <Interval
           callback={() => this.fetchStats()}
           enabled={true}

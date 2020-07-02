@@ -6,12 +6,24 @@ import {
   Switch,
 } from "react-router-dom";
 
+import {
+  Layout,
+  Col,
+  Row,
+  Typography,
+  Dropdown,
+  Menu,
+  Button,
+  Avatar,
+} from "antd";
+
 import { inject, observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
 import { SideNav } from "./components/Navbar/SideNav";
+import { NavigationBar } from "./components/Navbar/Navbar";
 import { LoginPage } from "./pages/login-page/login.page";
 import { HomePage } from "./pages/protected/home-page/home.page";
 import { ProgramsPage } from "./pages/protected/programs/programs.page";
@@ -27,27 +39,23 @@ const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
     return <Redirect to="/login" />;
   }
   return (
-    <main style={{ height: "100%" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <SideNav />
-      <div
-        style={{
-          display: "inline-block",
-          position: "absolute",
-          width: "84%",
-          height: "100%",
-        }}
-      >
-        <Switch>
-          <Route path="/" exact component={HomePage} />
-          <Route path="/programs" exact component={ProgramsPage} />
-          <Route path="/programs/:id" exact component={SingleProgramPage} />
-          <Route path="/settings" exact component={SettingsPage} />
-          <Route path="/users/create" exact component={CreateUserPage} />
-          <Route component={() => <Redirect to="/" />} />
-        </Switch>
-        <ToastContainer />
-      </div>
-    </main>
+      <Layout style={{ marginLeft: 200 }}>
+        <NavigationBar />
+        <Layout.Content style={{ padding: "0 50px", marginTop: 64 }}>
+          <Switch>
+            <Route path="/" exact component={HomePage} />
+            <Route path="/programs" exact component={ProgramsPage} />
+            <Route path="/programs/:id" exact component={SingleProgramPage} />
+            <Route path="/settings" exact component={SettingsPage} />
+            <Route path="/users/create" exact component={CreateUserPage} />
+            <Route component={() => <Redirect to="/" />} />
+          </Switch>
+        </Layout.Content>
+      </Layout>
+      <ToastContainer />
+    </Layout>
   );
 };
 

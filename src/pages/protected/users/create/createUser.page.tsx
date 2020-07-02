@@ -6,18 +6,17 @@ import * as Yup from "yup";
 import IdentityStore from "../../../../stores/identity.store";
 
 import {
-  Col,
-  Container,
-  Row,
   FormGroup,
   Label,
   Input,
   Form,
   Button,
   Spinner,
-  Alert,
   CustomInput,
 } from "reactstrap";
+
+import { Col, Row, Alert, Space } from "antd";
+
 import { Page } from "../../../../components/Page/Page";
 import { IUser } from "../../../../models/types";
 import UsersStore from "../../../../stores/users.store";
@@ -100,9 +99,9 @@ export class CreateUserPage extends React.Component<Props, State> {
 
   private renderCreateUserForm(props: FormikProps<any>) {
     return (
-      <>
+      <Space direction="vertical" style={{ width: "100%" }}>
         <Row>
-          <Col xs={12}>
+          <Col span={24}>
             <div
               className="form-image-container"
               style={{
@@ -123,7 +122,7 @@ export class CreateUserPage extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col span={24}>
             <FormGroup>
               <Label>Profile picture</Label>
               <Input
@@ -139,7 +138,7 @@ export class CreateUserPage extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <Col xs={6}>
+          <Col span={12}>
             <FormGroup>
               <Label>Full name</Label>
               <Input
@@ -153,7 +152,7 @@ export class CreateUserPage extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <Col xs={6}>
+          <Col span={12}>
             <FormGroup>
               <Label>Email</Label>
               <Input
@@ -165,7 +164,7 @@ export class CreateUserPage extends React.Component<Props, State> {
               />
             </FormGroup>
           </Col>
-          <Col xs={6}>
+          <Col span={12}>
             <FormGroup>
               <Label>Location</Label>
               <Input
@@ -178,7 +177,7 @@ export class CreateUserPage extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <Col xs={6}>
+          <Col span={12}>
             <FormGroup>
               <Label>Password</Label>
               <Input
@@ -190,7 +189,7 @@ export class CreateUserPage extends React.Component<Props, State> {
               />
             </FormGroup>
           </Col>
-          <Col xs={6}>
+          <Col span={12}>
             <FormGroup>
               <CustomInput
                 id="showOnWebsite"
@@ -203,7 +202,7 @@ export class CreateUserPage extends React.Component<Props, State> {
           </Col>
         </Row>
         <Row>
-          <Col xs={12}>
+          <Col span={24}>
             <Button
               color="primary"
               onClick={props.handleSubmit}
@@ -214,53 +213,40 @@ export class CreateUserPage extends React.Component<Props, State> {
             {this.state.isLoading && <Spinner color="primary" />}
           </Col>
         </Row>
-        <Row className="mt-3">
-          <Col xs={12}>
+        <Row>
+          <Col span={24}>
             {this.state.error && (
-              <Alert color="danger">{this.state.error}</Alert>
+              <Alert type="error" message={this.state.error} />
             )}
           </Col>
         </Row>
-      </>
+      </Space>
     );
   }
 
   public render() {
     return (
-      <Page>
-        <Page.Header>
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Page.Title title="create user" />
-              </Col>
-            </Row>
-          </Container>
-        </Page.Header>
-        <Page.Content>
-          <Form autoComplete="off">
-            <Container>
-              <Card>
-                <Card.Content>
-                  <Formik
-                    initialValues={{
-                      fullname: "",
-                      password: "",
-                      email: "",
-                      location: "",
-                      profile_picture: "",
-                    }}
-                    render={(props) => this.renderCreateUserForm(props)}
-                    onSubmit={(values: CreateUserRequest) =>
-                      this.onFormSubmit(values)
-                    }
-                    // validationSchema={this.schema}
-                  />
-                </Card.Content>
-              </Card>
-            </Container>
-          </Form>
-        </Page.Content>
+      <Page breadcrumbs={["Users"]} title="Create User">
+        <Form autoComplete="off">
+          <Card>
+            <Card.Content>
+              <Formik
+                initialValues={{
+                  fullname: "",
+                  password: "",
+                  email: "",
+                  location: "",
+                  profile_picture: "",
+                }}
+                render={(props) => this.renderCreateUserForm(props)}
+                onSubmit={(values: CreateUserRequest) =>
+                  this.onFormSubmit(values)
+                }
+                // validationSchema={this.schema}
+              />
+            </Card.Content>
+          </Card>
+        </Form>
       </Page>
     );
   }

@@ -1,6 +1,7 @@
 import { ProgramUser } from "../../models/types";
 import React, { useState } from "react";
-import { Col, FormGroup, Input, Label, Button } from "reactstrap";
+import { FormGroup, Input, Label } from "reactstrap";
+import { Col, Button, Space } from "antd";
 
 export interface AddUserToShowCardProps {
   availableUsers: ProgramUser[];
@@ -13,7 +14,7 @@ export const AddUserToShowCard: React.FC<AddUserToShowCardProps> = (props) => {
 
   return (
     <React.Fragment>
-      <Col xs={9} md={9}>
+      <Col span={18}>
         <FormGroup>
           <Input
             type="select"
@@ -35,9 +36,11 @@ export const AddUserToShowCard: React.FC<AddUserToShowCardProps> = (props) => {
           </Input>
         </FormGroup>
       </Col>
-      <Col xs={3} md={3}>
-        <Button onClick={() => props.onSave(selectedUser!)}>Save</Button>
-        <Button color="danger" onClick={() => props.onCancel()}>
+      <Col span={6}>
+        <Button type="primary" onClick={() => props.onSave(selectedUser!)}>
+          Save
+        </Button>
+        <Button danger onClick={() => props.onCancel()}>
           Cancel
         </Button>
       </Col>

@@ -1,14 +1,22 @@
 import * as React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Nav, NavItem, NavLink } from "reactstrap";
-import { NavigationWrapper } from "../base/NavigationBase";
-import { NavigationBar } from "./NavBar";
-import "./SideNav.scss";
+
+import {
+  DashboardOutlined,
+  UserSwitchOutlined,
+  AudioOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
+
+import { Layout, Menu } from "antd";
+import { LogoWrapper, LogoImage } from "../base/NavigationBase";
+const { Sider, Header } = Layout;
 
 interface SideNavOption {
   id: number;
   title: string;
   link: string;
+  icon: JSX.Element;
 }
 
 export class SideNav extends React.Component<{}, {}> {
@@ -19,22 +27,26 @@ export class SideNav extends React.Component<{}, {}> {
       {
         id: 1,
         link: "/",
-        title: "home",
+        title: "Home",
+        icon: <DashboardOutlined />,
       },
       //   {
       //     id: 2,
       //     link: "/users",
       //     title: "Users"
+      //	 icon: <UserSwitchOutlined />
       //   },
       {
         id: 3,
         link: "/programs",
-        title: "programs",
+        title: "Programs",
+        icon: <AudioOutlined />,
       },
       {
         id: 4,
         link: "/settings",
-        title: "settings",
+        title: "Settings",
+        icon: <SettingOutlined />,
       },
     ];
   }
@@ -42,19 +54,31 @@ export class SideNav extends React.Component<{}, {}> {
   public render() {
     return (
       <React.Fragment>
-        <NavigationBar />
-        <NavigationWrapper>
-          Some Logo
-          <Nav vertical className="sidebar-Nav">
+        <Sider
+          theme="dark"
+          style={{
+            overflow: "auto",
+            height: "100vh",
+            position: "fixed",
+            left: 0,
+          }}
+        >
+          <LogoWrapper>
+            <LogoImage
+              alt="Radiosavta Logo"
+              title="Radiosavta Logo"
+              src="https://res.cloudinary.com/marik-shnitman/image/upload/c_scale,w_150/v1554809072/radiosavta/logo_head.png"
+            />
+          </LogoWrapper>
+          <Menu theme="dark" mode="inline">
             {this.sideNavOptions.map((option) => (
-              <NavItem key={option.id} className="navItem">
-                <NavLink to={option.link} tag={RouterLink} className="navLink">
-                  {option.title}
-                </NavLink>
-              </NavItem>
+              <Menu.Item key={option.id} className="navItem" icon={option.icon}>
+                {option.title}
+                <RouterLink to={option.link} />
+              </Menu.Item>
             ))}
-          </Nav>
-        </NavigationWrapper>
+          </Menu>
+        </Sider>
       </React.Fragment>
     );
   }
