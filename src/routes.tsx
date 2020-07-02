@@ -56,7 +56,10 @@ interface Props {
 
 @inject("identityStore")
 @observer
-export default class Routes extends React.Component<Props, {}> {
+export default class Routes extends React.Component<
+  Props,
+  Record<string, unknown>
+> {
   constructor(props: Props) {
     super(props);
 

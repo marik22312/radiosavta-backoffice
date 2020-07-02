@@ -27,7 +27,7 @@
 		"prettier/@typescript-eslint",
 		"plugin:prettier/recommended",
 		"plugin:jest/recommended",
-		"react-app",
+		"react-app"
 	],
 	"rules": {
 		"@typescript-eslint/explicit-module-boundary-types": ["off"],
@@ -38,12 +38,13 @@
 		"@typescript-eslint/ban-ts-ignore": "off",
 		"@typescript-eslint/no-use-before-define": ["off"],
 		"react/prop-types": ["off"],
-		"@typescript-eslint/no-explicit-any": ["off"]
+		"@typescript-eslint/no-explicit-any": ["off"],
+		"@typescript-eslint/ban-types": ["off"]
 	},
 	"env": {
 		"jest/globals": true,
 		"browser": true,
 		"node": true,
-		"es6": true,
-	},
+		"es6": true
+	}
 }

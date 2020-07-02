@@ -2,6 +2,9 @@
   "name": "radiosavta-backoffice",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
     "antd": "^4.4.0",

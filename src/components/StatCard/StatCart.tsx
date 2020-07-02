@@ -31,7 +31,10 @@ export const StatCardNumber = styled.p`
   text-align: center;
 `;
 
-export class StatCard extends React.PureComponent<Props, {}> {
+export class StatCard extends React.PureComponent<
+  Props,
+  Record<string, unknown>
+> {
   public render() {
     return (
       <Card

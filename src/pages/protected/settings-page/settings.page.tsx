@@ -12,7 +12,10 @@ interface Props extends RouteComponentProps {
 
 @inject("identityStore")
 @observer
-export class SettingsPage extends React.Component<Props, {}> {
+export class SettingsPage extends React.Component<
+  Props,
+  Record<string, unknown>
+> {
   public render() {
     return (
       <Page>

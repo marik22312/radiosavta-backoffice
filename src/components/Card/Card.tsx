@@ -21,7 +21,7 @@ interface CardProps {
   onClick?(e: any): void;
 }
 
-export class Card extends React.Component<CardProps, {}> {
+export class Card extends React.Component<CardProps, Record<string, unknown>> {
   public static Title: React.FC<HeaderProps> = (props) => {
     return <CardTitle>{props.title}</CardTitle>;
   };

@@ -7,7 +7,7 @@ interface PageProps {
   title?: string;
 }
 
-export class Page extends React.Component<PageProps, {}> {
+export class Page extends React.Component<PageProps, Record<string, unknown>> {
   constructor(props: any) {
     super(props);
 
