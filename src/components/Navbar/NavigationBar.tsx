@@ -44,7 +44,6 @@ export class NavigationBar extends React.Component<Props, State> {
       </Menu>
     );
 
-    const { isOpen } = this.state;
     const { identityStore } = this.props;
     return (
       <React.Fragment>

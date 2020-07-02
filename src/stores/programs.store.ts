@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action } from "mobx";
 import { IProgram, IUser } from "../models/types";
 import {
   IProgramsService,

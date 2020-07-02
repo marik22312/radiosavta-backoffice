@@ -4,7 +4,6 @@ import {
 } from "./programs.service";
 
 import Chance from "chance";
-import { string } from "yup";
 
 const chance = new Chance();
 
@@ -58,7 +57,7 @@ describe("Programs Service Tests", () => {
     });
     const programsService = new ProgramsService(apiService);
 
-    const program = await programsService.addUserToShow(programId, userId);
+    await programsService.addUserToShow(programId, userId);
 
     expect(
       apiService.post

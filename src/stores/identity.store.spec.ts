@@ -2,7 +2,6 @@ import Chance from "chance";
 
 import { IdentityServiceMock } from "../../__tests__/mocks/services/identity.service.mock";
 import { TryLogigArgs } from "../services/identity.service";
-import { ValidatePasswordObj } from "../utils/identity.utils";
 import IdentityStore, { ResetPasswordObj } from "./identity.store";
 
 describe("Identity Store", () => {
@@ -52,7 +51,7 @@ describe("Identity Store", () => {
       },
     });
 
-    const response = await identityStore.resetPassword(passwordObj);
+    await identityStore.resetPassword(passwordObj);
 
     expect(identityService.resetPassword).toBeCalledWith({
       currentPassword: oldPassword,
@@ -76,7 +75,7 @@ describe("Identity Store", () => {
       },
     });
 
-    const response = await identityStore.resetPassword(passwordObj);
+    await identityStore.resetPassword(passwordObj);
 
     expect(identityService.resetPassword).not.toBeCalled();
   });

@@ -46,7 +46,11 @@ export const SubmitRecordedShow: React.FC<SubmitRecordedShowProps> = (
             {recordedShow?.recorded_at}
           </Descriptions.Item>
           <Descriptions.Item label="Url">
-            <a href={recordedShow!.url} target="_blank">
+            <a
+              href={recordedShow!.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {recordedShow?.url}
             </a>
           </Descriptions.Item>

@@ -37,7 +37,8 @@
 		"@typescript-eslint/interface-name-prefix": ["off"],
 		"@typescript-eslint/ban-ts-ignore": "off",
 		"@typescript-eslint/no-use-before-define": ["off"],
-		"react/prop-types": ["off"]
+		"react/prop-types": ["off"],
+		"@typescript-eslint/no-explicit-any": ["off"]
 	},
 	"env": {
 		"jest/globals": true,

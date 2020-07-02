@@ -27,10 +27,6 @@ interface LoginFormValues {
 @inject("identityStore")
 @observer
 export class LoginPage extends React.Component<Props, {}> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   public render() {
     const initialValues: LoginFormValues = { email: "", password: "" };
 

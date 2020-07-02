@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Layout, Breadcrumb, Typography } from "antd";
-
-import { PageContent, PageHeader, PageTitle } from "../base/PageBase";
 import { Link } from "react-router-dom";
 
 interface PageProps {

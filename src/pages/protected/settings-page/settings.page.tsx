@@ -13,10 +13,6 @@ interface Props extends RouteComponentProps {
 @inject("identityStore")
 @observer
 export class SettingsPage extends React.Component<Props, {}> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   public render() {
     return (
       <Page>
