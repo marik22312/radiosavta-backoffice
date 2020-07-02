@@ -48,7 +48,7 @@ describe("Programs Service Tests", () => {
 
   it("Should call getAvailableUsersForProgram api service correctly", async () => {
     const programId = chance.guid();
-    const userId = chance.guid();
+    const userId = chance.integer();
     apiService.post.mockResolvedValue({
       data: {},
     });
