@@ -1,7 +1,7 @@
 import { ProgramUser } from "../../models/types";
 import React, { useState } from "react";
-import { FormGroup, Input, Label } from "reactstrap";
-import { Col, Button, Space } from "antd";
+import { FormGroup, Input } from "reactstrap";
+import { Col, Button } from "antd";
 
 export interface AddUserToShowCardProps {
   availableUsers: ProgramUser[];

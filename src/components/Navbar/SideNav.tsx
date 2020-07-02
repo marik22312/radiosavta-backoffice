@@ -3,14 +3,13 @@ import { Link as RouterLink } from "react-router-dom";
 
 import {
   DashboardOutlined,
-  UserSwitchOutlined,
   AudioOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
 
 import { Layout, Menu } from "antd";
 import { LogoWrapper, LogoImage } from "../base/NavigationBase";
-const { Sider, Header } = Layout;
+const { Sider } = Layout;
 
 interface SideNavOption {
   id: number;

@@ -347,8 +347,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
   }
 
   private renderRecordedShowsTable() {
-    const { program } = this.state;
-
     return (
       <Table hover responsive>
         <thead>

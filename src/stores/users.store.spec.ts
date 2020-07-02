@@ -53,7 +53,7 @@ describe("Users Store", () => {
 
     const usersStore = new UsersStore(usersServiceMock);
 
-    const response = await usersStore.createUser(user);
+    await usersStore.createUser(user);
     expect(usersServiceMock.createUser).toBeCalledWith(user);
   });
   it("Should throw error when creating user with invalid name", async () => {
