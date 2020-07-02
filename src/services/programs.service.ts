@@ -10,6 +10,11 @@ export interface IProgramsService {
     id: IProgram["id"]
   ): Promise<{ users: IProgram["users"] }>;
   addUserToShow(programId: IProgram["id"], userId: IUser["id"]): Promise<any>;
+  ValidateRecordedShow(url: string): Promise<ValidateRecordedShowResponse>;
+  createRecordedShow(
+    programId: IProgram["id"],
+    recordedShow: ValidateRecordedShowResponse
+  ): Promise<ValidateRecordedShowResponse>;
 }
 
 export class ProgramsService implements IProgramsService {
@@ -51,4 +56,31 @@ export class ProgramsService implements IProgramsService {
     );
     return response.data;
   }
+
+  public async ValidateRecordedShow(url: string) {
+    const response = await this.api.post(
+      `/admin/programs/recordings/validate`,
+      { url }
+    );
+    return response.data;
+  }
+
+  public async createRecordedShow(
+    programId: IProgram["id"],
+    recordedShow: ValidateRecordedShowResponse
+  ) {
+    const response = await this.api.post(
+      `/admin/programs/${programId}/recordings`,
+      { ...recordedShow }
+    );
+    return response.data;
+  }
+}
+
+export interface ValidateRecordedShowResponse {
+  duration: string;
+  url: string;
+  is_displayed: boolean;
+  recorded_at: string;
+  name: string;
 }

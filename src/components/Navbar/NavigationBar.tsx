@@ -4,7 +4,7 @@ import { inject, observer } from "mobx-react";
 
 import { toast } from "react-toastify";
 
-import { Layout, Menu, Dropdown, Row, Col, Avatar, Button, Space } from "antd";
+import { Layout, Menu, Dropdown, Row, Col, Avatar, Button } from "antd";
 
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
@@ -20,7 +20,7 @@ interface Props {
 @inject("identityStore")
 @observer
 export class NavigationBar extends React.Component<Props, State> {
-  constructor(props: any) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

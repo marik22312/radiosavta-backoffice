@@ -6,16 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 
-import {
-  Layout,
-  Col,
-  Row,
-  Typography,
-  Dropdown,
-  Menu,
-  Button,
-  Avatar,
-} from "antd";
+import { Layout } from "antd";
 
 import { inject, observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
@@ -23,7 +14,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { SideNav } from "./components/Navbar/SideNav";
-import { NavigationBar } from "./components/Navbar/Navbar";
+import { NavigationBar } from "./components/Navbar/NavigationBar";
 import { LoginPage } from "./pages/login-page/login.page";
 import { HomePage } from "./pages/protected/home-page/home.page";
 import { ProgramsPage } from "./pages/protected/programs/programs.page";
