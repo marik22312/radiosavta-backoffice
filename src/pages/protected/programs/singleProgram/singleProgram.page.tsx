@@ -4,12 +4,17 @@ import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../../stores/identity.store";
 import ProgramsStore from "../../../../stores/programs.store";
 
-import { Table, Button } from "reactstrap";
+import { Table } from "reactstrap";
 import { Page } from "../../../../components/Page/Page";
 import { IProgram, ProgramUser } from "../../../../models/types";
 import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
-import { Tag, Col, Row, Card, Space } from "antd";
+import { Tag, Col, Row, Card, Space, Button } from "antd";
 import { NoRecordedShows } from "../../../../components/EmptyState/NoRecordedShows";
+import { ValidateRecordedShowResponse } from "../../../../services/programs.service";
+import {
+  ValidateRecordedShow,
+  SubmitRecordedShow,
+} from "../../../../components/SubmitRecordedShow/SubmitRecordedShow";
 
 interface SingleProgramPageParams {
   id: string;
@@ -21,6 +26,12 @@ interface Props extends RouteComponentProps<SingleProgramPageParams> {
 
 enum ProgramsLoaderTypes {
   ADD_USER_TO_PROGRAM = "ADD_USER_TO_PROGRAM",
+  ADD_RECORDED_SHOW = "ADD_RECORDED_SHOW",
+}
+
+enum AddRecordedShowStatuses {
+  VALIDATE = "VALIDATE",
+  SUBMIT = "SUBMIT",
 }
 interface State {
   program?: IProgram;
@@ -28,7 +39,9 @@ interface State {
   loader: ProgramsLoaderTypes | null;
   availableUsers: ProgramUser[];
   isAddMemberOpen: boolean;
+  AddRecordedShowStatus: AddRecordedShowStatuses | null;
   selectedUserToAdd: number | null;
+  verifiedRecordedShow: ValidateRecordedShowResponse | null;
 }
 
 @inject("identityStore", "programsStore")
@@ -41,8 +54,10 @@ export class SingleProgramPage extends React.Component<Props, State> {
       isLoading: true,
       availableUsers: [],
       isAddMemberOpen: false,
+      AddRecordedShowStatus: null,
       selectedUserToAdd: null,
       loader: null,
+      verifiedRecordedShow: null,
     };
   }
 
@@ -117,6 +132,55 @@ export class SingleProgramPage extends React.Component<Props, State> {
       isAddMemberOpen: !this.state.isAddMemberOpen,
     });
   }
+  private toggleAddRecordedShow() {
+    this.setState({
+      AddRecordedShowStatus: this.state.AddRecordedShowStatus
+        ? null
+        : AddRecordedShowStatuses.VALIDATE,
+      verifiedRecordedShow: null,
+    });
+  }
+
+  private async postRecordedShow(recordedShow: ValidateRecordedShowResponse) {
+    this.setState({
+      loader: ProgramsLoaderTypes.ADD_RECORDED_SHOW,
+    });
+    const programId = this.props.match.params.id;
+    await this.props.programsStore.createRecordedShow(programId, recordedShow);
+    await this.fetchProgram();
+    this.setState({
+      loader: null,
+      AddRecordedShowStatus: null,
+    });
+  }
+
+  private addRecordedShow() {
+    const { AddRecordedShowStatus, verifiedRecordedShow } = this.state;
+    if (AddRecordedShowStatus === AddRecordedShowStatuses.VALIDATE) {
+      return (
+        <ValidateRecordedShow
+          isLoading={
+            this.state.loader === ProgramsLoaderTypes.ADD_RECORDED_SHOW
+          }
+          onSubmit={(url) => this.validateRecordedShow(url)}
+        />
+      );
+    }
+    if (
+      AddRecordedShowStatus === AddRecordedShowStatuses.SUBMIT &&
+      verifiedRecordedShow
+    ) {
+      return (
+        <SubmitRecordedShow
+          recordedShow={verifiedRecordedShow}
+          onSubmit={(verifiedShow) => this.postRecordedShow(verifiedShow)}
+          isLoading={
+            this.state.loader === ProgramsLoaderTypes.ADD_RECORDED_SHOW
+          }
+        />
+      );
+    }
+  }
 
   private renderAddMemberRow() {
     return (
@@ -146,6 +210,22 @@ export class SingleProgramPage extends React.Component<Props, State> {
   private removeUserFromProgram(id: number) {
     // TODO: Add remove user from program functionality
     console.log(`Removing user ${id}`);
+  }
+
+  private async validateRecordedShow(url: string) {
+    this.setState({
+      loader: ProgramsLoaderTypes.ADD_RECORDED_SHOW,
+    });
+
+    const recordedShow = await this.props.programsStore.ValidateRecordedShow(
+      url
+    );
+
+    this.setState({
+      loader: null,
+      AddRecordedShowStatus: AddRecordedShowStatuses.SUBMIT,
+      verifiedRecordedShow: recordedShow!,
+    });
   }
 
   public render() {
@@ -178,7 +258,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
                     title="Crew"
                     extra={
                       <Button
-                        color="primary"
+                        type="primary"
                         onClick={() => this.toggleAddCrewMember()}
                       >
                         Add User
@@ -211,20 +291,20 @@ export class SingleProgramPage extends React.Component<Props, State> {
               </Row>
               <Row>
                 <Col span={24}>
-                  <Card title="Recorded Shows">
-                    {/* <Card.Header>
-                    <Row className="d-flex">
-                      <Col span={18}>
-                        <Card.Title title="Recorded shows" />
-                      </Col>
-                      <Col span={6}>
-                        <Button color="primary" disabled>
-                          Add show
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Card.Header> */}
+                  <Card
+                    title="Recorded Shows"
+                    extra={
+                      <Button
+                        type="primary"
+                        onClick={() => this.toggleAddRecordedShow()}
+                      >
+                        Add Recorded Show
+                      </Button>
+                    }
+                  >
                     <div>
+                      {this.state.AddRecordedShowStatus &&
+                        this.addRecordedShow()}
                       <Row>
                         <Col span={24}>
                           {this.state.program &&
@@ -283,5 +363,3 @@ export class SingleProgramPage extends React.Component<Props, State> {
     );
   }
 }
-
-////////////////////////////////////

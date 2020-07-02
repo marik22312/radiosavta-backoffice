@@ -1,6 +1,10 @@
-import { ProgramsService } from "./programs.service";
+import {
+  ProgramsService,
+  ValidateRecordedShowResponse,
+} from "./programs.service";
 
 import Chance from "chance";
+import { string } from "yup";
 
 const chance = new Chance();
 
@@ -59,5 +63,41 @@ describe("Programs Service Tests", () => {
     expect(
       apiService.post
     ).toBeCalledWith(`/admin/programs/${programId}/availableUsers`, { userId });
+  });
+
+  it("Should call ValidateRecordedShow api service correctly", async () => {
+    const url = chance.url();
+    apiService.post.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    await programsService.ValidateRecordedShow(url);
+
+    expect(
+      apiService.post
+    ).toBeCalledWith(`/admin/programs/recordings/validate`, { url });
+  });
+
+  it("Should call AddRecordedShow api service correctly", async () => {
+    const programId = chance.integer({ min: 0 });
+    const recordedShow: ValidateRecordedShowResponse = {
+      url: chance.url(),
+      name: chance.name(),
+      recorded_at: chance.string(),
+      duration: chance.string(),
+      is_displayed: true,
+    };
+    apiService.post.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    await programsService.createRecordedShow(programId, recordedShow);
+
+    expect(apiService.post).toBeCalledWith(
+      `/admin/programs/${programId}/recordings`,
+      recordedShow
+    );
   });
 });

@@ -1,6 +1,9 @@
 import { action, observable } from "mobx";
 import { IProgram, IUser } from "../models/types";
-import { IProgramsService } from "../services/programs.service";
+import {
+  IProgramsService,
+  ValidateRecordedShowResponse,
+} from "../services/programs.service";
 
 export default class ProgramStore {
   constructor(private api: IProgramsService) {}
@@ -28,6 +31,34 @@ export default class ProgramStore {
   public async addUserToShow(programId: IProgram["id"], userId: IUser["id"]) {
     try {
       const response = await this.api.addUserToShow(programId, userId);
+      return response;
+    } catch (err) {
+      console.log(err);
+      // TODO: Handle it!
+    }
+  }
+
+  @action
+  public async ValidateRecordedShow(url: string) {
+    try {
+      const response = await this.api.ValidateRecordedShow(url);
+      return response;
+    } catch (err) {
+      console.log(err);
+      // TODO: Handle it!
+    }
+  }
+
+  @action
+  public async createRecordedShow(
+    programId: IProgram["id"],
+    recordedShow: ValidateRecordedShowResponse
+  ) {
+    try {
+      const response = await this.api.createRecordedShow(
+        programId,
+        recordedShow
+      );
       return response;
     } catch (err) {
       console.log(err);
