@@ -4,18 +4,7 @@ import { inject, observer } from "mobx-react";
 
 import { toast } from "react-toastify";
 
-import {
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavbarText,
-  NavbarToggler,
-  UncontrolledDropdown,
-} from "reactstrap";
+import { Layout, Menu, Dropdown, Row, Col, Avatar, Button, Space } from "antd";
 
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
@@ -46,59 +35,36 @@ export class NavigationBar extends React.Component<Props, State> {
   };
 
   public render() {
+    const userMenu = (
+      <Menu>
+        <Menu.Item onClick={() => this.openChangePasswordModal()}>
+          Change password
+        </Menu.Item>
+        <Menu.Item onClick={this.logout}>Logout</Menu.Item>
+      </Menu>
+    );
+
     const { isOpen } = this.state;
     const { identityStore } = this.props;
     return (
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Radiosavta Backoffice</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              {/* <NavItem>
-              <NavLink href="/components/">Components</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">GitHub</NavLink>
-            </NavItem> */}
-              {/* <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Options
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Change
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown> */}
-            </Nav>
-            <UncontrolledDropdown>
-              <DropdownToggle nav caret>
-                <NavbarText>{identityStore?.user.name}</NavbarText>
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem onClick={() => this.openChangePasswordModal()}>
-                  Change password
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem onClick={this.logout}>Logout</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </Collapse>
-        </Navbar>
+      <React.Fragment>
+        <Layout.Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+          <Row>
+            <Col span={4} offset={17}>
+              <Dropdown overlay={userMenu}>
+                <Button icon={<Avatar size={"small"}>MS</Avatar>}>
+                  {identityStore?.user.name}
+                </Button>
+              </Dropdown>
+            </Col>
+          </Row>
+        </Layout.Header>
         <ChangePasswordModal
           isOpen={this.state.isChangePasswordModalOpen}
           toggle={() => this.openChangePasswordModal()}
           onSubmit={(values) => this.onChangePassword(values)}
         />
-      </div>
+      </React.Fragment>
     );
   }
 

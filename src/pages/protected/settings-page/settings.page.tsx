@@ -20,16 +20,11 @@ export class SettingsPage extends React.Component<Props, {}> {
   public render() {
     return (
       <Page>
-        <Page.Header>
-          <Page.Title title="settings Page" />
-        </Page.Header>
-        <Page.Content>
-          <Container>
-            <Row>
-              <Col xs={12}>Hello Home Page!</Col>
-            </Row>
-          </Container>
-        </Page.Content>
+        <Container>
+          <Row>
+            <Col xs={12}>Hello Home Page!</Col>
+          </Row>
+        </Container>
       </Page>
     );
   }

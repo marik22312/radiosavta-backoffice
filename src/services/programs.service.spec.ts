@@ -45,4 +45,19 @@ describe("Programs Service Tests", () => {
     expect(apiService.delete).toBeCalledWith(`/programs/${programId}`);
     expect(program.id).toBe(programId);
   });
+
+  it("Should call getAvailableUsersForProgram api service correctly", async () => {
+    const programId = chance.guid();
+    const userId = chance.integer();
+    apiService.post.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    const program = await programsService.addUserToShow(programId, userId);
+
+    expect(
+      apiService.post
+    ).toBeCalledWith(`/admin/programs/${programId}/availableUsers`, { userId });
+  });
 });

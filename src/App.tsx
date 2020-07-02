@@ -17,6 +17,8 @@ import UsersStore from "./stores/users.store";
 import ProgramsStore from "./stores/programs.store";
 import { ProgramsService } from "./services/programs.service";
 
+import "antd/dist/antd.css";
+
 const cookieOven = new CookieOven();
 const apiService = new BaseApiService(BASE_API_URL, httpClient);
 const identityService = new IdentityService(apiService, cookieOven);

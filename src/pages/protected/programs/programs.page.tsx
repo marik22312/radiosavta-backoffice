@@ -48,66 +48,47 @@ export class ProgramsPage extends React.Component<Props, State> {
 
   public render() {
     return (
-      <Page>
-        <Page.Header>
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Page.Title title="programs Page" />
-              </Col>
-            </Row>
-          </Container>
-        </Page.Header>
-        <Page.Content>
-          <Container>
-            <Row>
-              <Col xs={12}>
-                <Card>
-                  <Card.Content>
-                    <Table hover responsive>
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Name</th>
-                          <th>Description</th>
-                          <th>Users</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.programs.map((program) => {
+      <Page title="Programs Page" breadcrumbs={["Home"]}>
+        <Card>
+          <Card.Content>
+            <Table hover responsive>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Users</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.state.programs.map((program) => {
+                  return (
+                    <tr
+                      key={program.id}
+                      style={{ cursor: "pointer" }}
+                      onClick={() =>
+                        this.props.history.push(`/programs/${program.id}`)
+                      }
+                    >
+                      <th scope="row">{program.id}</th>
+                      <td>{program.name_en}</td>
+                      <td>{program.description}</td>
+                      <td>
+                        {program.users.map((user) => {
                           return (
-                            <tr
-                              key={program.id}
-                              style={{ cursor: "pointer" }}
-                              onClick={() =>
-                                this.props.history.push(
-                                  `/programs/${program.id}`
-                                )
-                              }
-                            >
-                              <th scope="row">{program.id}</th>
-                              <td>{program.name_en}</td>
-                              <td>{program.description}</td>
-                              <td>
-                                {program.users.map((user) => {
-                                  return (
-                                    <span key={`user-${user.id}`}>
-                                      {user.name},&nbsp;
-                                    </span>
-                                  );
-                                })}
-                              </td>
-                            </tr>
+                            <span key={`user-${user.id}`}>
+                              {user.name},&nbsp;
+                            </span>
                           );
                         })}
-                      </tbody>
-                    </Table>
-                  </Card.Content>
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </Page.Content>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </Card.Content>
+        </Card>
       </Page>
     );
   }

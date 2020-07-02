@@ -39,4 +39,21 @@ describe("Program", () => {
     expect(programsServiceMock.getProgramById).toBeCalledTimes(1);
     expect(response).toStrictEqual(program);
   });
+
+  it("Should get available users for program correctly", async () => {
+    const programId = chance.guid();
+    const userId = chance.guid();
+    const users = [{ id: userId }];
+
+    programsServiceMock.getAvailableUsersFor.mockResolvedValue({
+      users,
+    });
+
+    programsStore = new ProgramsStore(programsServiceMock);
+
+    const response = await programsStore.getAvailableUsers(programId);
+
+    expect(programsServiceMock.getAvailableUsersFor).toBeCalledTimes(1);
+    expect(response).toStrictEqual({ users });
+  });
 });

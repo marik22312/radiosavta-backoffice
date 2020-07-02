@@ -17,4 +17,5 @@ export const ProgramsServiceMock = () => ({
   getProgramById: jest.fn(),
   updateProgramById: jest.fn(),
   disableProgram: jest.fn(),
+  getAvailableUsersFor: jest.fn(),
 });
