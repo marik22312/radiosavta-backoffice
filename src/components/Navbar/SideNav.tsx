@@ -15,7 +15,7 @@ interface SideNavOption {
   id: number;
   title: string;
   link: string;
-  icon: JSX.Element;
+  icon: any;
 }
 
 export const SideNav: React.FC<Record<string, unknown>> = () => {
