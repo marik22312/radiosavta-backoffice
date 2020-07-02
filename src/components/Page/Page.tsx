@@ -7,7 +7,13 @@ interface PageProps {
   title?: string;
 }
 
-export class Page extends React.Component<PageProps, null> {
+export class Page extends React.Component<PageProps, {}> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {};
+  }
+
   private renderBreadcrumbs() {
     return this.props.breadcrumbs!.map((b) => (
       <Breadcrumb.Item key={b}>
