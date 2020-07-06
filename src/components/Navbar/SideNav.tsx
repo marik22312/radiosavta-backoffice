@@ -4,7 +4,9 @@ import { Link as RouterLink } from "react-router-dom";
 import {
   DashboardOutlined,
   AudioOutlined,
-  SettingOutlined,
+  UserOutlined,
+  UserAddOutlined,
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 
 import { Layout, Menu } from "antd";
@@ -18,31 +20,54 @@ interface SideNavOption {
   icon: any;
 }
 
+interface ChildMenuItem {
+  id: number;
+  url: string;
+  title: string;
+  icon?: any;
+}
+interface ParentMenuItem {
+  id: number;
+  title: string;
+  children: ChildMenuItem[];
+  icon?: any;
+}
+
+type MenuItem = ParentMenuItem | ChildMenuItem;
+
 export const SideNav: React.FC<Record<string, unknown>> = () => {
-  const sideNavOptions: SideNavOption[] = [
+  const newSideNavOptions: MenuItem[] = [
     {
       id: 1,
-      link: "/",
+      url: "/",
       title: "Home",
       icon: <DashboardOutlined />,
     },
-    //   {
-    //     id: 2,
-    //     link: "/users",
-    //     title: "Users"
-    //	 icon: <UserSwitchOutlined />
-    //   },
     {
-      id: 3,
-      link: "/programs",
-      title: "Programs",
-      icon: <AudioOutlined />,
+      id: 2,
+      title: "Users",
+      icon: <UserOutlined />,
+      children: [
+        {
+          id: 1,
+          url: "/users/create",
+          title: "Create user",
+          icon: <UserAddOutlined />,
+        },
+      ],
     },
     {
-      id: 4,
-      link: "/settings",
-      title: "Settings",
-      icon: <SettingOutlined />,
+      id: 3,
+      title: "Programs",
+      icon: <AudioOutlined />,
+      children: [
+        {
+          id: 1,
+          url: "/programs",
+          title: "All Programs",
+          icon: <UnorderedListOutlined />,
+        },
+      ],
     },
   ];
 
@@ -64,13 +89,28 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
             src="https://res.cloudinary.com/marik-shnitman/image/upload/c_scale,w_150/v1554809072/radiosavta/logo_head.png"
           />
         </LogoWrapper>
-        <Menu theme="dark" mode="inline">
-          {sideNavOptions.map((option) => (
-            <Menu.Item key={option.id} className="navItem" icon={option.icon}>
-              {option.title}
-              <RouterLink to={option.link} />
-            </Menu.Item>
-          ))}
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          {newSideNavOptions.map((o) => {
+            const { children } = o as ParentMenuItem;
+            if (children) {
+              return (
+                <Menu.SubMenu key={o.id} title={o.title} icon={o.icon}>
+                  {children.map((c) => {
+                    return (
+                      <Menu.Item key={o.id + c.id} icon={c.icon}>
+                        <RouterLink to={c.url}>{c.title}</RouterLink>
+                      </Menu.Item>
+                    );
+                  })}
+                </Menu.SubMenu>
+              );
+            }
+            return (
+              <Menu.Item key={o.id} icon={o.icon}>
+                <RouterLink to={(o as ChildMenuItem).url}>{o.title}</RouterLink>
+              </Menu.Item>
+            );
+          })}
         </Menu>
       </Sider>
     </React.Fragment>
