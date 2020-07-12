@@ -29,6 +29,7 @@ const stores = {
   identityStore: new IdentityStore(identityService),
   usersStore: new UsersStore(usersService),
   apiStore: apiService,
+  programsService: programsService,
   programsStore: new ProgramsStore(programsService),
 };
 

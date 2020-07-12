@@ -132,7 +132,7 @@ export const InfoStep: React.FC<InfoStepProps> = (props) => {
               name="program_times"
               rules={[{ required: true, message: "Program time is required!" }]}
             >
-              <TimePicker format={DATE_FORMAT} />
+              <TimePicker format={DATE_FORMAT} minuteStep={15} />
             </Form.Item>
             <Form.Item
               name="crew"

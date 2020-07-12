@@ -1,5 +1,14 @@
 import React, { Fragment } from "react";
-import { Card, Descriptions, Col, Row, Typography, Space, Avatar } from "antd";
+import {
+  Card,
+  Descriptions,
+  Col,
+  Row,
+  Typography,
+  Space,
+  Avatar,
+  Button,
+} from "antd";
 import moment from "moment";
 
 import { IUser } from "../../../../../models/types";
@@ -11,6 +20,7 @@ interface SummaryStepProps {
   day_of_week?: number;
   time?: string;
   crew?: IUser[];
+  onSubmit(): void;
 }
 
 export const SummaryStep: React.FC<SummaryStepProps> = (props) => {
@@ -69,6 +79,13 @@ export const SummaryStep: React.FC<SummaryStepProps> = (props) => {
               </Col>
             );
           })}
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Button type="primary" onClick={props.onSubmit}>
+              Submit!
+            </Button>
+          </Col>
         </Row>
       </Card>
     </Fragment>

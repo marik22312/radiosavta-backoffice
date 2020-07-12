@@ -10,6 +10,7 @@ import { SummaryStep } from "./SummaryStep/SummaryStep";
 import UsersStore from "../../../../stores/users.store";
 import { inject, observer } from "mobx-react";
 import { IUser } from "../../../../models/types";
+import { ProgramsService } from "../../../../services/programs.service";
 
 const { Step } = Steps;
 
@@ -29,6 +30,7 @@ const stepsMap: CreateProgramStep = {
 };
 interface CreateProgramPageProps extends RouteComponentProps {
   usersStore: UsersStore;
+  programsService: ProgramsService;
 }
 
 interface CreateProgramPageState {
@@ -38,7 +40,7 @@ interface CreateProgramPageState {
   imagePreview: string;
 }
 
-@inject("usersStore")
+@inject("usersStore", "programsService")
 @observer
 export class CreateProgramPage extends React.Component<
   CreateProgramPageProps,
@@ -77,12 +79,6 @@ export class CreateProgramPage extends React.Component<
     const users = await this.props.usersStore.fetchAllUsers();
     this.setState({
       users,
-    });
-  }
-
-  private setStep(step: number) {
-    this.setState({
-      currentStep: step,
     });
   }
 
@@ -127,6 +123,7 @@ export class CreateProgramPage extends React.Component<
             description={this.state.form.description}
             day_of_week={this.state.form.day_of_week}
             time={moment(this.state.form.program_time).format("HH:mm")}
+            onSubmit={() => this.onSubmit()}
           />
         );
       default:
@@ -134,9 +131,24 @@ export class CreateProgramPage extends React.Component<
     }
   }
 
-  private onSubmit() {
+  private async onSubmit() {
     const { form } = this.state;
-    // transform to api DTO
+
+    const request = {
+      program: {
+        name: form.name,
+        description: form.description,
+      },
+      cover_image: form.picture.file,
+      users: form.crew,
+      program_time: {
+        day_of_week: form.day_of_week,
+        start_time: moment(this.state.form.program_time).format("HH:mm"),
+      },
+    };
+
+    const response = await this.props.programsService.createProgram(request);
+    console.log(response);
     // publish
     // redirect to newly created program
   }

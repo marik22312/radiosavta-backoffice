@@ -1,8 +1,10 @@
-import { IProgram, IUser } from "../models/types";
+import { IProgram, IUser, CreateProgramRequest } from "../models/types";
 import { IBaseApiService } from "./base.api.service";
+import { observable } from "mobx";
 
 export interface IProgramsService {
   getAllPrograms(): Promise<IProgram[]>;
+  createProgram(program: CreateProgramRequest): Promise<IProgram>;
   getProgramById(id: IProgram["id"]): Promise<IProgram>;
   updateProgramById(id: IProgram["id"] | string, data: any): Promise<IProgram>;
   disableProgram(id: IProgram["id"]): Promise<IProgram>;
@@ -74,6 +76,21 @@ export class ProgramsService implements IProgramsService {
       { ...recordedShow }
     );
     return response.data;
+  }
+
+  public async createProgram(program: CreateProgramRequest) {
+    const form = new FormData();
+    form.append("program", JSON.stringify(program.program));
+    // form.append("users", "1");
+    // form.append("program_time", JSON.stringify(program.program_time));
+    // form.append("cover_image", JSON.stringify(program.cover_image));
+
+    const reponse = await this.api.post("/admin/users/", form, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
+    return reponse.data;
   }
 }
 

@@ -4,6 +4,11 @@ import {
 } from "./programs.service";
 
 import Chance from "chance";
+import {
+  CreateProgramRequest,
+  CreateProgramRequestProgram,
+  CreateProgramRequestProgramTime,
+} from "../models/types";
 
 const chance = new Chance();
 
@@ -98,5 +103,30 @@ describe("Programs Service Tests", () => {
       `/admin/programs/${programId}/recordings`,
       recordedShow
     );
+  });
+
+  it("Should call createProgram api service correctly", async () => {
+    const programTimes: CreateProgramRequestProgramTime = {
+      day_of_week: chance.integer({ min: 0, max: 6 }),
+      start_time: "11:00",
+    };
+    const program: CreateProgramRequestProgram = {
+      name: chance.string(),
+      description: chance.sentence(),
+      image: new File([""], "filename"),
+    };
+    const request: CreateProgramRequest = {
+      program,
+      program_time: programTimes,
+      users: [chance.integer()],
+    };
+    apiService.post.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    await programsService.createProgram(request);
+
+    expect(apiService.post).toBeCalledWith(`/admin/programs`, request);
   });
 });
