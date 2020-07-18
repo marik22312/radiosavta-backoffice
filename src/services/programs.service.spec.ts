@@ -104,6 +104,20 @@ describe("Programs Service Tests", () => {
       recordedShow
     );
   });
+  it("Should call removeRecordedShow api service correctly", async () => {
+    const programId = chance.integer({ min: 0 });
+    const userId = chance.integer({ min: 0 });
+    apiService.delete.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    await programsService.removeUserToShow(programId, userId);
+
+    expect(apiService.delete).toBeCalledWith(
+      `/admin/programs/${programId}/users/${userId}`
+    );
+  });
 
   it("Should call createProgram api service correctly", async () => {
     const programTimes: CreateProgramRequestProgramTime = {

@@ -6,15 +6,20 @@ import ProgramsStore from "../../../../stores/programs.store";
 
 import { Table } from "reactstrap";
 import { Page } from "../../../../components/Page/Page";
-import { IProgram, ProgramUser } from "../../../../models/types";
+import { ProgramUser, IFullProgram } from "../../../../models/types";
 import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
-import { Tag, Col, Row, Card, Space, Button } from "antd";
+import { Tag, Col, Row, Card, Space, Button, Descriptions } from "antd";
 import { NoRecordedShows } from "../../../../components/EmptyState/NoRecordedShows";
-import { ValidateRecordedShowResponse } from "../../../../services/programs.service";
+import {
+  ValidateRecordedShowResponse,
+  ProgramsService,
+} from "../../../../services/programs.service";
 import {
   ValidateRecordedShow,
   SubmitRecordedShow,
 } from "../../../../components/SubmitRecordedShow/SubmitRecordedShow";
+
+import moment from "moment";
 
 interface SingleProgramPageParams {
   id: string;
@@ -22,11 +27,13 @@ interface SingleProgramPageParams {
 interface Props extends RouteComponentProps<SingleProgramPageParams> {
   identityStore: IdentityStore;
   programsStore: ProgramsStore;
+  programsService: ProgramsService;
 }
 
 enum ProgramsLoaderTypes {
   ADD_USER_TO_PROGRAM = "ADD_USER_TO_PROGRAM",
   ADD_RECORDED_SHOW = "ADD_RECORDED_SHOW",
+  REMOVE_USER_FROMM_SHOW = "REMOVE_USER_FROMM_SHOW",
 }
 
 enum AddRecordedShowStatuses {
@@ -34,7 +41,7 @@ enum AddRecordedShowStatuses {
   SUBMIT = "SUBMIT",
 }
 interface State {
-  program?: IProgram;
+  program?: IFullProgram;
   isLoading: boolean;
   loader: ProgramsLoaderTypes | null;
   availableUsers: ProgramUser[];
@@ -44,7 +51,7 @@ interface State {
   verifiedRecordedShow: ValidateRecordedShowResponse | null;
 }
 
-@inject("identityStore", "programsStore")
+@inject("identityStore", "programsStore", "programsService")
 @observer
 export class SingleProgramPage extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -99,11 +106,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
 
   private renderInfoRow(props: { icon: string; title: string; data: string }) {
     return (
-      <div className="d-flex">
-        <div className="mr-1">{props.icon}</div>
-        <div className="mr-1">{props.title}</div>
-        <div className="mr-1">{props.data}</div>
-      </div>
+      <Descriptions.Item label={props.title}>{props.data}</Descriptions.Item>
     );
   }
   private renderImage() {
@@ -207,9 +210,17 @@ export class SingleProgramPage extends React.Component<Props, State> {
     await this.fetchProgram();
   }
 
-  private removeUserFromProgram(id: number) {
-    // TODO: Add remove user from program functionality
-    console.log(`Removing user ${id}`);
+  private async removeUserFromProgram(id: number) {
+    this.setState({
+      loader: ProgramsLoaderTypes.REMOVE_USER_FROMM_SHOW,
+    });
+    await this.props.programsService.removeUserToShow(
+      this.state.program!.id,
+      id
+    );
+    this.setState({
+      loader: null,
+    });
   }
 
   private async validateRecordedShow(url: string) {
@@ -229,8 +240,11 @@ export class SingleProgramPage extends React.Component<Props, State> {
   }
 
   public render() {
-    const { program } = this.state;
-    const allowRemovingUsers = !!program && program.users.length > 1;
+    const { program, loader } = this.state;
+    const allowRemovingUsers =
+      !!program &&
+      program.users.length > 1 &&
+      loader !== ProgramsLoaderTypes.REMOVE_USER_FROMM_SHOW;
     const programName = program?.name_en || "Single Program";
     return (
       <Page breadcrumbs={["Home", "Programs"]} title={programName}>
@@ -240,13 +254,20 @@ export class SingleProgramPage extends React.Component<Props, State> {
               <Card>
                 <Space>
                   <div>{this.state.program && this.renderImage()}</div>
-                  <div>
+                  <Descriptions layout="horizontal">
                     {this.renderInfoRow({
                       icon: "description",
                       title: "Description",
                       data: this.state.program?.description,
                     })}
-                  </div>
+                    {this.renderInfoRow({
+                      icon: "description",
+                      title: "When",
+                      data: `${moment.weekdays(
+                        this.state.program?.programTimes.day_of_week
+                      )} - ${this.state.program?.programTimes.start_time}`,
+                    })}
+                  </Descriptions>
                 </Space>
               </Card>
             </Col>

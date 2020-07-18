@@ -1,5 +1,5 @@
 import { action } from "mobx";
-import { IProgram, IUser } from "../models/types";
+import { IProgram, IUser, IFullProgram } from "../models/types";
 import {
   IProgramsService,
   ValidateRecordedShowResponse,
@@ -15,7 +15,7 @@ export default class ProgramStore {
   }
 
   @action
-  public async fetchById(id: string): Promise<IProgram> {
+  public async fetchById(id: string): Promise<IFullProgram> {
     const program = await this.api.getProgramById(id);
     return program;
   }

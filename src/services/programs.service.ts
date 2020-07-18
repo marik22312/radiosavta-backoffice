@@ -1,17 +1,26 @@
-import { IProgram, IUser, CreateProgramRequest } from "../models/types";
+import {
+  IProgram,
+  IUser,
+  CreateProgramRequest,
+  IFullProgram,
+} from "../models/types";
 import { IBaseApiService } from "./base.api.service";
 import { observable } from "mobx";
 
 export interface IProgramsService {
   getAllPrograms(): Promise<IProgram[]>;
   createProgram(program: CreateProgramRequest): Promise<IProgram>;
-  getProgramById(id: IProgram["id"]): Promise<IProgram>;
+  getProgramById(id: IProgram["id"]): Promise<IFullProgram>;
   updateProgramById(id: IProgram["id"] | string, data: any): Promise<IProgram>;
   disableProgram(id: IProgram["id"]): Promise<IProgram>;
   getAvailableUsersFor(
     id: IProgram["id"]
   ): Promise<{ users: IProgram["users"] }>;
   addUserToShow(programId: IProgram["id"], userId: IUser["id"]): Promise<any>;
+  removeUserToShow(
+    programId: IProgram["id"],
+    userId: IUser["id"]
+  ): Promise<any>;
   ValidateRecordedShow(url: string): Promise<ValidateRecordedShowResponse>;
   createRecordedShow(
     programId: IProgram["id"],
@@ -28,7 +37,7 @@ export class ProgramsService implements IProgramsService {
   }
 
   public async getProgramById(id: IProgram["id"]) {
-    const response = await this.api.get<IProgram>(`/programs/${id}`);
+    const response = await this.api.get<IFullProgram>(`/programs/${id}`);
     return response.data;
   }
 
@@ -55,6 +64,15 @@ export class ProgramsService implements IProgramsService {
       {
         userId,
       }
+    );
+    return response.data;
+  }
+  public async removeUserToShow(
+    programId: IProgram["id"],
+    userId: IUser["id"]
+  ) {
+    const response = await this.api.delete<any>(
+      `/admin/programs/${programId}/users/${userId}`
     );
     return response.data;
   }
