@@ -56,7 +56,7 @@ export class CreateProgramPage extends React.Component<
       users: [],
       form: {},
       imagePreview: "",
-      isLoading: true,
+      isLoading: false,
     };
 
     this.steps = [
@@ -89,7 +89,7 @@ export class CreateProgramPage extends React.Component<
   }
 
   private convertDayOfWeekToString(dow: number) {
-    console.log(moment.weekdays());
+    console.log(moment.weekdays(3));
   }
 
   private onFormFinished(formValues: any) {
