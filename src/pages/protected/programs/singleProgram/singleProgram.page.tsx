@@ -200,7 +200,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
   }
 
   private async onSaveUserToShow(userId: number) {
-    console.log("OnSave", userId);
     await this.props.programsStore.addUserToShow(
       this.props.match.params.id,
       userId
@@ -218,6 +217,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
       this.state.program!.id,
       id
     );
+    this.fetchProgram();
     this.setState({
       loader: null,
     });
