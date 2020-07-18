@@ -4,11 +4,10 @@ import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../../stores/identity.store";
 import ProgramsStore from "../../../../stores/programs.store";
 
-import { Table } from "reactstrap";
 import { Page } from "../../../../components/Page/Page";
 import { ProgramUser, IFullProgram } from "../../../../models/types";
 import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
-import { Tag, Col, Row, Card, Space, Button, Descriptions } from "antd";
+import { Tag, Col, Row, Card, Space, Button, Descriptions, Table } from "antd";
 import { NoRecordedShows } from "../../../../components/EmptyState/NoRecordedShows";
 import {
   ValidateRecordedShowResponse,
@@ -50,6 +49,34 @@ interface State {
   selectedUserToAdd: number | null;
   verifiedRecordedShow: ValidateRecordedShowResponse | null;
 }
+
+const columns = [
+  {
+    title: "#",
+    dataIndex: "id",
+    key: "id",
+  },
+  {
+    title: "Title",
+    dataIndex: "name",
+    key: "name",
+  },
+  {
+    title: "Duration",
+    dataIndex: "duration",
+    key: "duration",
+  },
+  {
+    title: "Url",
+    dataIndex: "url",
+    key: "url",
+  },
+  {
+    title: "Visible to listeners?",
+    dataIndex: "is_displayed",
+    key: "is_displayed",
+  },
+];
 
 @inject("identityStore", "programsStore", "programsService")
 @observer
@@ -369,16 +396,10 @@ export class SingleProgramPage extends React.Component<Props, State> {
 
   private renderRecordedShowsTable() {
     return (
-      <Table hover responsive>
-        <thead>
-          <th>#</th>
-          <th>Title</th>
-          <th>Duration</th>
-          <th>Url</th>
-          <th>Visible to listeners?</th>
-        </thead>
-        <tbody>{this.renderRecordedShowContent()}</tbody>
-      </Table>
+      <Table
+        columns={columns}
+        dataSource={this.state.program?.recorded_shows}
+      />
     );
   }
 }

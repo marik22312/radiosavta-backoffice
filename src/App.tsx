@@ -8,7 +8,6 @@ import httpClient from "./services/http.client";
 import IdentityService from "./services/identity.service";
 import IdentityStore from "./stores/identity.store";
 
-import "bootstrap/dist/css/bootstrap.min.css";
 import { BASE_API_URL } from "./config/api.config";
 import BaseApiService from "./services/base.api.service";
 import { CookieOven } from "./services/CookieOven";

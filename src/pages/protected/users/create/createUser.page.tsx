@@ -6,22 +6,20 @@ import * as Yup from "yup";
 import IdentityStore from "../../../../stores/identity.store";
 
 import {
-  FormGroup,
-  Label,
-  Input,
+  Alert,
   Form,
+  Switch,
   Button,
-  Spinner,
-  CustomInput,
-} from "reactstrap";
-
-import { Col, Row, Alert, Space } from "antd";
+  Upload,
+  Input,
+  Row,
+  Col,
+  Card,
+} from "antd";
 
 import { Page } from "../../../../components/Page/Page";
 import { IUser } from "../../../../models/types";
 import UsersStore from "../../../../stores/users.store";
-import { Card } from "../../../../components/Card/Card";
-import { Formik, FormikProps } from "formik";
 import { CreateUserRequest } from "../../../../services/users.service";
 
 interface Props extends RouteComponentProps {
@@ -55,7 +53,7 @@ export class CreateUserPage extends React.Component<Props, State> {
 
     this.state = {
       users: [],
-      fileUrl: "https://via.placeholder.com/500",
+      fileUrl: "",
       fileToUpload: null,
       isLoading: false,
       error: null,
@@ -92,135 +90,126 @@ export class CreateUserPage extends React.Component<Props, State> {
 
   private onFileChanged(event: any) {
     this.setState({
-      fileUrl: URL.createObjectURL(event.target.files[0]),
-      fileToUpload: event.target.files[0],
+      fileUrl: URL.createObjectURL(event.file),
+      fileToUpload: event.file,
     });
   }
 
-  private renderCreateUserForm(props: FormikProps<any>) {
+  private renderCreateUserForm() {
     return (
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Row>
-          <Col span={24}>
-            <div
-              className="form-image-container"
-              style={{
-                height: "200px",
-              }}
-            >
-              {this.state.fileUrl && (
-                <img
-                  src={this.state.fileUrl}
-                  style={{
-                    width: "auto",
-                    height: "100%",
-                  }}
-                  alt="to upload"
-                />
-              )}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <FormGroup>
-              <Label>Profile picture</Label>
-              <Input
-                type="file"
-                accept="image/jpeg image/png"
+      <Row>
+        <Col span={24}>
+          <Form
+            onFinish={(values: any) => this.onFormSubmit(values)}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
+          >
+            {this.state.fileUrl ? (
+              <img
+                src={this.state.fileUrl}
+                alt="show preview"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
+            ) : (
+              <Form.Item
+                label="Profile Picture"
                 name="profile_picture"
-                onChange={(e) => {
-                  this.onFileChanged(e);
-                  props.handleChange(e);
-                }}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Full name</Label>
-              <Input
-                type="text"
-                name="fullname"
-                id="fullname"
-                placeholder="John Smith"
-                onChange={props.handleChange}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Email</Label>
+                rules={[
+                  {
+                    required: true,
+                    message: "Profile picture is required!",
+                  },
+                ]}
+              >
+                <Upload.Dragger
+                  listType="picture"
+                  showUploadList={false}
+                  accept="image/*"
+                  customRequest={(e) => this.onFileChanged(e)}
+                >
+                  <p>Upload an image</p>
+                </Upload.Dragger>
+              </Form.Item>
+            )}
+            <Form.Item
+              label="Full name"
+              name="fullname"
+              rules={[
+                {
+                  required: true,
+                  message: "Full name is required!",
+                },
+                {
+                  min: 3,
+                  message: "User name must be atleast 3 characters long",
+                },
+              ]}
+            >
+              <Input id="fullname" placeholder="John Smith" />
+            </Form.Item>
+            <Form.Item
+              label="Email Address"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Email is required!",
+                },
+              ]}
+            >
               <Input
                 type="email"
-                name="email"
                 placeholder="Johns@radiosavta.com"
                 autoComplete="off"
-                onChange={props.handleChange}
               />
-            </FormGroup>
-          </Col>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Location</Label>
+            </Form.Item>
+            <Form.Item
+              label="Location"
+              name="location"
+              rules={[
+                {
+                  required: true,
+                  message: "Profile picture is required!",
+                },
+              ]}
+            >
+              <Input placeholder="Mitspe Ramon, Israel" />
+            </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Profile picture is required!",
+                },
+              ]}
+            >
               <Input
-                type="text"
-                name="location"
-                placeholder="Mitspe Ramon, Israel"
-                onChange={props.handleChange}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Password</Label>
-              <Input
-                type="password"
                 placeholder="Password"
                 autoComplete="off"
-                onChange={props.handleChange}
-                name="password"
+                type="password"
               />
-            </FormGroup>
-          </Col>
-          <Col span={12}>
-            <FormGroup>
-              <CustomInput
-                id="showOnWebsite"
-                label="Show on listeners website?"
-                type="switch"
-                onClick={props.handleChange}
-                name="showOnWebsite"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Button
-              color="primary"
-              onClick={props.handleSubmit}
-              disabled={this.state.isLoading}
-            >
-              Submit
-            </Button>
-            {this.state.isLoading && <Spinner color="primary" />}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
+            </Form.Item>
+            <Form.Item label="Show on site?" name="showOnWebsite">
+              <Switch />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={this.state.isLoading}
+                disabled={this.state.isLoading}
+              >
+                Submit
+              </Button>
+            </Form.Item>
             {this.state.error && (
               <Alert type="error" message={this.state.error} />
             )}
-          </Col>
-        </Row>
-      </Space>
+          </Form>
+        </Col>
+      </Row>
     );
   }
 
@@ -228,24 +217,7 @@ export class CreateUserPage extends React.Component<Props, State> {
     return (
       <Page breadcrumbs={["Users"]} title="Create User">
         <Form autoComplete="off">
-          <Card>
-            <Card.Content>
-              <Formik
-                initialValues={{
-                  fullname: "",
-                  password: "",
-                  email: "",
-                  location: "",
-                  profile_picture: "",
-                }}
-                render={(props) => this.renderCreateUserForm(props)}
-                onSubmit={(values: CreateUserRequest) =>
-                  this.onFormSubmit(values)
-                }
-                // validationSchema={this.schema}
-              />
-            </Card.Content>
-          </Card>
+          <Card>{this.renderCreateUserForm()}</Card>
         </Form>
       </Page>
     );

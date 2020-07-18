@@ -4,7 +4,7 @@ import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../stores/identity.store";
 import ProgramsStore from "../../../stores/programs.store";
 
-import { Table } from "reactstrap";
+import { Table } from "antd";
 import { Page } from "../../../components/Page/Page";
 import { IProgram } from "../../../models/types";
 import { Card } from "../../../components/Card/Card";
@@ -19,6 +19,24 @@ interface State {
   isLoading: boolean;
 }
 
+const columns = [
+  {
+    title: "#",
+    dataIndex: "id",
+    key: "id",
+  },
+  {
+    title: "Name",
+    dataIndex: "name_en",
+    key: "inamed",
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+  },
+];
+
 @inject("identityStore", "programsStore")
 @observer
 export class ProgramsPage extends React.Component<Props, State> {
@@ -27,7 +45,7 @@ export class ProgramsPage extends React.Component<Props, State> {
 
     this.state = {
       programs: [],
-      isLoading: true,
+      isLoading: false,
     };
   }
 
@@ -51,42 +69,13 @@ export class ProgramsPage extends React.Component<Props, State> {
       <Page title="Programs Page" breadcrumbs={["Home"]}>
         <Card>
           <Card.Content>
-            <Table hover responsive>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Users</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.programs.map((program) => {
-                  return (
-                    <tr
-                      key={program.id}
-                      style={{ cursor: "pointer" }}
-                      onClick={() =>
-                        this.props.history.push(`/programs/${program.id}`)
-                      }
-                    >
-                      <th scope="row">{program.id}</th>
-                      <td>{program.name_en}</td>
-                      <td>{program.description}</td>
-                      <td>
-                        {program.users.map((user) => {
-                          return (
-                            <span key={`user-${user.id}`}>
-                              {user.name},&nbsp;
-                            </span>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <Table
+              columns={columns}
+              dataSource={this.state.programs}
+              onRow={(record) => ({
+                onClick: () => this.props.history.push(`programs/${record.id}`),
+              })}
+            />
           </Card.Content>
         </Card>
       </Page>

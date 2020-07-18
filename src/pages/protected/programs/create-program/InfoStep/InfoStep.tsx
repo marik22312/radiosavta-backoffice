@@ -9,10 +9,10 @@ import {
   TimePicker,
   Button,
   Upload,
-  Select,
-  Avatar,
 } from "antd";
 import { IUser } from "../../../../../models/types";
+
+import { UsersDropdown } from "../../../../../components/UserDropdown/UserDropdown";
 
 export interface InfoStepProps {
   crew: IUser[];
@@ -23,7 +23,6 @@ export interface InfoStepProps {
 export const InfoStep: React.FC<InfoStepProps> = (props) => {
   const DATE_FORMAT = "HH:mm";
   const [picturePreview, setPicturePreview] = useState("");
-  // TODO: Move rules and values to ,constants
   return (
     <Row style={{ marginTop: "5px" }}>
       <Col span={24}>
@@ -149,27 +148,7 @@ export const InfoStep: React.FC<InfoStepProps> = (props) => {
                 },
               ]}
             >
-              <Select
-                defaultValue={[]}
-                mode="multiple"
-                style={{ width: "100%" }}
-                placeholder="Select at least 1 crew member"
-              >
-                {props.crew.map((u) => {
-                  return (
-                    <Select.Option key={u.id} value={u.id} label={u.name}>
-                      <Avatar
-                        shape="square"
-                        size="small"
-                        src={`https://res.cloudinary.com/marik-shnitman/image/upload/w_254/v1547932540/${u.profile_image}`}
-                      >
-                        {u.name}
-                      </Avatar>{" "}
-                      {u.name}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
+              <UsersDropdown users={props.crew} multiple />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
