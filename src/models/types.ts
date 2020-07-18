@@ -47,6 +47,7 @@ export interface IProgram extends ModelWithTimestamps {
 export interface IFullProgram extends ModelWithTimestamps, IProgram {
   users: IUser[];
   recorded_shows: IRecordedShow[];
+  programTimes: Record<string, any>;
 }
 
 export interface CreateProgramRequestProgram {
