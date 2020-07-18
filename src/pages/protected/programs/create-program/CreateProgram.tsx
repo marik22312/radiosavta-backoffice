@@ -38,6 +38,7 @@ interface CreateProgramPageState {
   users: IUser[];
   form: any;
   imagePreview: string;
+  isLoading: boolean;
 }
 
 @inject("usersStore", "programsService")
@@ -55,6 +56,7 @@ export class CreateProgramPage extends React.Component<
       users: [],
       form: {},
       imagePreview: "",
+      isLoading: true,
     };
 
     this.steps = [
@@ -124,6 +126,7 @@ export class CreateProgramPage extends React.Component<
             day_of_week={this.state.form.day_of_week}
             time={moment(this.state.form.program_time).format("HH:mm")}
             onSubmit={() => this.onSubmit()}
+            isLoading={this.state.isLoading}
           />
         );
       default:
@@ -133,13 +136,16 @@ export class CreateProgramPage extends React.Component<
 
   private async onSubmit() {
     const { form } = this.state;
+    this.setState({
+      isLoading: true,
+    });
 
     const request = {
       program: {
         name: form.name,
         description: form.description,
       },
-      cover_image: form.picture.file,
+      cover_image: form.picture.file.originFileObj,
       users: form.crew,
       program_time: {
         day_of_week: form.day_of_week,
@@ -147,10 +153,8 @@ export class CreateProgramPage extends React.Component<
       },
     };
 
-    const response = await this.props.programsService.createProgram(request);
-    console.log(response);
-    // publish
-    // redirect to newly created program
+    const program = await this.props.programsService.createProgram(request);
+    this.props.history.push(`/programs/${program.programId}`);
   }
 
   render() {

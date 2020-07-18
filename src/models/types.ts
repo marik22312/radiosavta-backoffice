@@ -61,5 +61,5 @@ export interface CreateProgramRequest {
   program: CreateProgramRequestProgram;
   program_time: CreateProgramRequestProgramTime;
   users: number[];
-  cover_image: File;
+  cover_image: string;
 }

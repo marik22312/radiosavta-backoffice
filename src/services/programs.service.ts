@@ -81,11 +81,11 @@ export class ProgramsService implements IProgramsService {
   public async createProgram(program: CreateProgramRequest) {
     const form = new FormData();
     form.append("program", JSON.stringify(program.program));
-    // form.append("users", "1");
-    // form.append("program_time", JSON.stringify(program.program_time));
-    // form.append("cover_image", JSON.stringify(program.cover_image));
+    form.append("users", JSON.stringify(program.users));
+    form.append("program_time", JSON.stringify(program.program_time));
+    form.append("cover_image", program.cover_image);
 
-    const reponse = await this.api.post("/admin/users/", form, {
+    const reponse = await this.api.post("/admin/programs/", form, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },

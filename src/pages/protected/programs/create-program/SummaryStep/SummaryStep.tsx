@@ -20,6 +20,7 @@ interface SummaryStepProps {
   day_of_week?: number;
   time?: string;
   crew?: IUser[];
+  isLoading?: boolean;
   onSubmit(): void;
 }
 
@@ -82,7 +83,12 @@ export const SummaryStep: React.FC<SummaryStepProps> = (props) => {
         </Row>
         <Row>
           <Col span={24}>
-            <Button type="primary" onClick={props.onSubmit}>
+            <Button
+              type="primary"
+              onClick={props.onSubmit}
+              loading={props.isLoading}
+              disabled={props.isLoading}
+            >
               Submit!
             </Button>
           </Col>
