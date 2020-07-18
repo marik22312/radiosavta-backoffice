@@ -64,9 +64,10 @@ describe("Programs Service Tests", () => {
 
     await programsService.addUserToShow(programId, userId);
 
-    expect(
-      apiService.post
-    ).toBeCalledWith(`/admin/programs/${programId}/availableUsers`, { userId });
+    expect(apiService.post).toBeCalledWith(
+      `/admin/programs/${programId}/users`,
+      { userId }
+    );
   });
 
   it("Should call ValidateRecordedShow api service correctly", async () => {
