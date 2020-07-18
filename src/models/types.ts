@@ -48,3 +48,18 @@ export interface IFullProgram extends ModelWithTimestamps, IProgram {
   users: IUser[];
   recorded_shows: IRecordedShow[];
 }
+
+export interface CreateProgramRequestProgram {
+  name: string;
+  description: string;
+}
+export interface CreateProgramRequestProgramTime {
+  day_of_week: number;
+  start_time: string;
+}
+export interface CreateProgramRequest {
+  program: CreateProgramRequestProgram;
+  program_time: CreateProgramRequestProgramTime;
+  users: number[];
+  cover_image: string;
+}

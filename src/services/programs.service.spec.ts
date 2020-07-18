@@ -4,6 +4,11 @@ import {
 } from "./programs.service";
 
 import Chance from "chance";
+import {
+  CreateProgramRequest,
+  CreateProgramRequestProgram,
+  CreateProgramRequestProgramTime,
+} from "../models/types";
 
 const chance = new Chance();
 
@@ -98,5 +103,40 @@ describe("Programs Service Tests", () => {
       `/admin/programs/${programId}/recordings`,
       recordedShow
     );
+  });
+
+  it("Should call createProgram api service correctly", async () => {
+    const programTimes: CreateProgramRequestProgramTime = {
+      day_of_week: chance.integer({ min: 0, max: 6 }),
+      start_time: "11:00",
+    };
+    const program: CreateProgramRequestProgram = {
+      name: chance.string(),
+      description: chance.sentence(),
+    };
+    const request: CreateProgramRequest = {
+      program,
+      program_time: programTimes,
+      users: [chance.integer()],
+      cover_image: chance.url(),
+    };
+    apiService.post.mockResolvedValue({
+      data: {},
+    });
+    const programsService = new ProgramsService(apiService);
+
+    const form = new FormData();
+    form.append("program", JSON.stringify(request.program));
+    form.append("users", JSON.stringify(request.users));
+    form.append("program_time", JSON.stringify(request.program_time));
+    form.append("cover_image", request.cover_image);
+
+    await programsService.createProgram(request);
+
+    expect(apiService.post).toBeCalledWith(`/admin/programs`, form, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
   });
 });

@@ -7,6 +7,7 @@ import {
   UserOutlined,
   UserAddOutlined,
   UnorderedListOutlined,
+  FileAddOutlined,
 } from "@ant-design/icons";
 
 import { Layout, Menu } from "antd";
@@ -66,6 +67,12 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
           url: "/programs",
           title: "All Programs",
           icon: <UnorderedListOutlined />,
+        },
+        {
+          id: 2,
+          url: "/programs/create",
+          title: "Create program",
+          icon: <FileAddOutlined />,
         },
       ],
     },
