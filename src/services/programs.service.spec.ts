@@ -125,8 +125,18 @@ describe("Programs Service Tests", () => {
     });
     const programsService = new ProgramsService(apiService);
 
+    const form = new FormData();
+    form.append("program", JSON.stringify(request.program));
+    form.append("users", JSON.stringify(request.users));
+    form.append("program_time", JSON.stringify(request.program_time));
+    form.append("cover_image", request.cover_image);
+
     await programsService.createProgram(request);
 
-    expect(apiService.post).toBeCalledWith(`/admin/programs`, request);
+    expect(apiService.post).toBeCalledWith(`/admin/programs`, form, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    });
   });
 });

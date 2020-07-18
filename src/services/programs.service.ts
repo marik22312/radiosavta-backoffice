@@ -85,7 +85,7 @@ export class ProgramsService implements IProgramsService {
     form.append("program_time", JSON.stringify(program.program_time));
     form.append("cover_image", program.cover_image);
 
-    const reponse = await this.api.post("/admin/programs/", form, {
+    const reponse = await this.api.post("/admin/programs", form, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
