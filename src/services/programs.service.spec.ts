@@ -113,12 +113,12 @@ describe("Programs Service Tests", () => {
     const program: CreateProgramRequestProgram = {
       name: chance.string(),
       description: chance.sentence(),
-      image: new File([""], "filename"),
     };
     const request: CreateProgramRequest = {
       program,
       program_time: programTimes,
       users: [chance.integer()],
+      cover_image: chance.url(),
     };
     apiService.post.mockResolvedValue({
       data: {},
