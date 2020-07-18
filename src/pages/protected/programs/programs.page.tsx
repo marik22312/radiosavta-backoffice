@@ -45,7 +45,7 @@ export class ProgramsPage extends React.Component<Props, State> {
 
     this.state = {
       programs: [],
-      isLoading: true,
+      isLoading: false,
     };
   }
 
