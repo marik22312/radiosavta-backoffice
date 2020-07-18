@@ -5,13 +5,21 @@ import * as Yup from "yup";
 
 import IdentityStore from "../../../../stores/identity.store";
 
-import { Alert, Form, Switch, Button, Upload, Input } from "antd";
+import {
+  Alert,
+  Form,
+  Switch,
+  Button,
+  Upload,
+  Input,
+  Row,
+  Col,
+  Card,
+} from "antd";
 
 import { Page } from "../../../../components/Page/Page";
 import { IUser } from "../../../../models/types";
 import UsersStore from "../../../../stores/users.store";
-import { Card } from "../../../../components/Card/Card";
-import { Formik, FormikProps } from "formik";
 import { CreateUserRequest } from "../../../../services/users.service";
 
 interface Props extends RouteComponentProps {
@@ -89,60 +97,119 @@ export class CreateUserPage extends React.Component<Props, State> {
 
   private renderCreateUserForm() {
     return (
-      <Form
-        onFinish={(values: any) => this.onFormSubmit(values)}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 12 }}
-      >
-        {this.state.fileUrl ? (
-          <img
-            src={this.state.fileUrl}
-            alt="show preview"
-            style={{ maxWidth: "100%", height: "auto" }}
-          />
-        ) : (
-          <Form.Item name="profile_picture">
-            <Upload.Dragger
-              listType="picture"
-              showUploadList={false}
-              accept="image/*"
-              customRequest={(e) => this.onFileChanged(e)}
-            >
-              <p>Upload an image</p>
-            </Upload.Dragger>
-          </Form.Item>
-        )}
-        <Form.Item label="Full name" name="fullname">
-          <Input id="fullname" placeholder="John Smith" />
-        </Form.Item>
-        <Form.Item label="Email Address" name="email">
-          <Input
-            type="email"
-            placeholder="Johns@radiosavta.com"
-            autoComplete="off"
-          />
-        </Form.Item>
-        <Form.Item label="Location" name="location">
-          <Input placeholder="Mitspe Ramon, Israel" />
-        </Form.Item>
-        <Form.Item label="Password" name="password">
-          <Input placeholder="Password" autoComplete="off" />
-        </Form.Item>
-        <Form.Item label="Show on site?" name="showOnWebsite">
-          <Switch />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={this.state.isLoading}
-            disabled={this.state.isLoading}
+      <Row>
+        <Col span={24}>
+          <Form
+            onFinish={(values: any) => this.onFormSubmit(values)}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 14 }}
           >
-            Submit
-          </Button>
-        </Form.Item>
-        {this.state.error && <Alert type="error" message={this.state.error} />}
-      </Form>
+            {this.state.fileUrl ? (
+              <img
+                src={this.state.fileUrl}
+                alt="show preview"
+                style={{ maxWidth: "100%", height: "auto" }}
+              />
+            ) : (
+              <Form.Item
+                label="Profile Picture"
+                name="profile_picture"
+                rules={[
+                  {
+                    required: true,
+                    message: "Profile picture is required!",
+                  },
+                ]}
+              >
+                <Upload.Dragger
+                  listType="picture"
+                  showUploadList={false}
+                  accept="image/*"
+                  customRequest={(e) => this.onFileChanged(e)}
+                >
+                  <p>Upload an image</p>
+                </Upload.Dragger>
+              </Form.Item>
+            )}
+            <Form.Item
+              label="Full name"
+              name="fullname"
+              rules={[
+                {
+                  required: true,
+                  message: "Full name is required!",
+                },
+                {
+                  min: 3,
+                  message: "User name must be atleast 3 characters long",
+                },
+              ]}
+            >
+              <Input id="fullname" placeholder="John Smith" />
+            </Form.Item>
+            <Form.Item
+              label="Email Address"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Email is required!",
+                },
+              ]}
+            >
+              <Input
+                type="email"
+                placeholder="Johns@radiosavta.com"
+                autoComplete="off"
+              />
+            </Form.Item>
+            <Form.Item
+              label="Location"
+              name="location"
+              rules={[
+                {
+                  required: true,
+                  message: "Profile picture is required!",
+                },
+              ]}
+            >
+              <Input placeholder="Mitspe Ramon, Israel" />
+            </Form.Item>
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Profile picture is required!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Password"
+                autoComplete="off"
+                type="password"
+              />
+            </Form.Item>
+            <Form.Item label="Show on site?" name="showOnWebsite">
+              <Switch />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={this.state.isLoading}
+                disabled={this.state.isLoading}
+              >
+                Submit
+              </Button>
+            </Form.Item>
+            {this.state.error && (
+              <Alert type="error" message={this.state.error} />
+            )}
+          </Form>
+        </Col>
+      </Row>
     );
   }
 
@@ -150,9 +217,7 @@ export class CreateUserPage extends React.Component<Props, State> {
     return (
       <Page breadcrumbs={["Users"]} title="Create User">
         <Form autoComplete="off">
-          <Card>
-            <Card.Content>{this.renderCreateUserForm()}</Card.Content>
-          </Card>
+          <Card>{this.renderCreateUserForm()}</Card>
         </Form>
       </Page>
     );

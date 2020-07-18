@@ -56,7 +56,7 @@ export default class IdentityStore {
         const { data } = await this.identityService.getUser(this.token);
         this.user = data;
       } catch (e) {
-        if (e.response.status === 401) {
+        if (e.response?.status === 401) {
           this.logout();
         }
       }
