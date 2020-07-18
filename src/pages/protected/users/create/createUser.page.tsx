@@ -5,17 +5,7 @@ import * as Yup from "yup";
 
 import IdentityStore from "../../../../stores/identity.store";
 
-import {
-  FormGroup,
-  Label,
-  Input,
-  Form,
-  Button,
-  Spinner,
-  CustomInput,
-} from "reactstrap";
-
-import { Col, Row, Alert, Space } from "antd";
+import { Alert, Form, Switch, Button, Upload, Input } from "antd";
 
 import { Page } from "../../../../components/Page/Page";
 import { IUser } from "../../../../models/types";
@@ -55,7 +45,7 @@ export class CreateUserPage extends React.Component<Props, State> {
 
     this.state = {
       users: [],
-      fileUrl: "https://via.placeholder.com/500",
+      fileUrl: "",
       fileToUpload: null,
       isLoading: false,
       error: null,
@@ -92,135 +82,67 @@ export class CreateUserPage extends React.Component<Props, State> {
 
   private onFileChanged(event: any) {
     this.setState({
-      fileUrl: URL.createObjectURL(event.target.files[0]),
-      fileToUpload: event.target.files[0],
+      fileUrl: URL.createObjectURL(event.file),
+      fileToUpload: event.file,
     });
   }
 
-  private renderCreateUserForm(props: FormikProps<any>) {
+  private renderCreateUserForm() {
     return (
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Row>
-          <Col span={24}>
-            <div
-              className="form-image-container"
-              style={{
-                height: "200px",
-              }}
+      <Form
+        onFinish={(values: any) => this.onFormSubmit(values)}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {this.state.fileUrl ? (
+          <img
+            src={this.state.fileUrl}
+            alt="show preview"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        ) : (
+          <Form.Item name="profile_picture">
+            <Upload.Dragger
+              listType="picture"
+              showUploadList={false}
+              accept="image/*"
+              customRequest={(e) => this.onFileChanged(e)}
             >
-              {this.state.fileUrl && (
-                <img
-                  src={this.state.fileUrl}
-                  style={{
-                    width: "auto",
-                    height: "100%",
-                  }}
-                  alt="to upload"
-                />
-              )}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <FormGroup>
-              <Label>Profile picture</Label>
-              <Input
-                type="file"
-                accept="image/jpeg image/png"
-                name="profile_picture"
-                onChange={(e) => {
-                  this.onFileChanged(e);
-                  props.handleChange(e);
-                }}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Full name</Label>
-              <Input
-                type="text"
-                name="fullname"
-                id="fullname"
-                placeholder="John Smith"
-                onChange={props.handleChange}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Email</Label>
-              <Input
-                type="email"
-                name="email"
-                placeholder="Johns@radiosavta.com"
-                autoComplete="off"
-                onChange={props.handleChange}
-              />
-            </FormGroup>
-          </Col>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Location</Label>
-              <Input
-                type="text"
-                name="location"
-                placeholder="Mitspe Ramon, Israel"
-                onChange={props.handleChange}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <FormGroup>
-              <Label>Password</Label>
-              <Input
-                type="password"
-                placeholder="Password"
-                autoComplete="off"
-                onChange={props.handleChange}
-                name="password"
-              />
-            </FormGroup>
-          </Col>
-          <Col span={12}>
-            <FormGroup>
-              <CustomInput
-                id="showOnWebsite"
-                label="Show on listeners website?"
-                type="switch"
-                onClick={props.handleChange}
-                name="showOnWebsite"
-              />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Button
-              color="primary"
-              onClick={props.handleSubmit}
-              disabled={this.state.isLoading}
-            >
-              Submit
-            </Button>
-            {this.state.isLoading && <Spinner color="primary" />}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            {this.state.error && (
-              <Alert type="error" message={this.state.error} />
-            )}
-          </Col>
-        </Row>
-      </Space>
+              <p>Upload an image</p>
+            </Upload.Dragger>
+          </Form.Item>
+        )}
+        <Form.Item label="Full name" name="fullname">
+          <Input id="fullname" placeholder="John Smith" />
+        </Form.Item>
+        <Form.Item label="Email Address" name="email">
+          <Input
+            type="email"
+            placeholder="Johns@radiosavta.com"
+            autoComplete="off"
+          />
+        </Form.Item>
+        <Form.Item label="Location" name="location">
+          <Input placeholder="Mitspe Ramon, Israel" />
+        </Form.Item>
+        <Form.Item label="Password" name="password">
+          <Input placeholder="Password" autoComplete="off" />
+        </Form.Item>
+        <Form.Item label="Show on site?" name="showOnWebsite">
+          <Switch />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={this.state.isLoading}
+            disabled={this.state.isLoading}
+          >
+            Submit
+          </Button>
+        </Form.Item>
+        {this.state.error && <Alert type="error" message={this.state.error} />}
+      </Form>
     );
   }
 
@@ -229,22 +151,7 @@ export class CreateUserPage extends React.Component<Props, State> {
       <Page breadcrumbs={["Users"]} title="Create User">
         <Form autoComplete="off">
           <Card>
-            <Card.Content>
-              <Formik
-                initialValues={{
-                  fullname: "",
-                  password: "",
-                  email: "",
-                  location: "",
-                  profile_picture: "",
-                }}
-                render={(props) => this.renderCreateUserForm(props)}
-                onSubmit={(values: CreateUserRequest) =>
-                  this.onFormSubmit(values)
-                }
-                // validationSchema={this.schema}
-              />
-            </Card.Content>
+            <Card.Content>{this.renderCreateUserForm()}</Card.Content>
           </Card>
         </Form>
       </Page>

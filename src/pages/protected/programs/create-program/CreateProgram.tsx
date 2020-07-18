@@ -93,7 +93,6 @@ export class CreateProgramPage extends React.Component<
   }
 
   private onFormFinished(formValues: any) {
-    console.log(formValues);
     const imagePreview = URL.createObjectURL(
       formValues.picture.file.originFileObj
     );

@@ -1,19 +1,9 @@
-import { Formik, FormikProps } from "formik";
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../stores/identity.store";
 
-import {
-  Button,
-  Col,
-  Container,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from "reactstrap";
+import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
 
 interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
@@ -22,81 +12,111 @@ interface Props extends RouteComponentProps {
 interface LoginFormValues {
   email: string;
   password: string;
+  isLoading: boolean;
+}
+
+interface LoginPageState {
+  isLoading: boolean;
+  error: any;
 }
 
 @inject("identityStore")
 @observer
-export class LoginPage extends React.Component<Props, Record<string, unknown>> {
-  public render() {
-    const initialValues: LoginFormValues = { email: "", password: "" };
+export class LoginPage extends React.Component<Props, LoginPageState> {
+  constructor(props: Props) {
+    super(props);
 
+    this.state = {
+      isLoading: false,
+      error: null,
+    };
+  }
+  public render() {
     return (
-      <Container fluid>
-        <Row className="justify-content-center align-items-center">
-          <Col xs={4}>
+      <Row
+        justify="center"
+        align="middle"
+        style={{
+          height: "100%",
+        }}
+      >
+        <Col span={8}>
+          <Card>
             <Row>
-              <Col xs={12}>
+              <Col span={24}>
                 <h1>Login</h1>
               </Col>
             </Row>
-            <Formik
-              initialValues={initialValues}
-              onSubmit={this.onFormSubmit}
-              render={this.renderForm}
-            />
-          </Col>
-        </Row>
-      </Container>
+            {this.renderForm()}
+          </Card>
+        </Col>
+      </Row>
     );
   }
 
   public onFormSubmit = async (values: LoginFormValues) => {
     try {
+      this.setState({
+        isLoading: true,
+      });
       await this.props.identityStore.preformLogin(values);
       this.props.history.push("/");
     } catch (error) {
-      console.log("ERR");
+      this.setState({
+        isLoading: false,
+        error: error.message,
+      });
     }
   };
 
-  private renderForm(formikProps: FormikProps<LoginFormValues>) {
+  private renderForm() {
     return (
-      <Form>
-        <FormGroup row>
-          <Label for="userEmail" sm={12}>
-            Email
-          </Label>
-          <Col sm={12}>
-            <Input
-              type="email"
-              name="email"
-              id="userEmail"
-              placeholder="user@radiosavta.com"
-              onChange={formikProps.handleChange}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Label for="userPassword" sm={12}>
-            Password
-          </Label>
-          <Col sm={12}>
-            <Input
-              type="password"
-              name="password"
-              id="userPassword"
-              placeholder="user@radiosavta.com"
-              onChange={formikProps.handleChange}
-            />
-          </Col>
-        </FormGroup>
-        <FormGroup row>
-          <Col sm={12}>
-            <Button color={"primary"} onClick={formikProps.submitForm}>
-              Submit
-            </Button>
-          </Col>
-        </FormGroup>
+      <Form
+        onFinish={(fields: any) => this.onFormSubmit(fields)}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 18 }}
+      >
+        <Form.Item
+          labelAlign="left"
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "Name is required!",
+            },
+            {
+              type: "email",
+              message: "Invalid email!",
+            },
+          ]}
+        >
+          <Input type="email" />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          labelAlign="left"
+          label="password"
+          rules={[
+            {
+              required: true,
+              message: "Please type a password",
+            },
+          ]}
+        >
+          <Input type="password" />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type={"primary"}
+            htmlType="submit"
+            loading={this.state.isLoading}
+            disabled={this.state.isLoading}
+          >
+            Submit
+          </Button>
+        </Form.Item>
+        {this.state.error && <Alert type="error" message={this.state.error} />}
       </Form>
     );
   }

@@ -1,7 +1,9 @@
-import { ProgramUser } from "../../models/types";
-import React, { useState } from "react";
-import { FormGroup, Input } from "reactstrap";
 import { Col, Button } from "antd";
+import React, { useState } from "react";
+
+import { ProgramUser } from "../../models/types";
+
+import { UsersDropdown } from "../UserDropdown/UserDropdown";
 
 export interface AddUserToShowCardProps {
   availableUsers: ProgramUser[];
@@ -15,26 +17,10 @@ export const AddUserToShowCard: React.FC<AddUserToShowCardProps> = (props) => {
   return (
     <React.Fragment>
       <Col span={18}>
-        <FormGroup>
-          <Input
-            type="select"
-            name="user-to-show-select"
-            id="exampleSelect"
-            onChange={(e) => setSelectedUser(parseInt(e.target.value))}
-            value={selectedUser}
-          >
-            <option disabled selected value={""}>
-              -- select an option --
-            </option>
-            {props.availableUsers.map((u: ProgramUser) => {
-              return (
-                <option key={u.id} value={u.id}>
-                  {u.name}
-                </option>
-              );
-            })}
-          </Input>
-        </FormGroup>
+        <UsersDropdown
+          users={props.availableUsers}
+          onChange={(userId: number) => setSelectedUser(userId)}
+        />
       </Col>
       <Col span={6}>
         <Button type="primary" onClick={() => props.onSave(selectedUser!)}>

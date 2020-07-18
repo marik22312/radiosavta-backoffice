@@ -60,7 +60,7 @@ export class ProgramsService implements IProgramsService {
 
   public async addUserToShow(programId: IProgram["id"], userId: IUser["id"]) {
     const response = await this.api.post<any>(
-      `/admin/programs/${programId}/availableUsers`,
+      `/admin/programs/${programId}/users`,
       {
         userId,
       }

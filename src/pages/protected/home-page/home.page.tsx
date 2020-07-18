@@ -1,14 +1,29 @@
-import { inject, observer } from "mobx-react";
 import * as React from "react";
+import { inject, observer } from "mobx-react";
 import { RouteComponentProps } from "react-router-dom";
 import IdentityStore from "../../../stores/identity.store";
 
 import Interval from "react-interval";
 
-import { Col, Container, Row } from "reactstrap";
+import { Col, Row, Card, List, Typography } from "antd";
 import { Page } from "../../../components/Page/Page";
 import { StatCard } from "../../../components/StatCard/StatCart";
 import BaseApiService from "../../../services/base.api.service";
+
+const announcments = [
+  {
+    date: "17.07.2020",
+    content: "Added remove user from program",
+  },
+  {
+    date: "17.07.2020",
+    content: "Added Create new program",
+  },
+  {
+    date: "15.06.2020",
+    content: "Added Create new user",
+  },
+];
 
 interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
@@ -48,31 +63,66 @@ export class HomePage extends React.Component<Props, State> {
     );
     return (
       <Page>
-        <Container>
-          <Row>
-            <Col xs={4}>
-              <StatCard
-                title="Live Listeners"
-                body={this.state.stats.listeners}
+        <Row>
+          <Col span={24}>
+            <Card title="Whats new?">
+              <List
+                bordered
+                dataSource={announcments}
+                renderItem={(item) => (
+                  <List.Item>
+                    <Typography.Text mark>[{item.date}]</Typography.Text>
+                    {" - "}
+                    {item.content}
+                  </List.Item>
+                )}
               />
-            </Col>
-            <Col xs={12} md={4}>
-              <StatCard
-                title={"Listeners Peak"}
-                body={this.state.stats.listener_peak}
-                units={`Since ${date}`}
-              />
-            </Col>
-            <Col xs={12} md={4}>
-              <StatCard
-                interactive
-                title="Create User"
-                body="+"
-                onClick={() => this.props.history.push("/users/create")}
-              ></StatCard>
-            </Col>
-          </Row>
-        </Container>
+            </Card>
+          </Col>
+        </Row>
+        <Row
+          justify="space-between"
+          style={{
+            marginTop: 15,
+          }}
+        >
+          <Col span={7}>
+            <StatCard
+              title="Live Listeners"
+              body={this.state.stats.listeners}
+            />
+          </Col>
+          <Col span={7}>
+            <StatCard
+              title={"Listeners Peak"}
+              body={this.state.stats.listener_peak}
+              units={`Since ${date}`}
+            />
+          </Col>
+          <Col span={7}>
+            <StatCard
+              interactive
+              title="Create User"
+              body="+"
+              onClick={() => this.props.history.push("/users/create")}
+            ></StatCard>
+          </Col>
+        </Row>
+        <Row
+          justify="space-between"
+          style={{
+            marginTop: "15px",
+          }}
+        >
+          <Col span={7}>
+            <StatCard
+              interactive
+              title="Create Program"
+              body="+"
+              onClick={() => this.props.history.push("/programs/create")}
+            ></StatCard>
+          </Col>
+        </Row>
         <Interval
           callback={() => this.fetchStats()}
           enabled={true}
