@@ -30,7 +30,10 @@ export const InfoStep: React.FC<InfoStepProps> = (props) => {
           <Form
             labelCol={{ span: 6 }}
             wrapperCol={{ span: 12 }}
-            onFinish={(values) => props.onFinished(values)}
+            onFinish={(values) => {
+              console.log("values", values);
+              props.onFinished(values);
+            }}
             scrollToFirstError
           >
             <Form.Item

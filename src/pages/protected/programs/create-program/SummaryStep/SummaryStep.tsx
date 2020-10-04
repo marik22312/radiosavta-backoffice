@@ -17,7 +17,7 @@ interface SummaryStepProps {
   picture?: string;
   name?: string;
   description?: string;
-  day_of_week?: number;
+  day_of_week?: string;
   time?: string;
   crew?: IUser[];
   isLoading?: boolean;
@@ -58,7 +58,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = (props) => {
           <Col span={24}>
             <Descriptions layout="vertical">
               <Descriptions.Item label="Day of week">
-                {moment.weekdays(day_of_week!)}
+                {moment.weekdays(parseInt(day_of_week!, 10))}
               </Descriptions.Item>
               <Descriptions.Item label="Time">{time}</Descriptions.Item>
             </Descriptions>

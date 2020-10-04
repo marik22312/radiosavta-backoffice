@@ -123,7 +123,7 @@ export class CreateProgramPage extends React.Component<
             name={this.state.form.name}
             description={this.state.form.description}
             day_of_week={this.state.form.day_of_week}
-            time={moment(this.state.form.program_time).format("HH:mm")}
+            time={moment(this.state.form.program_times).format("HH:mm")}
             onSubmit={() => this.onSubmit()}
             isLoading={this.state.isLoading}
           />
@@ -148,7 +148,7 @@ export class CreateProgramPage extends React.Component<
       users: form.crew,
       program_time: {
         day_of_week: form.day_of_week,
-        start_time: moment(this.state.form.program_time).format("HH:mm"),
+        start_time: moment(this.state.form.program_times).format("HH:mm"),
       },
     };
 
