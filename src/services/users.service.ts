@@ -13,7 +13,7 @@ export class UsersService implements IUsersService {
   constructor(private api: IBaseApiService) {}
 
   public async getAllUsers() {
-    const response = await this.api.get<IUser[]>("/users");
+    const response = await this.api.get<IUser[]>("/admin/users");
     return response.data;
   }
 

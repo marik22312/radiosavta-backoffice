@@ -22,6 +22,7 @@ import { SingleProgramPage } from "./pages/protected/programs/singleProgram/sing
 import { CreateUserPage } from "./pages/protected/users/create/createUser.page";
 import IdentityStore from "./stores/identity.store";
 import { CreateProgramPage } from "./pages/protected/programs/create-program/CreateProgram";
+import { UsersPage } from "./pages/protected/users/Users.page";
 
 const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
   const { isLoggedIn } = props;
@@ -44,6 +45,7 @@ const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
               component={CreateProgramPage}
             />
             <Route path="/programs/:id" exact component={SingleProgramPage} />
+            <Route path="/users" exact component={UsersPage} />
             <Route path="/users/create" exact component={CreateUserPage} />
             <Route component={() => <Redirect to="/" />} />
           </Switch>
