@@ -51,6 +51,12 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
       children: [
         {
           id: 1,
+          url: "/users",
+          title: "Users List",
+          icon: <UnorderedListOutlined />,
+        },
+        {
+          id: 1,
           url: "/users/create",
           title: "Create user",
           icon: <UserAddOutlined />,

@@ -12,16 +12,16 @@ import BaseApiService from "../../../services/base.api.service";
 
 const announcments = [
   {
+    date: "05.10.2020",
+    content: "Added Users list",
+  },
+  {
     date: "17.07.2020",
     content: "Added remove user from program",
   },
   {
     date: "17.07.2020",
     content: "Added Create new program",
-  },
-  {
-    date: "15.06.2020",
-    content: "Added Create new user",
   },
 ];
 
@@ -52,6 +52,9 @@ export class HomePage extends React.Component<Props, State> {
 
   public render() {
     const { stats } = this.state;
+
+    const isValidStats = Boolean(stats.stream_start);
+
     const options = {
       weekday: "long",
       year: "numeric",
@@ -93,11 +96,15 @@ export class HomePage extends React.Component<Props, State> {
             />
           </Col>
           <Col span={7}>
-            <StatCard
-              title={"Listeners Peak"}
-              body={this.state.stats.listener_peak}
-              units={`Since ${date}`}
-            />
+            {isValidStats ? (
+              <StatCard
+                title={"Listeners Peak"}
+                body={this.state.stats.listener_peak}
+                units={`Since ${date}`}
+              />
+            ) : (
+              <StatCard title={"Stream Source"} body={"AutoDJ"} />
+            )}
           </Col>
           <Col span={7}>
             <StatCard

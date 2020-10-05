@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Select, Avatar } from "antd";
+import { BASE_IMAGES_URL } from "../../config/constants.config";
 
 export interface UserDropdownProps {
   users: any[];
@@ -16,6 +17,8 @@ export const UsersDropdown: React.FC<UserDropdownProps> = (props) => {
       style={{ width: "100%" }}
       placeholder="Select at least 1 crew member"
       onChange={props.onChange}
+      onSearch={(values) => console.log(values)}
+      showSearch
     >
       {props.users.map((u) => {
         return (
@@ -23,7 +26,7 @@ export const UsersDropdown: React.FC<UserDropdownProps> = (props) => {
             <Avatar
               shape="square"
               size="small"
-              src={`https://res.cloudinary.com/marik-shnitman/image/upload/w_254/v1547932540/${u.profile_image}`}
+              src={`${BASE_IMAGES_URL}/${u.profile_image}`}
             >
               {u.name}
             </Avatar>{" "}
