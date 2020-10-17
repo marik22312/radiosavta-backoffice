@@ -13,16 +13,16 @@ import { Schedule } from "../../../components/Schedule/Schedule";
 
 const announcments = [
   {
+    date: "17.10.2020",
+    content: "Added todays agenda",
+  },
+  {
     date: "05.10.2020",
     content: "Added Users list",
   },
   {
     date: "17.07.2020",
     content: "Added remove user from program",
-  },
-  {
-    date: "17.07.2020",
-    content: "Added Create new program",
   },
 ];
 
@@ -90,7 +90,7 @@ export class HomePage extends React.Component<Props, State> {
           }}
         >
           <Col span={24}>
-            <Card title="Broadcast schedule">
+            <Card title="Today's Agenda">
               <Schedule />
             </Card>
           </Col>
