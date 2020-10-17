@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Calendar, ViewKey, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/sass/styles.scss";
 import moment from "moment";
 const localizer = momentLocalizer(moment);
 
@@ -16,9 +17,12 @@ export const Schedule: React.FC = () => {
           title: "test",
         },
       ]}
-      defaultView={"day"}
+      defaultView={"week"}
+      view={"week"}
+      views={["week"]}
       defaultDate={new Date()}
       onSelectEvent={(event) => console.log(event)}
+      toolbar={false}
     />
   );
 };
