@@ -9,8 +9,13 @@ import { Col, Row, Card, List, Typography } from "antd";
 import { Page } from "../../../components/Page/Page";
 import { StatCard } from "../../../components/StatCard/StatCart";
 import BaseApiService from "../../../services/base.api.service";
+import { Schedule } from "../../../components/Schedule/Schedule";
 
 const announcments = [
+  {
+    date: "17.10.2020",
+    content: "Added todays agenda",
+  },
   {
     date: "05.10.2020",
     content: "Added Users list",
@@ -18,10 +23,6 @@ const announcments = [
   {
     date: "17.07.2020",
     content: "Added remove user from program",
-  },
-  {
-    date: "17.07.2020",
-    content: "Added Create new program",
   },
 ];
 
@@ -80,6 +81,17 @@ export class HomePage extends React.Component<Props, State> {
                   </List.Item>
                 )}
               />
+            </Card>
+          </Col>
+        </Row>
+        <Row
+          style={{
+            marginTop: 15,
+          }}
+        >
+          <Col span={24}>
+            <Card title="Today's Agenda">
+              <Schedule />
             </Card>
           </Col>
         </Row>
