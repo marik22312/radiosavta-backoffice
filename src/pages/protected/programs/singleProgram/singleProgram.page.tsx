@@ -19,6 +19,7 @@ import {
 } from "../../../../components/SubmitRecordedShow/SubmitRecordedShow";
 
 import moment from "moment";
+import { EditProgramTimes } from "../../../../components/EditProgramTimes/EditProgramTimes";
 
 interface SingleProgramPageParams {
   id: string;
@@ -35,6 +36,10 @@ enum ProgramsLoaderTypes {
   REMOVE_USER_FROMM_SHOW = "REMOVE_USER_FROMM_SHOW",
 }
 
+enum SingeProgramPageModals {
+  EDIT_TIMES = "EDIT_TIMES",
+}
+
 enum AddRecordedShowStatuses {
   VALIDATE = "VALIDATE",
   SUBMIT = "SUBMIT",
@@ -48,6 +53,7 @@ interface State {
   AddRecordedShowStatus: AddRecordedShowStatuses | null;
   selectedUserToAdd: number | null;
   verifiedRecordedShow: ValidateRecordedShowResponse | null;
+  openModal: SingeProgramPageModals | null;
 }
 
 const columns = [
@@ -92,6 +98,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
       selectedUserToAdd: null,
       loader: null,
       verifiedRecordedShow: null,
+      openModal: null,
     };
   }
 
@@ -168,6 +175,15 @@ export class SingleProgramPage extends React.Component<Props, State> {
         ? null
         : AddRecordedShowStatuses.VALIDATE,
       verifiedRecordedShow: null,
+    });
+  }
+  private toggleEditTimeModal() {
+    console.log("Trigger");
+    this.setState({
+      openModal:
+        this.state.openModal === SingeProgramPageModals.EDIT_TIMES
+          ? null
+          : SingeProgramPageModals.EDIT_TIMES,
     });
   }
 
@@ -295,6 +311,14 @@ export class SingleProgramPage extends React.Component<Props, State> {
                       )} - ${this.state.program?.programTimes.start_time}`,
                     })}
                   </Descriptions>
+                  <div>
+                    <Button
+                      type="primary"
+                      onClick={() => this.toggleEditTimeModal()}
+                    >
+                      Edit time
+                    </Button>
+                  </div>
                 </Space>
               </Card>
             </Col>
@@ -370,6 +394,13 @@ export class SingleProgramPage extends React.Component<Props, State> {
             </Space>
           </React.Fragment>
         )}
+        <EditProgramTimes
+          programId={program?.id}
+          isOpen={this.state.openModal === SingeProgramPageModals.EDIT_TIMES}
+          dayOfWeek={program?.programTimes.day_of_week}
+          startTime={program?.programTimes.start_time}
+          onClose={() => this.toggleEditTimeModal()}
+        />
       </Page>
     );
   }
