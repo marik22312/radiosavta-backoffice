@@ -88,10 +88,6 @@ export class CreateProgramPage extends React.Component<
     return this.state.users.filter((u) => userIds.includes(u.id));
   }
 
-  private convertDayOfWeekToString(dow: number) {
-    console.log(moment.weekdays(3));
-  }
-
   private onFormFinished(formValues: any) {
     const imagePreview = URL.createObjectURL(
       formValues.picture.file.originFileObj
@@ -158,7 +154,6 @@ export class CreateProgramPage extends React.Component<
 
   render() {
     const { currentStep } = this.state;
-    this.convertDayOfWeekToString(0);
     return (
       <Page title="Create Program">
         <React.Fragment>
