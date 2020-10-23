@@ -178,7 +178,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
     });
   }
   private toggleEditTimeModal() {
-    console.log("Trigger");
     this.setState({
       openModal:
         this.state.openModal === SingeProgramPageModals.EDIT_TIMES

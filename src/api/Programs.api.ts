@@ -12,7 +12,6 @@ export const editProgramTime = (
   programId: string | number,
   programTimes: { start_time: string; day_of_week: string }
 ) => {
-  console.log("Sending ", programTimes);
   return HttpClient.put<{ shows: IFullProgram[] }>(
     BASE_API_URL + `/v2/programs/${programId}/program-times`,
     programTimes

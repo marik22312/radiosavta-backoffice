@@ -9,7 +9,6 @@ const localizer = momentLocalizer(moment);
 
 export const Schedule: React.FC = () => {
   const { isLoading, shows } = useTodayShows();
-  console.log("Shows", shows);
 
   const mapShowsToEvents = (shows: IFullProgram[]) => {
     return shows.map((show) => ({
