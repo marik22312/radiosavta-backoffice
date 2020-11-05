@@ -76,10 +76,7 @@ export class CreateUserPage extends React.Component<Props, State> {
     };
     try {
       await this.props.usersStore.createUser(newValues);
-      return this.setState({
-        isLoading: false,
-        error: null,
-      });
+      return this.props.history.push("/users");
     } catch (err) {
       this.setState({
         isLoading: false,
