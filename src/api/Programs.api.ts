@@ -7,6 +7,11 @@ export const getTodaysShows = () => {
     BASE_API_URL + "/v2/programs/today"
   );
 };
+export const getAllPrograms = () => {
+  return HttpClient.get<{ programs: IFullProgram[] }>(
+    BASE_API_URL + "/v2/programs"
+  );
+};
 
 export const editProgramTime = (
   programId: string | number,
