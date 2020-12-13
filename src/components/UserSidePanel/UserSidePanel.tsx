@@ -14,6 +14,7 @@ import {
 import Avatar from "antd/lib/avatar/avatar";
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { useHistory } from "react-router-dom";
+import { IProgram } from "../../models/types";
 
 interface UserSidePanelProps {
   userId: number;
@@ -23,6 +24,26 @@ interface UserSidePanelProps {
 export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
   const { user } = useUserById(props.userId);
   const history = useHistory();
+
+  const renderProgramTile = (program: IProgram) => {
+    return (
+      <Col onClick={() => history.push(`/programs/${program.id}`)}>
+        <div>
+          <Avatar
+            shape="square"
+            size={100}
+            src={`${BASE_IMAGES_URL}/${program.cover_image}`}
+            alt={program.name_en}
+          >
+            No Photo Available
+          </Avatar>
+        </div>
+        <div>
+          <Typography.Text strong>{program.name_en}</Typography.Text>
+        </div>
+      </Col>
+    );
+  };
   return (
     <Drawer
       title={user?.name}
@@ -60,31 +81,17 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
           </Descriptions>
         </Col>
       </Row>
-      <Divider />
-      <Row>
-        <Col span={24}>
-          <Typography.Title level={5}>Participating in</Typography.Title>
-        </Col>
-        {user?.programs.map((program) => {
-          return (
-            <Col onClick={() => history.push(`/programs/${program.id}`)}>
-              <div>
-                <Avatar
-                  shape="square"
-                  size={100}
-                  src={`${BASE_IMAGES_URL}/${program.cover_image}`}
-                  alt={program.name_en}
-                >
-                  No Photo Available
-                </Avatar>
-              </div>
-              <div>
-                <Typography.Text strong>{program.name_en}</Typography.Text>
-              </div>
+      {!!user?.programs.length && (
+        <>
+          <Divider />
+          <Row>
+            <Col span={24}>
+              <Typography.Title level={5}>Participating in</Typography.Title>
             </Col>
-          );
-        })}
-      </Row>
+            {user?.programs.map((program) => renderProgramTile(program))}
+          </Row>
+        </>
+      )}
     </Drawer>
   );
 };
