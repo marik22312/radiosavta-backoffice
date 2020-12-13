@@ -74,7 +74,9 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
                   size={100}
                   src={`${BASE_IMAGES_URL}/${program.cover_image}`}
                   alt={program.name_en}
-                />
+                >
+                  No Photo Available
+                </Avatar>
               </div>
               <div>
                 <Typography.Text strong>{program.name_en}</Typography.Text>
