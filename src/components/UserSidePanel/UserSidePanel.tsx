@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { useUserById } from "../../hooks/useUserById";
 import { createElement } from "react";
+
 import {
+  Avatar,
   Col,
   Descriptions,
   Divider,
@@ -11,7 +13,7 @@ import {
   Space,
   Typography,
 } from "antd";
-import Avatar from "antd/lib/avatar/avatar";
+
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { useHistory } from "react-router-dom";
 import { IProgram } from "../../models/types";
