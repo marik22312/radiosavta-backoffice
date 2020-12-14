@@ -1,8 +1,9 @@
 import { Row, Table, Avatar } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Card } from "../../../components/Card/Card";
 import { Page } from "../../../components/Page/Page";
+import { UserSidePanel } from "../../../components/UserSidePanel/UserSidePanel";
 import { BASE_IMAGES_URL } from "../../../config/constants.config";
 import { useUsers } from "../../../hooks/useUsers";
 
@@ -42,6 +43,7 @@ const columns = [
 ];
 
 export const UsersPage: React.FC = (props) => {
+  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const history = useHistory();
   const { isLoading, users } = useUsers();
 
@@ -50,14 +52,23 @@ export const UsersPage: React.FC = (props) => {
       <Card>
         <Card.Content>
           <Table
+            loading={isLoading}
             columns={columns}
             dataSource={users}
             onRow={(record) => ({
               //   onClick: () => history.push(`/users/${record.id}`),
+              onClick: () => setSelectedUserId(record.id),
             })}
           />
         </Card.Content>
       </Card>
+      {selectedUserId && (
+        <UserSidePanel
+          userId={selectedUserId}
+          isOpen={!!selectedUserId}
+          onClose={() => setSelectedUserId(null)}
+        />
+      )}
     </Page>
   );
 };
