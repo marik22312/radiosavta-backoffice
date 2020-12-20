@@ -59,6 +59,9 @@ export const UsersPage: React.FC = (props) => {
               //   onClick: () => history.push(`/users/${record.id}`),
               onClick: () => setSelectedUserId(record.id),
             })}
+            pagination={{
+              position: ["topRight", "bottomRight"],
+            }}
           />
         </Card.Content>
       </Card>

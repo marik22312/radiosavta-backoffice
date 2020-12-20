@@ -75,6 +75,9 @@ export class ProgramsPage extends React.Component<Props, State> {
               onRow={(record) => ({
                 onClick: () => this.props.history.push(`programs/${record.id}`),
               })}
+              pagination={{
+                position: ["topRight", "bottomRight"],
+              }}
             />
           </Card.Content>
         </Card>
