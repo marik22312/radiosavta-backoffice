@@ -54,8 +54,6 @@ export class HomePage extends React.Component<Props, State> {
   public render() {
     const { stats } = this.state;
 
-    const isValidStats = Boolean(stats.stream_start);
-
     const options = {
       weekday: "long",
       year: "numeric",
@@ -108,15 +106,11 @@ export class HomePage extends React.Component<Props, State> {
             />
           </Col>
           <Col span={7}>
-            {isValidStats ? (
-              <StatCard
-                title={"Listeners Peak"}
-                body={this.state.stats.listener_peak}
-                units={`Since ${date}`}
-              />
-            ) : (
-              <StatCard title={"Stream Source"} body={"AutoDJ"} />
-            )}
+            <StatCard
+              title={"Stream Source"}
+              units={this.state.stats.streamer}
+              body={this.state.stats.isLive && "LIVE!"}
+            />
           </Col>
           <Col span={7}>
             <StatCard
