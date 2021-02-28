@@ -10,3 +10,15 @@ export const getUserById = (userId: string | number) => {
 export const getAllUsers = (userId: string | number) => {
   return HttpClient.get<{ users: IFullUser[] }>(`${BASE_API_URL}/v2/users/`);
 };
+
+export const updateUserById = (
+  userId: string | number,
+  data: { name: string; location: string }
+) => {
+  const { name, location } = data;
+
+  return HttpClient.put<{ user: IFullUser }>(
+    `${BASE_API_URL}/v2/users/${userId}`,
+    { name, location }
+  );
+};
