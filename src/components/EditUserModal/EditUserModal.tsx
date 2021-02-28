@@ -25,7 +25,7 @@ const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
 
     try {
       const values = await formInstance.validateFields();
-      const res = await updateUserById(user.id, values);
+      await updateUserById(user.id, values);
       setConfirmLoading(false);
       closeModal();
     } catch (e) {
