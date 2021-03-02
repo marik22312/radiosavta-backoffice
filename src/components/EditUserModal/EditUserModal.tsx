@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal, Input, Form } from "antd";
 
-import { updateUserById } from "../../api/Users.api";
+import { useUpdateUser } from "../../hooks/useUpdateUser";
 
 import { IFullUser } from "../../models/types";
 
@@ -12,8 +12,8 @@ interface ModalProps {
 }
 
 const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [formInstance] = Form.useForm();
+  const [updateUser, { isLoading: isUpdating }] = useUpdateUser();
 
   const closeAndReset = () => {
     closeModal();
@@ -21,17 +21,14 @@ const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
   };
 
   const submitModal = async () => {
-    setConfirmLoading(true);
+    const values = await formInstance.validateFields();
 
-    try {
-      const values = await formInstance.validateFields();
-      await updateUserById(user.id, values);
-      setConfirmLoading(false);
-      closeModal();
-    } catch (e) {
-      // handle
-      setConfirmLoading(false);
-    }
+    updateUser(
+      { userId: user.id, data: values },
+      {
+        onSuccess: () => closeModal(),
+      }
+    );
   };
 
   return (
@@ -42,7 +39,7 @@ const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
       onOk={submitModal}
       zIndex={1001} // because UserSidePanel is 1000
       closable
-      confirmLoading={confirmLoading}
+      confirmLoading={isUpdating}
     >
       <Form
         form={formInstance}
