@@ -1,6 +1,6 @@
 import { BASE_API_URL } from "../config/api.config";
 import { User } from "../domain/Users";
-import { IFullUser, IProgram, IUser } from "../models/types";
+import { IFullUser } from "../models/types";
 import HttpClient from "../services/http.client";
 
 export const getUserById = (userId: string | number) => {

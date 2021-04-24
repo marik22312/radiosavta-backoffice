@@ -100,6 +100,7 @@
     "@babel/core": "7.7.4",
     "@babel/preset-typescript": "^7.7.4",
     "@svgr/webpack": "4.3.3",
+    "@testing-library/react-hooks": "^5.1.2",
     "@types/axios": "^0.14.0",
     "@types/chance": "^1.0.10",
     "@types/jest": "^26.0.0",

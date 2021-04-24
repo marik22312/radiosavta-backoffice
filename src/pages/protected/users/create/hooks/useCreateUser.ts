@@ -6,7 +6,9 @@ import {
 } from "../../../../../api/Users.api";
 import { DataHookBaseArgs } from "../../../../../domain/commons/hooks";
 
-export const useCreateUser = (args?: DataHookBaseArgs<CreateUserRespone>) => {
+export type UseCreateUserArgs = DataHookBaseArgs<CreateUserRespone>;
+
+export const useCreateUser = (args?: UseCreateUserArgs) => {
   const [mutateFn, { isLoading }] = useMutation(
     (user: CreateUserRequest) => createUser(user),
     {
