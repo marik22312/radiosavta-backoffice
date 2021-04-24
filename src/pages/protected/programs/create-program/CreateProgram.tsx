@@ -7,10 +7,10 @@ import { Page } from "../../../../components/Page/Page";
 
 import { InfoStep } from "./InfoStep/InfoStep";
 import { SummaryStep } from "./SummaryStep/SummaryStep";
-import UsersStore from "../../../../stores/users.store";
 import { inject, observer } from "mobx-react";
 import { IUser } from "../../../../models/types";
 import { ProgramsService } from "../../../../services/programs.service";
+import { getAllUsers } from "../../../../api/Users.api";
 
 const { Step } = Steps;
 
@@ -29,7 +29,6 @@ const stepsMap: CreateProgramStep = {
   [CreateProgramStepKeys.SUMMARY]: 1,
 };
 interface CreateProgramPageProps extends RouteComponentProps {
-  usersStore: UsersStore;
   programsService: ProgramsService;
 }
 
@@ -41,7 +40,7 @@ interface CreateProgramPageState {
   isLoading: boolean;
 }
 
-@inject("usersStore", "programsService")
+@inject("programsService")
 @observer
 export class CreateProgramPage extends React.Component<
   CreateProgramPageProps,
@@ -78,9 +77,10 @@ export class CreateProgramPage extends React.Component<
   }
 
   private async fetchAvailableUsers() {
-    const users = await this.props.usersStore.fetchAllUsers();
+    const { data } = await getAllUsers();
+
     this.setState({
-      users,
+      users: data.users,
     });
   }
 
