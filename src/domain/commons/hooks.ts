@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
 export interface DataHookBaseArgs<T> {
-  onError?: (err: AxiosError) => void;
+  onError?: (err: any) => void;
   onSuccess?: (res: T) => void;
 }

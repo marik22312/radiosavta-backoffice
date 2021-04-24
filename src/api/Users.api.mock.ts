@@ -17,9 +17,12 @@ export const createFakeUser = (opts?: Partial<User>): User => {
 };
 
 export const stubCreateUser = (user?: User) => {
-  const createUserSpy = jest
-    .spyOn(UsersApi, "createUser")
-    .mockResolvedValue({ user: user || createFakeUser() });
+  const createUserSpy = jest.spyOn(UsersApi, "createUser").mockImplementation(
+    () =>
+      new Promise((resolve) => {
+        resolve({ user: user || createFakeUser() });
+      })
+  );
   return {
     createUserSpy,
   };

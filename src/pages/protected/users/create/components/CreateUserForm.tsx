@@ -6,7 +6,7 @@ import { CreateUserRequest } from "../../../../../api/Users.api";
 import { useCreateUser } from "../hooks/useCreateUser";
 import { User } from "../../../../../domain/Users";
 
-interface CreateUserFormProps {
+export interface CreateUserFormProps {
   onUserCreated?(user: User): void;
   onError?(e: any): void;
 }
@@ -48,13 +48,16 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
 
   return (
     <Form
-      onFinish={(values: any) => onFormSubmit(values)}
+      onFinish={(values: any) => {
+        onFormSubmit(values);
+      }}
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 14 }}
     >
       {fileUrl ? (
         <div style={{ textAlign: "center" }}>
           <img
+            data-testid="profile-image"
             src={fileUrl}
             alt="show preview"
             style={{ width: "auto", height: "400px" }}
@@ -72,6 +75,7 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
           ]}
         >
           <Upload.Dragger
+            data-testid="picture-input"
             listType="picture"
             showUploadList={false}
             accept="image/*"
@@ -95,7 +99,7 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
           },
         ]}
       >
-        <Input id="name" placeholder="John Smith" />
+        <Input id="name" placeholder="John Smith" data-testid="name-input" />
       </Form.Item>
       <Form.Item
         label="Email Address"
@@ -108,6 +112,7 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
         ]}
       >
         <Input
+          data-testid="email-input"
           type="email"
           placeholder="Johns@radiosavta.com"
           autoComplete="off"
@@ -123,7 +128,10 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Mitspe Ramon, Israel" />
+        <Input
+          data-testid="location-input"
+          placeholder="Mitspe Ramon, Israel"
+        />
       </Form.Item>
       <Form.Item
         label="Streamer Username"
@@ -135,13 +143,19 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
           },
         ]}
       >
-        <Input placeholder="Streamer Username" autoComplete="off" type="text" />
+        <Input
+          data-testid="streamer-username-input"
+          placeholder="Streamer Username"
+          autoComplete="off"
+          type="text"
+        />
       </Form.Item>
       <Form.Item label="Show on site?" name="showOnWebsite">
         <Switch />
       </Form.Item>
       <Form.Item>
         <Button
+          data-testid="submit-button"
           type="primary"
           htmlType="submit"
           loading={isLoading}
