@@ -4,11 +4,12 @@ import { Modal, Input, Form } from "antd";
 import { useUpdateUser } from "../../hooks/useUpdateUser";
 
 import { IFullUser } from "../../models/types";
+import { User } from "../../domain/Users";
 
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  user: IFullUser;
+  user: IFullUser | User;
 }
 
 const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {

@@ -22,3 +22,10 @@ export const editProgramTime = (
     programTimes
   );
 };
+
+export const getProgramById = async (programId: string | number) => {
+  const { data } = await HttpClient.get<{ program: IFullProgram }>(
+    `/v2/programs/${programId}`
+  );
+  return data.program;
+};

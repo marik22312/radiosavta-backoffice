@@ -19,6 +19,7 @@ interface CardProps {
   fullHeight?: boolean;
   interactive?: boolean;
   onClick?(e: any): void;
+  loading?: boolean;
 }
 
 export class Card extends React.Component<CardProps, Record<string, unknown>> {

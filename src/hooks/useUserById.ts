@@ -2,10 +2,9 @@ import { useQuery } from "react-query";
 import { getUserById } from "../api/Users.api";
 
 export const useUserById = (userId: string | number) => {
-  const { data, isLoading } = useQuery(["users", userId], async () => {
-    const user = await getUserById(userId);
-    return user.data;
-  });
+  const { data, isLoading } = useQuery(["users", userId], () =>
+    getUserById(userId)
+  );
 
-  return { isLoading, user: data?.user };
+  return { isLoading, user: data };
 };
