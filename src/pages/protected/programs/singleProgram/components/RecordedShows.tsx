@@ -6,6 +6,8 @@ import Loader from "react-loader-spinner";
 import { RecordedShow } from "../../../../../domain/RecordedShow";
 import { IFullProgram } from "../../../../../models/types";
 
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const SourceColumn: React.FC<{ source?: string }> = ({ source }) => {
   if (!source) {
     return <span style={{ color: "red" }}>MIXCLOUD</span>;
@@ -26,7 +28,7 @@ const columns = [
   {
     title: "Actions",
     // eslint-disable-next-line
-    render: (text: string, src: RecordedShow | any) => <a href={src.url} target="_blank" rel="noreferrer noopener">Open from source</a>,
+    render: (text: string, src: RecordedShow | any) => <a href={src.url} target="_blank" rel="noreferrer noopener">Open <FontAwesomeIcon icon={faExternalLinkAlt} /></a>,
     fixed: true,
   },
 ];

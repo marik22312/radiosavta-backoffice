@@ -36,6 +36,14 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
   const debouncedSetTime = (time: number) => {
     audioRef.current.currentTime = time;
   };
+
+  const togglePlayPause = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    playerState === PlayerStates.Paused ? play() : pause();
+  };
   useEffect(() => {
     const currentPlayer = audioRef.current;
     if (playerState === PlayerStates.Playing) {
@@ -47,6 +55,13 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
       currentPlayer.removeEventListener("timeupdate", () => null);
     };
   }, [playerState]);
+
+  useEffect(() => {
+    const currentPlayer = audioRef.current;
+    return () => {
+      currentPlayer.src = "";
+    };
+  }, []);
 
   return (
     <div
@@ -60,12 +75,7 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
         </p>
       </div>
       <div className={style.controlsWrapper}>
-        <button
-          className={style.playPauseBtn}
-          onClick={() =>
-            playerState === PlayerStates.Paused ? play() : pause()
-          }
-        >
+        <button className={style.playPauseBtn} onClick={togglePlayPause}>
           {playerState === PlayerStates.Paused ? (
             <FontAwesomeIcon icon={faPlay} size="3x" color="#ffffff" />
           ) : (

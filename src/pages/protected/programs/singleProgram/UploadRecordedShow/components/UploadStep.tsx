@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { Upload, Form, Button } from "antd";
 import { useUploadRecordedShow } from "../../../../../../hooks/useUploadRecordedShow";
 import Loader from "react-loader-spinner";
+import { RecordedShowPlayer } from "../../../../../../components/RecordedShowPlayer/RecordedShowPlayer";
+import { useProgramById } from "../../../../../../hooks/usePgoramById";
+import { BASE_IMAGES_URL } from "../../../../../../config/constants.config";
 
 interface UploadStepProps {
   onSuccess(args: { fileUrl: string; recordedShowId: number }): void;
@@ -12,6 +15,10 @@ interface UploadStepProps {
 
 export const UploadStep: React.FC<UploadStepProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string>("");
+  const { program, isLoading: isProgramLoading } = useProgramById(
+    props.programId
+  );
 
   const { uploadRecordedShow } = useUploadRecordedShow();
 
@@ -44,25 +51,25 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
           },
         ]}
       >
-        {isLoading ? (
-          <div
-            style={{
-              height: "300px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Loader />
-          </div>
+        {previewUrl && !isProgramLoading ? (
+          <RecordedShowPlayer
+            name="Preview"
+            url={previewUrl}
+            backgroundImage={
+              program!.cover_image
+                ? BASE_IMAGES_URL + "/" + program!.cover_image
+                : BASE_IMAGES_URL + "/" + program!.users[0].profile_image
+            }
+            recordingDate={Intl.DateTimeFormat("he").format(Date.now())}
+          />
         ) : (
           <Upload.Dragger
             listType="text"
             showUploadList={false}
             accept="audio/*"
             customRequest={(o) => {
-              // const url = URL.createObjectURL(o.file);
-              // setPicturePreview(url);
+              const url = URL.createObjectURL(o.file);
+              setPreviewUrl(url);
             }}
           >
             <div
