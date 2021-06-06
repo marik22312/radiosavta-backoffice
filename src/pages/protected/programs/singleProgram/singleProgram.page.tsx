@@ -13,13 +13,12 @@ import {
   ValidateRecordedShowResponse,
   ProgramsService,
 } from "../../../../services/programs.service";
-import {
-  ValidateRecordedShow,
-  SubmitRecordedShow,
-} from "../../../../components/SubmitRecordedShow/SubmitRecordedShow";
 
 import moment from "moment";
 import { EditProgramTimes } from "../../../../components/EditProgramTimes/EditProgramTimes";
+import { getProgramById } from "../../../../api/Programs.api";
+
+import { RecordedShowsTable } from "./components/RecordedShows";
 
 interface SingleProgramPageParams {
   id: string;
@@ -130,9 +129,7 @@ export class SingleProgramPage extends React.Component<Props, State> {
   }
 
   private async fetchProgram() {
-    const program = await this.props.programsStore.fetchById(
-      this.props.match.params.id
-    );
+    const program = await getProgramById(this.props.match.params.id);
     this.setState({
       program,
     });
@@ -169,14 +166,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
       isAddMemberOpen: !this.state.isAddMemberOpen,
     });
   }
-  private toggleAddRecordedShow() {
-    this.setState({
-      AddRecordedShowStatus: this.state.AddRecordedShowStatus
-        ? null
-        : AddRecordedShowStatuses.VALIDATE,
-      verifiedRecordedShow: null,
-    });
-  }
   private toggleEditTimeModal() {
     this.setState({
       openModal:
@@ -184,47 +173,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
           ? null
           : SingeProgramPageModals.EDIT_TIMES,
     });
-  }
-
-  private async postRecordedShow(recordedShow: ValidateRecordedShowResponse) {
-    this.setState({
-      loader: ProgramsLoaderTypes.ADD_RECORDED_SHOW,
-    });
-    const programId = this.props.match.params.id;
-    await this.props.programsStore.createRecordedShow(programId, recordedShow);
-    await this.fetchProgram();
-    this.setState({
-      loader: null,
-      AddRecordedShowStatus: null,
-    });
-  }
-
-  private addRecordedShow() {
-    const { AddRecordedShowStatus, verifiedRecordedShow } = this.state;
-    if (AddRecordedShowStatus === AddRecordedShowStatuses.VALIDATE) {
-      return (
-        <ValidateRecordedShow
-          isLoading={
-            this.state.loader === ProgramsLoaderTypes.ADD_RECORDED_SHOW
-          }
-          onSubmit={(url) => this.validateRecordedShow(url)}
-        />
-      );
-    }
-    if (
-      AddRecordedShowStatus === AddRecordedShowStatuses.SUBMIT &&
-      verifiedRecordedShow
-    ) {
-      return (
-        <SubmitRecordedShow
-          recordedShow={verifiedRecordedShow}
-          onSubmit={(verifiedShow) => this.postRecordedShow(verifiedShow)}
-          isLoading={
-            this.state.loader === ProgramsLoaderTypes.ADD_RECORDED_SHOW
-          }
-        />
-      );
-    }
   }
 
   private renderAddMemberRow() {
@@ -265,22 +213,6 @@ export class SingleProgramPage extends React.Component<Props, State> {
     });
   }
 
-  private async validateRecordedShow(url: string) {
-    this.setState({
-      loader: ProgramsLoaderTypes.ADD_RECORDED_SHOW,
-    });
-
-    const recordedShow = await this.props.programsStore.ValidateRecordedShow(
-      url
-    );
-
-    this.setState({
-      loader: null,
-      AddRecordedShowStatus: AddRecordedShowStatuses.SUBMIT,
-      verifiedRecordedShow: recordedShow!,
-    });
-  }
-
   public render() {
     const { program, loader } = this.state;
     const allowRemovingUsers =
@@ -306,8 +238,8 @@ export class SingleProgramPage extends React.Component<Props, State> {
                       icon: "description",
                       title: "When",
                       data: `${moment.weekdays(
-                        this.state.program?.programTimes.day_of_week
-                      )} - ${this.state.program?.programTimes.start_time}`,
+                        this.state.program?.programTimes[0].day_of_week
+                      )} - ${this.state.program?.programTimes[0].start_time}`,
                     })}
                   </Descriptions>
                   <div>
@@ -367,23 +299,22 @@ export class SingleProgramPage extends React.Component<Props, State> {
                     extra={
                       <Button
                         type="primary"
-                        onClick={() => this.toggleAddRecordedShow()}
+                        onClick={() =>
+                          this.props.history.push(
+                            `/programs/${this.props.match.params.id}/upload-show`
+                          )
+                        }
                       >
                         Add Recorded Show
                       </Button>
                     }
                   >
                     <div>
-                      {this.state.AddRecordedShowStatus &&
-                        this.addRecordedShow()}
                       <Row>
                         <Col span={24}>
-                          {this.state.program &&
-                          this.state.program.recorded_shows.length ? (
-                            this.renderRecordedShowsTable()
-                          ) : (
-                            <NoRecordedShows />
-                          )}
+                          <RecordedShowsTable
+                            programId={this.props.match.params.id}
+                          />
                         </Col>
                       </Row>
                     </div>

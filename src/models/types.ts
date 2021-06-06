@@ -1,3 +1,5 @@
+import { RecordedShow } from "../domain/RecordedShow";
+
 export interface ModelWithTimestamps {
   created_at: string;
   updated_at: string;
@@ -47,6 +49,7 @@ export interface IProgram extends ModelWithTimestamps {
 export interface IFullProgram extends ModelWithTimestamps, IProgram {
   users: IUser[];
   recorded_shows: IRecordedShow[];
+  recorded_shows_ng: RecordedShow[];
   programTimes: Record<string, any>;
 }
 

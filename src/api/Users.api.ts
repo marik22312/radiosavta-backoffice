@@ -3,10 +3,11 @@ import { User } from "../domain/Users";
 import { IFullUser } from "../models/types";
 import HttpClient from "../services/http.client";
 
-export const getUserById = (userId: string | number) => {
-  return HttpClient.get<{ user: IFullUser }>(
-    `${BASE_API_URL}/v2/users/${userId}`
+export const getUserById = async (userId: string | number) => {
+  const { data } = await HttpClient.get<User>(
+    `${BASE_API_URL}/admin/users/${userId}`
   );
+  return data;
 };
 export const getAllUsers = () => {
   return HttpClient.get<{ users: IFullUser[] }>(`${BASE_API_URL}/v2/users/`);

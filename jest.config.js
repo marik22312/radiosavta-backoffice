@@ -17,7 +17,7 @@ module.exports = {
 		  ],
 		transform: {
 		  '^.+\\.(js|jsx|ts|tsx)$': require.resolve('babel-jest'),
-		  '^.+\\.css$': require.resolve(
+		  '^.+\\.(css|scss)$': require.resolve(
 			'./config/jest/cssTransform.js'
 		  ),
 		  '^(?!.*\\.(js|jsx|ts|tsx|mjs|css|json)$)': require.resolve(
@@ -26,7 +26,6 @@ module.exports = {
 		},
 		transformIgnorePatterns: [
 			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$",
-			"^.+\\.module\\.(css|sass|scss)$"
 		  ],
 	  }
 	]

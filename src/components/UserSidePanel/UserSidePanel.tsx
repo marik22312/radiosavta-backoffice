@@ -109,7 +109,7 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
             </Descriptions>
           </Col>
         </Row>
-        {!!user?.programs.length && (
+        {!!user?.programs?.length && (
           <>
             <Divider />
             <Row>
