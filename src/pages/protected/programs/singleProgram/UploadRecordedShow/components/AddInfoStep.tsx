@@ -17,14 +17,10 @@ interface AddInfoStepProps {
 
 export const AddInfoStep: React.FC<AddInfoStepProps> = (props) => {
   const { program } = useProgramById(props.programId);
-  const {
-    recordedShow,
-    isLoading: isLoadingRecordedShow,
-  } = useRecordedShowById(props.recordedShowId);
-  const {
-    publishRecordedShow,
-    isLoading: isPublishLoading,
-  } = usePublisRecordedShow();
+  const { recordedShow, isLoading: isLoadingRecordedShow } =
+    useRecordedShowById(props.recordedShowId);
+  const { publishRecordedShow, isLoading: isPublishLoading } =
+    usePublisRecordedShow();
 
   const [title, setTitle] = useState("Program title");
 

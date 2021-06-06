@@ -79,9 +79,10 @@ describe("Programs Service Tests", () => {
 
     await programsService.ValidateRecordedShow(url);
 
-    expect(
-      apiService.post
-    ).toBeCalledWith(`/admin/programs/recordings/validate`, { url });
+    expect(apiService.post).toBeCalledWith(
+      `/admin/programs/recordings/validate`,
+      { url }
+    );
   });
 
   it("Should call AddRecordedShow api service correctly", async () => {
