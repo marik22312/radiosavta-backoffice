@@ -69,13 +69,22 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
       style={{ backgroundImage: `url(${props.backgroundImage})` }}
     >
       <div className={style.titleWrapper}>
-        <h5 className={style.RecordedShowTitle}>{props.name}</h5>
-        <p className={style.uploadedAt}>
+        <h5
+          className={style.RecordedShowTitle}
+          data-testid="recorded-show-title"
+        >
+          {props.name}
+        </h5>
+        <p data-testid="recorded-show-date" className={style.uploadedAt}>
           {Intl.DateTimeFormat("he").format(new Date(props.recordingDate))}
         </p>
       </div>
       <div className={style.controlsWrapper}>
-        <button className={style.playPauseBtn} onClick={togglePlayPause}>
+        <button
+          className={style.playPauseBtn}
+          onClick={togglePlayPause}
+          data-testid="play-pause-button"
+        >
           {playerState === PlayerStates.Paused ? (
             <FontAwesomeIcon icon={faPlay} size="3x" color="#ffffff" />
           ) : (
@@ -84,7 +93,7 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
         </button>
         <input
           min={0}
-          max={audioRef.current.duration}
+          max={audioRef.current.duration || 100}
           value={audioRef.current.currentTime}
           type="range"
           className={style.progressBar}
