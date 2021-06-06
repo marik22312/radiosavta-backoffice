@@ -19,12 +19,17 @@ const columns = [
   { title: "Recording ID", dataIndex: "id" },
   { title: "Name", dataIndex: "name" },
   {
-    title: "file source",
+    title: "Upload Date",
+    dataIndex: "created_at",
+    render: (text: string) => Intl.DateTimeFormat("he").format(new Date(text)),
+  },
+  {
+    title: "File source",
     dataIndex: "source",
     // eslint-disable-next-line
     render: (text: string) => <SourceColumn source={text} />,
   },
-  { title: "status", dataIndex: "status" },
+  { title: "Status", dataIndex: "status" },
   {
     title: "Actions",
     // eslint-disable-next-line
