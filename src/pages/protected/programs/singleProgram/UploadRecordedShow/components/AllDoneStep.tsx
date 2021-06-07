@@ -53,8 +53,11 @@ export const AllDoneStep: React.FC<AllDoneStepProps> = (props) => {
         <Button type="primary" onClick={() => props.onClickStartOver()}>
           Upload Another One
         </Button>
-        <Button type="primary" onClick={() => history.push("/")}>
-          Go Home
+        <Button
+          type="primary"
+          onClick={() => history.push(`/programs/${programId}`)}
+        >
+          Back to Program page
         </Button>
       </div>
     </div>
