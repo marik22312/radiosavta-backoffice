@@ -35,8 +35,8 @@ export const AllDoneStep: React.FC<AllDoneStepProps> = (props) => {
             name={recordedShow!.name!}
             recordingDate={recordedShow!.created_at}
             backgroundImage={`${BASE_IMAGES_URL}/${
-              recordedShow?.program.cover_image ||
-              recordedShow?.program.users[0].profile_image
+              recordedShow?.program?.cover_image ||
+              recordedShow?.program?.users[0].profile_image
             }`}
           />
         )}

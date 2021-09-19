@@ -11,5 +11,5 @@ export interface RecordedShow {
   url: string;
   name?: string;
   created_at: string;
-  program: IFullProgram;
+  program?: IFullProgram;
 }

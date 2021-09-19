@@ -29,8 +29,8 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
       programId: props.programId,
       recordedShow: recordingFile,
     });
-    setIsLoading(false);
     props.onSuccess(recordedShowResponse);
+    setIsLoading(false);
   };
 
   return (
@@ -60,7 +60,7 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
                 ? BASE_IMAGES_URL + "/" + program!.cover_image
                 : BASE_IMAGES_URL + "/" + program!.users[0].profile_image
             }
-            recordingDate={Intl.DateTimeFormat("he").format(Date.now())}
+            recordingDate={new Date().toString()}
           />
         ) : (
           <Upload.Dragger
