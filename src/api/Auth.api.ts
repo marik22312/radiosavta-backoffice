@@ -3,6 +3,9 @@ import HttpClient from "../services/http.client";
 interface ResetPasswordResponse {
   success: boolean;
 }
+interface ForgotPasswordRepsonse {
+  success: boolean;
+}
 
 export const resetPassword = (req: {
   token: string;
@@ -20,7 +23,7 @@ export const forgotPassword = (req: {
   captchaToken: string;
   email: string;
 }) => {
-  return HttpClient.post<ResetPasswordResponse>("/v2/auth/forgot-password", {
+  return HttpClient.post<ForgotPasswordRepsonse>("/v2/auth/forgot-password", {
     captchaToken: req.captchaToken,
     email: req.email,
   });
