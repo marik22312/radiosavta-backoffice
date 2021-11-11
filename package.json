@@ -59,6 +59,7 @@
     "react-big-calendar": "^0.28.0",
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.11.0",
+    "react-google-recaptcha": "^2.1.0",
     "react-interval": "^2.1.1",
     "react-loader-spinner": "^3.1.14",
     "react-query": "^2.23.1",
@@ -76,33 +77,36 @@
     "typescript": "^3.7.2",
     "universal-cookie": "^4.0.2",
     "url-loader": "2.3.0",
+    "validator": "^13.7.0",
     "webpack": "4.41.2",
     "webpack-dev-server": "3.11.0",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
     "yup": "^0.27.0"
-  },
-  "scripts": {
-    "start": "node scripts/start.js",
+},
+"scripts": {
+	"start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "test": "jest",
     "test:watch": "jest --watch",
     "snyk-protect": "snyk protect"
-  },
-  "browserslist": {
+},
+"browserslist": {
     "production": [
-      ">0.2%",
+		">0.2%",
       "not dead",
       "not op_mini all"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+		"last 1 chrome version",
+		"last 1 firefox version",
+		"last 1 safari version"
     ]
-  },
-  "devDependencies": {
+},
+"devDependencies": {
+	"@types/react-google-recaptcha": "^2.1.2",
+	"@types/validator": "^13.6.6",
     "@babel/core": "7.7.4",
     "@babel/preset-typescript": "^7.7.4",
     "@svgr/webpack": "4.3.3",

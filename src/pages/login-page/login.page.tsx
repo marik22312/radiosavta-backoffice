@@ -117,6 +117,7 @@ export class LoginPage extends React.Component<Props, LoginPageState> {
           </Button>
         </Form.Item>
         {this.state.error && <Alert type="error" message={this.state.error} />}
+        <a href="/forgot-password">Forgot Password?</a>
       </Form>
     );
   }

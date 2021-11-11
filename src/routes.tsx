@@ -25,6 +25,8 @@ import { CreateProgramPage } from "./pages/protected/programs/create-program/Cre
 import { UsersPage } from "./pages/protected/users/Users.page";
 import { SingleUserPage } from "./pages/protected/users/SingleUser/SingleUser.page";
 import { UploadedRecordedShowPage } from "./pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
+import { ResetPasswordPage } from "./pages/reset-password/ResetPassword.page";
+import { ForgotPasswordPage } from "./pages/forgot-password/ForgotPassword.page";
 
 const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
   const { isLoggedIn } = props;
@@ -88,6 +90,8 @@ export default class Routes extends React.Component<
       <Router>
         <Switch>
           <Route path="/login" component={LoginPage} />
+          <Route path="/forgot-password" component={ForgotPasswordPage} />
+          <Route path="/reset-password" component={ResetPasswordPage} />
           <Route component={() => <ProtectedRoute isLoggedIn={isLoggedIn} />} />
         </Switch>
       </Router>
