@@ -15,6 +15,7 @@ import {
   PASSWORD_MIN_UPPERCASE,
   ResetPasswordErrorTypes,
 } from "../domain/Errors";
+import { showErrorToast, showSuccessToast } from "../../../utils/toast.util";
 
 interface ResetPasswordFields {
   password: string;
@@ -22,7 +23,10 @@ interface ResetPasswordFields {
 }
 export const ResetPasswordForm: React.FC = () => {
   const [error, setError] = useState<ResetPasswordErrorTypes | null>(null);
-  const onError = () => {
+  const onError = (err: AxiosError) => {
+    if (err.isAxiosError) {
+      return setError(ResetPasswordErrorTypes.GENERIC_ERROR);
+    }
     setError(ResetPasswordErrorTypes.GENERIC_ERROR);
   };
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -34,7 +38,7 @@ export const ResetPasswordForm: React.FC = () => {
     history.push("/");
   }
 
-  const onFormSubmit = (fields: ResetPasswordFields) => {
+  const onFormSubmit = async (fields: ResetPasswordFields) => {
     const isStrong = isStrongPassword(fields.password, {
       minLength: PASSWORD_MIN_LENGTH,
       minLowercase: PASSWORD_MIN_LOWERCASE,
@@ -51,12 +55,20 @@ export const ResetPasswordForm: React.FC = () => {
     }
 
     setError(null);
-    resetPassword({
+    const res = await resetPassword({
       token: search.get("token")!,
       captchaToken: captchaToken!,
       password: fields.password,
       passwordRepeat: fields.passwordRepeat,
     });
+    if (res) {
+      onSuccess();
+    }
+  };
+
+  const onSuccess = () => {
+    showSuccessToast("Reset password success!");
+    history.push("/login");
   };
 
   return (
@@ -109,7 +121,6 @@ export const ResetPasswordForm: React.FC = () => {
         </Button>
       </Form.Item>
       {error && <Alert message={<FormErrors type={error} />} type="error" />}
-      {captchaToken}
     </Form>
   );
 };
