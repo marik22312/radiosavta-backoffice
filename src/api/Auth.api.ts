@@ -17,6 +17,7 @@ export const resetPassword = (req: {
     token: req.token,
     password: req.password,
     passwordRepeat: req.passwordRepeat,
+    captchaToken: req.captchaToken,
   });
 };
 export const forgotPassword = (req: {
