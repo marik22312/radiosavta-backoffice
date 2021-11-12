@@ -25,6 +25,7 @@ export const ResetPasswordForm: React.FC = () => {
   const [error, setError] = useState<ResetPasswordErrorTypes | null>(null);
   const onError = (err: AxiosError) => {
     if (err.isAxiosError) {
+      showErrorToast("Something went wrong, Please contact support");
       return setError(ResetPasswordErrorTypes.GENERIC_ERROR);
     }
     setError(ResetPasswordErrorTypes.GENERIC_ERROR);

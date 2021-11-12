@@ -61,7 +61,6 @@ const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
           </Switch>
         </Layout.Content>
       </Layout>
-      <ToastContainer />
     </Layout>
   );
 };
@@ -87,14 +86,19 @@ export default class Routes extends React.Component<
     const isLoggedIn = identityStore!.isLoggedIn;
 
     return (
-      <Router>
-        <Switch>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
-          <Route path="/reset-password" component={ResetPasswordPage} />
-          <Route component={() => <ProtectedRoute isLoggedIn={isLoggedIn} />} />
-        </Switch>
-      </Router>
+      <>
+        <Router>
+          <Switch>
+            <Route path="/login" component={LoginPage} />
+            <Route path="/forgot-password" component={ForgotPasswordPage} />
+            <Route path="/reset-password" component={ResetPasswordPage} />
+            <Route
+              component={() => <ProtectedRoute isLoggedIn={isLoggedIn} />}
+            />
+          </Switch>
+        </Router>
+        <ToastContainer />
+      </>
     );
   }
 }
