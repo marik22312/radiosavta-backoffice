@@ -1,4 +1,9 @@
+import { User } from "../domain/Users";
 import HttpClient from "../services/http.client";
+import {
+  LoginSuccessResponse,
+  TryLogigArgs,
+} from "../services/identity.service";
 
 interface ResetPasswordResponse {
   success: boolean;
@@ -28,4 +33,12 @@ export const forgotPassword = (req: {
     captchaToken: req.captchaToken,
     email: req.email,
   });
+};
+
+export const login = (credentials: TryLogigArgs) => {
+  return HttpClient.post<LoginSuccessResponse>("/login", credentials);
+};
+
+export const getMe = () => {
+  return HttpClient.get<User>("/me");
 };

@@ -8,6 +8,9 @@ import { Layout, Menu, Dropdown, Row, Col, Avatar, Button } from "antd";
 
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
+import { useLogout } from "../../hooks/auth/useLogout";
+import { useLoggedInUser } from "../../hooks/auth/useLoggedInUser";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 interface State {
   isOpen: boolean;
@@ -17,6 +20,27 @@ interface Props {
   identityStore?: IdentityStore;
 }
 
+const LogoutMenuItem: React.FC = () => {
+  const { logout } = useLogout();
+  return <Menu.Item onClick={logout}>Logout</Menu.Item>;
+};
+
+const NavBarMenuButton: React.FC = (props) => {
+  const { user } = useAuth();
+  console.log("User", user);
+  return (
+    <Button
+      icon={
+        <Avatar size={"small"}>
+          {user?.name.split(" ").reduce((acc, subname) => acc + subname[0], "")}
+        </Avatar>
+      }
+      {...props}
+    >
+      {user?.name}
+    </Button>
+  );
+};
 @inject("identityStore")
 @observer
 export class NavigationBar extends React.Component<Props, State> {
@@ -30,9 +54,6 @@ export class NavigationBar extends React.Component<Props, State> {
   }
 
   public toggle = () => this.setState({ isOpen: !this.state.isOpen });
-  public logout = () => {
-    return this.props.identityStore?.logout();
-  };
 
   public render() {
     const userMenu = (
@@ -40,20 +61,17 @@ export class NavigationBar extends React.Component<Props, State> {
         <Menu.Item onClick={() => this.openChangePasswordModal()}>
           Change password
         </Menu.Item>
-        <Menu.Item onClick={this.logout}>Logout</Menu.Item>
+        <LogoutMenuItem />
       </Menu>
     );
 
-    const { identityStore } = this.props;
     return (
       <React.Fragment>
         <Layout.Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
           <Row>
             <Col span={4} offset={17}>
               <Dropdown overlay={userMenu}>
-                <Button icon={<Avatar size={"small"}>MS</Avatar>}>
-                  {identityStore?.user.name}
-                </Button>
+                <NavBarMenuButton />
               </Dropdown>
             </Col>
           </Row>

@@ -8,14 +8,12 @@ import {
 
 import { Layout } from "antd";
 
-import { inject, observer } from "mobx-react";
 import { ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
 import { SideNav } from "./components/Navbar/SideNav";
 import { NavigationBar } from "./components/Navbar/NavigationBar";
-import { LoginPage } from "./pages/login-page/login.page";
 import { HomePage } from "./pages/protected/home-page/home.page";
 import { ProgramsPage } from "./pages/protected/programs/programs.page";
 import { SingleProgramPage } from "./pages/protected/programs/singleProgram/singleProgram.page";
@@ -27,11 +25,13 @@ import { SingleUserPage } from "./pages/protected/users/SingleUser/SingleUser.pa
 import { UploadedRecordedShowPage } from "./pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
 import { ResetPasswordPage } from "./pages/reset-password/ResetPassword.page";
 import { ForgotPasswordPage } from "./pages/forgot-password/ForgotPassword.page";
+import { useAuth } from "./hooks/auth/useAuth";
+import { LoginPage } from "./pages/login-page/login.page";
 
-const ProtectedRoute: React.FC<{ isLoggedIn: boolean }> = (props) => {
-  const { isLoggedIn } = props;
+const ProtectedRoute: React.FC = (props) => {
+  const { isAuthenticated } = useAuth();
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return <Redirect to="/login" />;
   }
   return (
@@ -69,8 +69,6 @@ interface Props {
   identityStore?: IdentityStore;
 }
 
-@inject("identityStore")
-@observer
 export default class Routes extends React.Component<
   Props,
   Record<string, unknown>
@@ -81,10 +79,6 @@ export default class Routes extends React.Component<
     this.state = {};
   }
   public render() {
-    const { identityStore } = this.props;
-
-    const isLoggedIn = identityStore!.isLoggedIn;
-
     return (
       <>
         <Router>
@@ -92,9 +86,7 @@ export default class Routes extends React.Component<
             <Route path="/login" component={LoginPage} />
             <Route path="/forgot-password" component={ForgotPasswordPage} />
             <Route path="/reset-password" component={ResetPasswordPage} />
-            <Route
-              component={() => <ProtectedRoute isLoggedIn={isLoggedIn} />}
-            />
+            <Route component={() => <ProtectedRoute />} />
           </Switch>
         </Router>
         <ToastContainer />

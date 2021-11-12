@@ -30,10 +30,10 @@ export default class IdentityStore {
     this.token = this.identityService.getTokenFromStorage();
     this.user = {};
 
-    if (this.token) {
-      this.setToken(this.token);
-      this.getUser();
-    }
+    // if (this.token) {
+    //   this.setToken(this.token);
+    //   this.getUser();
+    // }
   }
 
   @action

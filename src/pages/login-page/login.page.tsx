@@ -1,9 +1,9 @@
-import { inject, observer } from "mobx-react";
-import * as React from "react";
-import { RouteComponentProps } from "react-router-dom";
+import React, { useState } from "react";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import IdentityStore from "../../stores/identity.store";
 
 import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
+import { useLogin } from "../../hooks/auth/useLogin";
 
 interface Props extends RouteComponentProps {
   identityStore: IdentityStore;
@@ -20,105 +20,91 @@ interface LoginPageState {
   error: any;
 }
 
-@inject("identityStore")
-@observer
-export class LoginPage extends React.Component<Props, LoginPageState> {
-  constructor(props: Props) {
-    super(props);
+export const LoginPage: React.FC = () => {
+  return (
+    <Row
+      justify="center"
+      align="middle"
+      style={{
+        height: "100%",
+      }}
+    >
+      <Col span={8}>
+        <Card>
+          <Row>
+            <Col span={24}>
+              <h1>Login</h1>
+            </Col>
+          </Row>
+          <LoginForm />
+        </Card>
+      </Col>
+    </Row>
+  );
+};
 
-    this.state = {
-      isLoading: false,
-      error: null,
-    };
-  }
-  public render() {
-    return (
-      <Row
-        justify="center"
-        align="middle"
-        style={{
-          height: "100%",
-        }}
-      >
-        <Col span={8}>
-          <Card>
-            <Row>
-              <Col span={24}>
-                <h1>Login</h1>
-              </Col>
-            </Row>
-            {this.renderForm()}
-          </Card>
-        </Col>
-      </Row>
-    );
-  }
+export const LoginForm = () => {
+  const history = useHistory();
+  const { preformLogin } = useLogin();
 
-  public onFormSubmit = async (values: LoginFormValues) => {
-    try {
-      this.setState({
-        isLoading: true,
-      });
-      await this.props.identityStore.preformLogin(values);
-      this.props.history.push("/");
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        error: error.message,
-      });
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onFormSubmit = async (fields: any) => {
+    setIsLoading(true);
+    const res = await preformLogin(fields);
+    if (res) {
+      history.push("/");
     }
   };
-
-  private renderForm() {
-    return (
-      <Form
-        onFinish={(fields: any) => this.onFormSubmit(fields)}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 18 }}
+  return (
+    <Form
+      onFinish={(fields: any) => onFormSubmit(fields)}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 18 }}
+    >
+      <Form.Item
+        labelAlign="left"
+        label="Email"
+        name="email"
+        rules={[
+          {
+            required: true,
+            message: "Name is required!",
+          },
+          {
+            type: "email",
+            message: "Invalid email!",
+          },
+        ]}
       >
-        <Form.Item
-          labelAlign="left"
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Name is required!",
-            },
-            {
-              type: "email",
-              message: "Invalid email!",
-            },
-          ]}
+        <Input type="email" />
+      </Form.Item>
+      <Form.Item
+        name="password"
+        labelAlign="left"
+        label="password"
+        rules={[
+          {
+            required: true,
+            message: "Please type a password",
+          },
+        ]}
+      >
+        <Input type="password" />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          type={"primary"}
+          htmlType="submit"
+          loading={isLoading}
+          disabled={isLoading}
         >
-          <Input type="email" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          labelAlign="left"
-          label="password"
-          rules={[
-            {
-              required: true,
-              message: "Please type a password",
-            },
-          ]}
-        >
-          <Input type="password" />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type={"primary"}
-            htmlType="submit"
-            loading={this.state.isLoading}
-            disabled={this.state.isLoading}
-          >
-            Submit
-          </Button>
-        </Form.Item>
-        {this.state.error && <Alert type="error" message={this.state.error} />}
-        <a href="/forgot-password">Forgot Password?</a>
-      </Form>
-    );
-  }
-}
+          Submit
+        </Button>
+      </Form.Item>
+      {error && <Alert type="error" message={error} />}
+      <a href="/forgot-password">Forgot Password?</a>
+    </Form>
+  );
+};

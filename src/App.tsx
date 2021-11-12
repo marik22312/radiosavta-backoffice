@@ -15,6 +15,7 @@ import ProgramsStore from "./stores/programs.store";
 import { ProgramsService } from "./services/programs.service";
 
 import "antd/dist/antd.css";
+import { AuthenticaitonProvider } from "./providers/AuthenticationProvider";
 
 const cookieOven = new CookieOven();
 const apiService = new BaseApiService(BASE_API_URL, httpClient);
@@ -30,11 +31,13 @@ const stores = {
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <Provider {...stores}>
-        <Routes />
-      </Provider>
-    </div>
+    <AuthenticaitonProvider>
+      <div className="App">
+        <Provider {...stores}>
+          <Routes />
+        </Provider>
+      </div>
+    </AuthenticaitonProvider>
   );
 };
 

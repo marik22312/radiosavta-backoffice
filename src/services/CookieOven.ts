@@ -43,3 +43,5 @@ export class CookieOven {
     return this.cookies.get<T>(name, options);
   }
 }
+
+export const cookieOven = new CookieOven();
