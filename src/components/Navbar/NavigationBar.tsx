@@ -9,8 +9,8 @@ import { Layout, Menu, Dropdown, Row, Col, Avatar, Button } from "antd";
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
 import { useLogout } from "../../hooks/auth/useLogout";
-import { useLoggedInUser } from "../../hooks/auth/useLoggedInUser";
 import { useAuth } from "../../hooks/auth/useAuth";
+import { BASE_IMAGES_URL } from "../../config/constants.config";
 
 interface State {
   isOpen: boolean;
@@ -27,11 +27,13 @@ const LogoutMenuItem: React.FC = () => {
 
 const NavBarMenuButton: React.FC = (props) => {
   const { user } = useAuth();
-  console.log("User", user);
   return (
     <Button
       icon={
-        <Avatar size={"small"}>
+        <Avatar
+          size={"small"}
+          src={`${BASE_IMAGES_URL}/${user?.profile_image}`}
+        >
           {user?.name.split(" ").reduce((acc, subname) => acc + subname[0], "")}
         </Avatar>
       }
