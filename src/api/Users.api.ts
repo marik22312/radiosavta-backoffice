@@ -42,7 +42,9 @@ export const createUser = async (user: CreateUserRequest) => {
   form.append("name", user.name);
   form.append("location", user.location);
   form.append("profile_picture", user.profile_picture);
-  form.append("streamerUsername", user.streamerUsername);
+  if (user.streamerUsername) {
+    form.append("streamerUsername", user.streamerUsername);
+  }
   if (user.showOnWebsite) {
     form.append("showOnWebsite", "true");
   }

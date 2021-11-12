@@ -133,16 +133,7 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
           placeholder="Mitspe Ramon, Israel"
         />
       </Form.Item>
-      <Form.Item
-        label="Streamer Username"
-        name="streamerUsername"
-        rules={[
-          {
-            required: true,
-            message: "Streamer username is required!",
-          },
-        ]}
-      >
+      <Form.Item label="Streamer Username" name="streamerUsername">
         <Input
           data-testid="streamer-username-input"
           placeholder="Streamer Username"
