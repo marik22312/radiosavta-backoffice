@@ -61,9 +61,15 @@ const ProtectedRoute: React.FC = (props) => {
         <Layout.Content style={{ padding: "0 50px", marginTop: 64 }}>
           <Switch>
             <Route path="/" exact component={HomePage} />
-            <Route path="/programs" exact component={ProgramsPage} />
+            <RoleProtectedRoute
+              path="/programs"
+              exact
+              component={ProgramsPage}
+              role={RoleNames.ADMIN}
+            />
             <Route path="/my-programs" exact component={MyPrograms} />
-            <Route
+            <RoleProtectedRoute
+              role={RoleNames.ADMIN}
               path="/programs/create"
               exact
               component={CreateProgramPage}

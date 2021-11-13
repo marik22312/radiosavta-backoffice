@@ -77,12 +77,14 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
           url: "/programs",
           title: "All Programs",
           icon: <UnorderedListOutlined />,
+          requiredRole: RoleNames.ADMIN,
         },
         {
           id: 2,
           url: "/programs/create",
           title: "Create program",
           icon: <FileAddOutlined />,
+          requiredRole: RoleNames.ADMIN,
         },
         {
           id: 3,
