@@ -10,6 +10,7 @@ export interface User {
   is_admin: boolean;
   programs?: IProgram[];
   streamer?: Streamer[];
+  roles: Role[];
 }
 
 export interface Streamer {
@@ -19,4 +20,14 @@ export interface Streamer {
   user_name: string;
   display_name: string;
   comments: string;
+}
+
+export interface Role {
+  id: string;
+  name: RoleNames;
+}
+
+export enum RoleNames {
+  ADMIN = "ADMIN",
+  STREAMER = "STREAMER",
 }

@@ -1,7 +1,6 @@
 import { inject, observer } from "mobx-react";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import IdentityStore from "../../../../stores/identity.store";
 import ProgramsStore from "../../../../stores/programs.store";
 
 import { Page } from "../../../../components/Page/Page";
@@ -24,7 +23,6 @@ interface SingleProgramPageParams {
   id: string;
 }
 interface Props extends RouteComponentProps<SingleProgramPageParams> {
-  identityStore: IdentityStore;
   programsStore: ProgramsStore;
   programsService: ProgramsService;
 }
@@ -83,7 +81,7 @@ const columns = [
   },
 ];
 
-@inject("identityStore", "programsStore", "programsService")
+@inject("programsStore", "programsService")
 @observer
 export class SingleProgramPage extends React.Component<Props, State> {
   constructor(props: Props) {

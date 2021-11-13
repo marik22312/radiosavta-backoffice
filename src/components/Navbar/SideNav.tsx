@@ -12,6 +12,8 @@ import {
 
 import { Layout, Menu } from "antd";
 import { LogoWrapper, LogoImage } from "../base/NavigationBase";
+import { RoleNames } from "../../domain/Users";
+import { useAuth } from "../../hooks/auth/useAuth";
 const { Sider } = Layout;
 
 interface SideNavOption {
@@ -26,6 +28,7 @@ interface ChildMenuItem {
   url: string;
   title: string;
   icon?: any;
+  requiredRole?: RoleNames;
 }
 interface ParentMenuItem {
   id: number;
@@ -60,6 +63,7 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
           url: "/users/create",
           title: "Create user",
           icon: <UserAddOutlined />,
+          requiredRole: RoleNames.ADMIN,
         },
       ],
     },
@@ -83,6 +87,8 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
       ],
     },
   ];
+
+  const { roles } = useAuth();
 
   return (
     <React.Fragment>
@@ -109,6 +115,11 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
               return (
                 <Menu.SubMenu key={o.id} title={o.title} icon={o.icon}>
                   {children.map((c) => {
+                    if (c.requiredRole) {
+                      if (!roles.includes(c.requiredRole)) {
+                        return null;
+                      }
+                    }
                     return (
                       <Menu.Item key={o.id + c.id} icon={c.icon}>
                         <RouterLink to={c.url}>{c.title}</RouterLink>

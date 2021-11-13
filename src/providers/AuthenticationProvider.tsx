@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { User } from "../domain/Users";
+import { User, RoleNames } from "../domain/Users";
 import { useLoggedInUser } from "../hooks/auth/useLoggedInUser";
 import { cookieOven } from "../services/CookieOven";
 import { setToken } from "../services/http.client";
@@ -9,6 +9,7 @@ interface AuthenticationContext {
   authToken?: string;
   setAuthToken: (token: string) => void;
   user?: User;
+  roles: RoleNames[];
 }
 const AuthContext = React.createContext<AuthenticationContext | null>(null);
 
@@ -31,10 +32,11 @@ export const AuthenticaitonProvider: React.FC = ({ children }) => {
       setToken(authToken);
     }
   }, [authToken]);
-  const { user } = useLoggedInUser({ enabled: !!authToken });
+
+  const { user, roles } = useLoggedInUser({ enabled: !!authToken });
 
   return (
-    <AuthContext.Provider value={{ authToken, setAuthToken, user }}>
+    <AuthContext.Provider value={{ authToken, setAuthToken, user, roles }}>
       {children}
     </AuthContext.Provider>
   );

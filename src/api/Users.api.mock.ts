@@ -13,6 +13,7 @@ export const createFakeUser = (opts?: Partial<User>): User => {
     location: opts?.location || chance.word(),
     profile_image: opts?.profile_image || chance.word(),
     email: opts?.email || chance.email(),
+    roles: [],
   };
 };
 
