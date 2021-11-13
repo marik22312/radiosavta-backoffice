@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Redirect,
   Route,
+  RouteProps,
   Switch,
 } from "react-router-dom";
 
@@ -27,6 +28,23 @@ import { ResetPasswordPage } from "./pages/reset-password/ResetPassword.page";
 import { ForgotPasswordPage } from "./pages/forgot-password/ForgotPassword.page";
 import { useAuth } from "./hooks/auth/useAuth";
 import { LoginPage } from "./pages/login-page/login.page";
+import { RoleNames } from "./domain/Users";
+
+const RoleProtectedRoute: React.FC<{
+  role: RoleNames;
+  component: RouteProps["component"];
+  path: string;
+  exact?: boolean;
+}> = (props) => {
+  const { roles } = useAuth();
+  if (!roles.includes(props.role)) {
+    return <Redirect to="/" />;
+  }
+
+  return (
+    <Route path={props.path} exact={props.exact} component={props.component} />
+  );
+};
 
 const ProtectedRoute: React.FC = (props) => {
   const { isAuthenticated } = useAuth();
@@ -55,7 +73,12 @@ const ProtectedRoute: React.FC = (props) => {
               component={UploadedRecordedShowPage}
             />
             <Route path="/users" exact component={UsersPage} />
-            <Route path="/users/create" exact component={CreateUserPage} />
+            <RoleProtectedRoute
+              role={RoleNames.ADMIN}
+              path="/users/create"
+              exact
+              component={CreateUserPage}
+            />
             <Route path="/users/:userId" exact component={SingleUserPage} />
             <Route component={() => <Redirect to="/" />} />
           </Switch>
