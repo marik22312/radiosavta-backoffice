@@ -19,8 +19,7 @@ import {
 import { EditOutlined } from "@ant-design/icons";
 
 import { BASE_IMAGES_URL } from "../../config/constants.config";
-import { useHistory } from "react-router-dom";
-import { IProgram } from "../../models/types";
+import { ProgramTile } from "../../pages/protected/programs/program-tile/programTile";
 
 interface UserSidePanelProps {
   userId: number;
@@ -29,7 +28,6 @@ interface UserSidePanelProps {
 }
 export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
   const { user } = useUserById(props.userId);
-  const history = useHistory();
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -51,25 +49,7 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
     );
   };
 
-  const renderProgramTile = (program: IProgram) => {
-    return (
-      <Col onClick={() => history.push(`/programs/${program.id}`)}>
-        <div>
-          <Avatar
-            shape="square"
-            size={100}
-            src={`${BASE_IMAGES_URL}/${program.cover_image}`}
-            alt={program.name_en}
-          >
-            No Photo Available
-          </Avatar>
-        </div>
-        <div>
-          <Typography.Text strong>{program.name_en}</Typography.Text>
-        </div>
-      </Col>
-    );
-  };
+
   return (
     <>
       <Drawer
@@ -116,7 +96,10 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
               <Col span={24}>
                 <Typography.Title level={5}>Participating in</Typography.Title>
               </Col>
-              {user?.programs.map((program) => renderProgramTile(program))}
+              {user?.programs?.map((program) => {
+                return (<ProgramTile key={program.id} {...program} />
+                )
+              })}
             </Row>
           </>
         )}

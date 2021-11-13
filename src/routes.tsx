@@ -29,6 +29,7 @@ import { ForgotPasswordPage } from "./pages/forgot-password/ForgotPassword.page"
 import { useAuth } from "./hooks/auth/useAuth";
 import { LoginPage } from "./pages/login-page/login.page";
 import { RoleNames } from "./domain/Users";
+import { MyPrograms } from "./pages/protected/my-programs/myPrograms.page";
 
 const RoleProtectedRoute: React.FC<{
   role: RoleNames;
@@ -61,6 +62,7 @@ const ProtectedRoute: React.FC = (props) => {
           <Switch>
             <Route path="/" exact component={HomePage} />
             <Route path="/programs" exact component={ProgramsPage} />
+            <Route path="/my-programs" exact component={MyPrograms} />
             <Route
               path="/programs/create"
               exact

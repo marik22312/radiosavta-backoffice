@@ -84,6 +84,12 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
           title: "Create program",
           icon: <FileAddOutlined />,
         },
+        {
+          id: 3,
+          url: "/my-programs",
+          title: "My Programs",
+          icon: <FileAddOutlined />,
+        },
       ],
     },
   ];
