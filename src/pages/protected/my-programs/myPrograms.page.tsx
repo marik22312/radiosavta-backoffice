@@ -11,13 +11,18 @@ const ProgramsPageContent: React.FC<{ programs: User["programs"] }> = (
   props
 ) => {
   if (props.programs?.length) {
-    props.programs.map((program) => {
-      return (
-        <Col span={8} key={program.id}>
-          <ProgramTile {...program} />
-        </Col>
-      );
-    });
+    console.log("programs?");
+    return (
+      <>
+        {props.programs.map((program) => {
+          return (
+            <Col span={8} key={program.id}>
+              <ProgramTile {...program} />
+            </Col>
+          );
+        })}
+      </>
+    );
   }
 
   return (

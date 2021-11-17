@@ -1,3 +1,5 @@
+import { RoleNames } from "../domain/Users";
+
 export enum PasswordValidationError {
   PASSWORDS_NOT_MATCH = "PASSWORDS_NOT_MATCH",
   PASSWORDS_TOO_SHORT = "PASSWORDS_TOO_SHORT",
@@ -45,4 +47,15 @@ export const validatePasswordResetAndTransform = (
     password: newPassword,
     error: null,
   };
+};
+
+export const isPermitted = (
+  roles: RoleNames[],
+  requiredRoles?: RoleNames[]
+) => {
+  if (!requiredRoles) {
+    return true;
+  }
+
+  return roles.some((role) => requiredRoles.includes(role));
 };

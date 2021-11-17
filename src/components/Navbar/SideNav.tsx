@@ -6,6 +6,7 @@ import { LogoWrapper, LogoImage } from "../base/NavigationBase";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { useRoutes } from "../../hooks/useRoutes";
 import { ChildMenuItem, ParentMenuItem } from "../../domain/Routes";
+import { isPermitted } from "../../utils/identity.utils";
 const { Sider } = Layout;
 
 export const SideNav: React.FC<Record<string, unknown>> = () => {
@@ -42,9 +43,7 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
                 >
                   {children.map((c) => {
                     if (c.requiredRole) {
-                      if (
-                        !roles.some((role) => c.requiredRole?.includes(role))
-                      ) {
+                      if (!isPermitted(roles, c.requiredRole)) {
                         return null;
                       }
                     }

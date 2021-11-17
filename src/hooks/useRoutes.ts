@@ -1,3 +1,4 @@
+import React from "react";
 import { MenuItem } from "../domain/Routes";
 import {
   DashboardOutlined,
@@ -9,13 +10,20 @@ import {
 } from "@ant-design/icons";
 import { RoleNames } from "../domain/Users";
 import { useMemo } from "react";
+import { UsersPage } from "../pages/protected/users/Users.page";
+import { CreateUserPage } from "../pages/protected/users/create/createUser.page";
+import { ProgramsPage } from "../pages/protected/programs/programs.page";
+import { CreateProgramPage } from "../pages/protected/programs/create-program/CreateProgram";
+import { MyPrograms } from "../pages/protected/my-programs/myPrograms.page";
+import { HomePage } from "../pages/protected/home-page/home.page";
 
-const routesData: MenuItem[] = [
+export const routesData: MenuItem[] = [
   {
     id: 1,
     route: "/",
     title: "Home",
     icon: DashboardOutlined,
+    page: HomePage,
   },
   {
     id: 2,
@@ -27,6 +35,7 @@ const routesData: MenuItem[] = [
         route: "/users",
         title: "Users List",
         icon: UnorderedListOutlined,
+        page: UsersPage,
       },
       {
         id: 22,
@@ -34,6 +43,7 @@ const routesData: MenuItem[] = [
         title: "Create user",
         icon: UserAddOutlined,
         requiredRole: [RoleNames.ADMIN],
+        page: CreateUserPage,
       },
     ],
   },
@@ -48,6 +58,7 @@ const routesData: MenuItem[] = [
         title: "All Programs",
         icon: UnorderedListOutlined,
         requiredRole: [RoleNames.ADMIN],
+        page: ProgramsPage,
       },
       {
         id: 32,
@@ -55,12 +66,14 @@ const routesData: MenuItem[] = [
         title: "Create program",
         icon: FileAddOutlined,
         requiredRole: [RoleNames.ADMIN],
+        page: CreateProgramPage,
       },
       {
         id: 33,
         route: "/my-programs",
         title: "My Programs",
         icon: AudioOutlined,
+        page: MyPrograms,
       },
     ],
   },
