@@ -3,7 +3,7 @@ import React from "react";
 import { Provider } from "mobx-react";
 import "./App.scss";
 
-import Routes from "./routes";
+import { Routes } from "./routes";
 import httpClient from "./services/http.client";
 import IdentityService from "./services/identity.service";
 import IdentityStore from "./stores/identity.store";

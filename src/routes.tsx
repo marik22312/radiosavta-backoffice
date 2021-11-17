@@ -1,10 +1,11 @@
-import * as React from "react";
+import React, { useMemo, ReactElement } from "react";
 import {
   BrowserRouter as Router,
   Redirect,
   Route,
   RouteProps,
   Switch,
+  useHistory,
 } from "react-router-dom";
 
 import { Layout } from "antd";
@@ -30,17 +31,24 @@ import { useAuth } from "./hooks/auth/useAuth";
 import { LoginPage } from "./pages/login-page/login.page";
 import { RoleNames } from "./domain/Users";
 import { MyPrograms } from "./pages/protected/my-programs/myPrograms.page";
+import { isPermitted } from "./utils/identity.utils";
+import { routesData, useRoutes } from "./hooks/useRoutes";
+import { ChildMenuItem, ParentMenuItem } from "./domain/Routes";
 
 const RoleProtectedRoute: React.FC<{
-  role: RoleNames;
+  requiredRoles?: RoleNames[];
   component: RouteProps["component"];
   path: string;
   exact?: boolean;
 }> = (props) => {
   const { roles } = useAuth();
-  if (!roles.includes(props.role)) {
-    return <Redirect to="/" />;
+  const history = useHistory();
+  if (!isPermitted(roles, props.requiredRoles)) {
+    history.push("/");
+    // return <Redirect to="/" />;
+    return null;
   }
+  console.log("Rendering route", props.path);
 
   return (
     <Route path={props.path} exact={props.exact} component={props.component} />
@@ -49,79 +57,92 @@ const RoleProtectedRoute: React.FC<{
 
 const ProtectedRoute: React.FC = (props) => {
   const { isAuthenticated } = useAuth();
+  const { routes } = useRoutes();
+  const history = useHistory();
 
+  const routesToRender = useMemo(() => {
+    const components: ReactElement[] = [];
+
+    routes.forEach((route) => {
+      if (route.page) {
+        components.push(
+          <RoleProtectedRoute
+            key={route.id}
+            path={(route as ChildMenuItem).route}
+            exact={true}
+            component={route.page}
+            requiredRoles={(route as ChildMenuItem).requiredRole}
+          />
+        );
+        return;
+      }
+      (route as ParentMenuItem).children.forEach((c) => {
+        components.push(
+          <RoleProtectedRoute
+            exact={true}
+            key={c.id}
+            requiredRoles={c.requiredRole}
+            path={c.route}
+            component={c.page}
+          />
+        );
+      });
+    });
+
+    return components;
+  }, []);
   if (!isAuthenticated) {
-    return <Redirect to="/login" />;
+    // return <Redirect to="/login" />;
+    history.push("/login");
+    return null;
   }
+
+  console.log("Routes to render", routesToRender);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideNav />
       <Layout style={{ marginLeft: 200 }}>
         <NavigationBar />
         <Layout.Content style={{ padding: "0 50px", marginTop: 64 }}>
-          <Switch>
-            <Route path="/" exact component={HomePage} />
-            <RoleProtectedRoute
-              path="/programs"
-              exact
-              component={ProgramsPage}
-              role={RoleNames.ADMIN}
-            />
-            <Route path="/my-programs" exact component={MyPrograms} />
-            <RoleProtectedRoute
-              role={RoleNames.ADMIN}
-              path="/programs/create"
-              exact
-              component={CreateProgramPage}
-            />
-            <Route path="/programs/:id" exact component={SingleProgramPage} />
-            <Route
-              path="/programs/:programId/upload-show"
-              exact
-              component={UploadedRecordedShowPage}
-            />
-            <Route path="/users" exact component={UsersPage} />
-            <RoleProtectedRoute
-              role={RoleNames.ADMIN}
-              path="/users/create"
-              exact
-              component={CreateUserPage}
-            />
-            <Route path="/users/:userId" exact component={SingleUserPage} />
-            <Route component={() => <Redirect to="/" />} />
-          </Switch>
+          <Switch>{routesToRender}</Switch>
         </Layout.Content>
       </Layout>
     </Layout>
   );
 };
 
-interface Props {
-  identityStore?: IdentityStore;
-}
+const ChildrenRoutes: React.FC<{ childrenRoutes: any[] }> = (props) => {
+  console.log("Children inside", props.childrenRoutes);
+  return (
+    <>
+      {props.childrenRoutes.map((r) => {
+        console.log("Returnng role protected for", r);
+        return (
+          <RoleProtectedRoute
+            exact={true}
+            key={r.id}
+            requiredRoles={r.requiredRole}
+            path={r.route}
+            component={r.page}
+          />
+        );
+      })}
+    </>
+  );
+};
 
-export default class Routes extends React.Component<
-  Props,
-  Record<string, unknown>
-> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {};
-  }
-  public render() {
-    return (
-      <>
-        <Router>
-          <Switch>
-            <Route path="/login" component={LoginPage} />
-            <Route path="/forgot-password" component={ForgotPasswordPage} />
-            <Route path="/reset-password" component={ResetPasswordPage} />
-            <Route component={() => <ProtectedRoute />} />
-          </Switch>
-        </Router>
-        <ToastContainer />
-      </>
-    );
-  }
-}
+export const Routes: React.FC = () => {
+  return (
+    <>
+      <Router>
+        <Switch>
+          <Route path="/login" component={LoginPage} />
+          <Route path="/forgot-password" component={ForgotPasswordPage} />
+          <Route path="/reset-password" component={ResetPasswordPage} />
+          <Route component={() => <ProtectedRoute />} />
+        </Switch>
+      </Router>
+      <ToastContainer />
+    </>
+  );
+};
