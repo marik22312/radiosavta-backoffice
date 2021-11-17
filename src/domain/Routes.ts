@@ -15,6 +15,7 @@ export interface ChildMenuItem {
   icon?: any;
   requiredRole?: RoleNames[];
   page: any;
+  hideFromMenu?: boolean;
 }
 
 export type MenuItem = ParentMenuItem | ChildMenuItem;

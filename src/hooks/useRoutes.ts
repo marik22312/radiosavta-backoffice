@@ -16,6 +16,7 @@ import { ProgramsPage } from "../pages/protected/programs/programs.page";
 import { CreateProgramPage } from "../pages/protected/programs/create-program/CreateProgram";
 import { MyPrograms } from "../pages/protected/my-programs/myPrograms.page";
 import { HomePage } from "../pages/protected/home-page/home.page";
+import { SingleProgramPage } from "../pages/protected/programs/singleProgram/singleProgram.page";
 
 export const routesData: MenuItem[] = [
   {
@@ -62,6 +63,14 @@ export const routesData: MenuItem[] = [
       },
       {
         id: 32,
+        route: "/programs/:id",
+        title: "Single Program PAge",
+        icon: UnorderedListOutlined,
+        page: SingleProgramPage,
+        hideFromMenu: true,
+      },
+      {
+        id: 33,
         route: "/programs/create",
         title: "Create program",
         icon: FileAddOutlined,
@@ -69,7 +78,7 @@ export const routesData: MenuItem[] = [
         page: CreateProgramPage,
       },
       {
-        id: 33,
+        id: 34,
         route: "/my-programs",
         title: "My Programs",
         icon: AudioOutlined,

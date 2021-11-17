@@ -42,6 +42,9 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
                   icon={o.icon && <o.icon />}
                 >
                   {children.map((c) => {
+                    if (c.hideFromMenu) {
+                      return null;
+                    }
                     if (c.requiredRole) {
                       if (!isPermitted(roles, c.requiredRole)) {
                         return null;
