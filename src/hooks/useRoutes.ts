@@ -7,6 +7,7 @@ import {
   UserAddOutlined,
   UnorderedListOutlined,
   FileAddOutlined,
+  FileAddFilled
 } from "@ant-design/icons";
 import { RoleNames } from "../domain/Users";
 import { useMemo } from "react";
@@ -17,6 +18,7 @@ import { CreateProgramPage } from "../pages/protected/programs/create-program/Cr
 import { MyPrograms } from "../pages/protected/my-programs/myPrograms.page";
 import { HomePage } from "../pages/protected/home-page/home.page";
 import { SingleProgramPage } from "../pages/protected/programs/singleProgram/singleProgram.page";
+import { UploadedRecordedShowPage } from "../pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
 
 export const routesData: MenuItem[] = [
   {
@@ -67,6 +69,14 @@ export const routesData: MenuItem[] = [
         title: "Single Program PAge",
         icon: UnorderedListOutlined,
         page: SingleProgramPage,
+        hideFromMenu: true,
+      },
+      {
+        id: 32,
+        route: "/programs/:programId/upload-show",
+        title: "Upload Show",
+        icon: FileAddFilled,
+        page: UploadedRecordedShowPage,
         hideFromMenu: true,
       },
       {
