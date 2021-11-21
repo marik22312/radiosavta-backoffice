@@ -46,7 +46,7 @@
     "mobx": "^5.14.2",
     "mobx-react": "^6.1.4",
     "moment": "^2.27.0",
-    "optimize-css-assets-webpack-plugin": "5.0.3",
+    "optimize-css-assets-webpack-plugin": "5.0.5",
     "pnp-webpack-plugin": "1.5.0",
     "postcss-flexbugs-fixes": "4.1.0",
     "postcss-loader": "3.0.0",
