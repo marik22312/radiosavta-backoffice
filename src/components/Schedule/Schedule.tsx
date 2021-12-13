@@ -3,19 +3,17 @@ import React from "react";
 import { Calendar, ViewKey, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/sass/styles.scss";
 import moment from "moment";
-import { useTodayShows } from "../../hooks/useTodayShows";
+import { useSchedule } from "../../hooks/useSchedule";
 import { IFullProgram } from "../../models/types";
 import { Schedule as ISchedule } from "../../domain/Schedule";
 const localizer = momentLocalizer(moment);
 
 export const Schedule: React.FC = () => {
-  const { isLoading, shows } = useTodayShows();
+  const { isLoading, shows } = useSchedule();
 
-  console.log("StarTime", shows);
   const mapShowsToEvents = (shows: ISchedule[]) => {
     return shows.map((show) => {
       const startTime = moment(show.start).utc().toDate();
-      console.log("StarTime", startTime);
       return {
         start: moment(show.start).utc().toDate(),
         end:
