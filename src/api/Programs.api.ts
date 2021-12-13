@@ -1,10 +1,11 @@
 import { BASE_API_URL } from "../config/api.config";
+import { Schedule } from "../domain/Schedule";
 import { IFullProgram, IProgram } from "../models/types";
 import HttpClient from "../services/http.client";
 
 export const getTodaysShows = () => {
-  return HttpClient.get<{ shows: IFullProgram[] }>(
-    BASE_API_URL + "/v2/programs/today"
+  return HttpClient.get<{ schedule: Schedule[] }>(
+    BASE_API_URL + "/v2/schedule"
   );
 };
 export const getAllPrograms = () => {

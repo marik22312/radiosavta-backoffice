@@ -5,6 +5,6 @@ export const useTodayShows = () => {
   const { data, isLoading } = useQuery("todayShows", getTodaysShows);
   return {
     isLoading,
-    shows: data?.data.shows || [],
+    shows: data?.data.schedule || [],
   };
 };

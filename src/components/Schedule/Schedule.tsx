@@ -5,17 +5,28 @@ import "react-big-calendar/lib/sass/styles.scss";
 import moment from "moment";
 import { useTodayShows } from "../../hooks/useTodayShows";
 import { IFullProgram } from "../../models/types";
+import { Schedule as ISchedule } from "../../domain/Schedule";
 const localizer = momentLocalizer(moment);
 
 export const Schedule: React.FC = () => {
   const { isLoading, shows } = useTodayShows();
 
-  const mapShowsToEvents = (shows: IFullProgram[]) => {
-    return shows.map((show) => ({
-      start: moment(show.programTimes.start_time, "h:mm").toDate(),
-      end: moment(show.programTimes.start_time, "h:mm").add(1, "h").toDate(),
-      title: show.name_en,
-    }));
+  console.log("StarTime", shows);
+  const mapShowsToEvents = (shows: ISchedule[]) => {
+    return shows.map((show) => {
+      const startTime = moment(show.start).utc().toDate();
+      console.log("StarTime", startTime);
+      return {
+        start: moment(show.start).utc().toDate(),
+        end:
+          show.type === "playlist"
+            ? moment(show.end).utc().toDate()
+            : moment(show.start).add(1, "hour").utc().toDate(),
+        title: `${show.name} | ${
+          show.type === "playlist" ? "פלייליסט" : "לייב"
+        }`,
+      };
+    });
   };
 
   const renderCalendar = () => {
