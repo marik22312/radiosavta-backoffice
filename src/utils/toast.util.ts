@@ -28,3 +28,10 @@ export const showErrorToast = (message: string) => {
     autoClose: 3000,
   });
 };
+
+export const showStreamerConnectedToast = (streamerName: string) => {
+  return toast.info(`Streamer Connected: ${streamerName}`, {
+    position: "top-right",
+    autoClose: 5000,
+  });
+};
