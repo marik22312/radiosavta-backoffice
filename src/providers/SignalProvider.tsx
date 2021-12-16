@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from "react";
 
 import { Socket, io } from "socket.io-client";
+import { BASE_API_URL } from '../config/api.config';
 
 interface SignalContext {
   socket: Socket;
@@ -24,7 +25,7 @@ export const useSignalContext = () => {
 
 export const SignalContextProvider: React.FC = ({ children }) => {
   const socketRef = useRef(
-    io("http://localhost:4000", {
+    io(BASE_API_URL, {
       path: "/signal/",
     })
   );
