@@ -34,6 +34,7 @@ import { MyPrograms } from "./pages/protected/my-programs/myPrograms.page";
 import { isPermitted } from "./utils/identity.utils";
 import { routesData, useRoutes } from "./hooks/useRoutes";
 import { ChildMenuItem, ParentMenuItem } from "./domain/Routes";
+import { useSubscribeToStreamerConnected } from "./hooks/useSubscribeToStreamerConnected";
 
 const RoleProtectedRoute: React.FC<{
   requiredRoles?: RoleNames[];
@@ -90,7 +91,7 @@ const ProtectedRoute: React.FC = (props) => {
     });
 
     return components;
-  }, []);
+  }, [routes]);
   if (!isAuthenticated) {
     // return <Redirect to="/login" />;
     history.push("/login");
