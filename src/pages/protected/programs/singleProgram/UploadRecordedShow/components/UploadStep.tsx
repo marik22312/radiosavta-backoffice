@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Upload, Form, Button } from "antd";
+import { Upload, Form, Button, Progress } from "antd";
 import { useUploadRecordedShow } from "../../../../../../hooks/useUploadRecordedShow";
 import Loader from "react-loader-spinner";
 import { RecordedShowPlayer } from "../../../../../../components/RecordedShowPlayer/RecordedShowPlayer";
@@ -16,11 +16,22 @@ interface UploadStepProps {
 export const UploadStep: React.FC<UploadStepProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [progress, setProgress] = useState(0);
+  
   const { program, isLoading: isProgramLoading } = useProgramById(
     props.programId
   );
 
-  const { uploadRecordedShow } = useUploadRecordedShow();
+  const onUploadProgress = (progressEvent: any) => {
+    const completed = Math.round(
+      (progressEvent.loaded * 100) / progressEvent.total
+    );
+    setProgress(completed);
+  };
+
+  const { uploadRecordedShow } = useUploadRecordedShow({
+    onUploadProgress,
+  });
 
   const uploadRecording = async (values: any) => {
     setIsLoading(true);
@@ -29,6 +40,7 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
       programId: props.programId,
       recordedShow: recordingFile,
     });
+    setProgress(0);
     props.onSuccess(recordedShowResponse);
     setIsLoading(false);
   };
@@ -51,7 +63,7 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
           },
         ]}
       >
-        {previewUrl && !isProgramLoading ? (
+        {previewUrl && !isProgramLoading && !isLoading ? (
           <RecordedShowPlayer
             name="Preview"
             url={previewUrl}
@@ -62,6 +74,8 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
             }
             recordingDate={new Date().toString()}
           />
+        ) : isLoading ? (
+          <Progress type="circle" percent={progress} />
         ) : (
           <Upload.Dragger
             listType="text"
