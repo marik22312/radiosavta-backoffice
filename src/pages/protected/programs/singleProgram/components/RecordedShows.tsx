@@ -8,6 +8,8 @@ import { IFullProgram } from "../../../../../models/types";
 
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MoreActions } from "./MoreActions";
+import { EditRecordedShow } from "../../../../../components/EditRecordedShow/EditRecordedShow";
 const SourceColumn: React.FC<{ source?: string }> = ({ source }) => {
   if (!source) {
     return <span style={{ color: "red" }}>MIXCLOUD</span>;
@@ -23,17 +25,11 @@ const columns = [
     dataIndex: "created_at",
     render: (text: string) => Intl.DateTimeFormat("he").format(new Date(text)),
   },
-  {
-    title: "File source",
-    dataIndex: "source",
-    // eslint-disable-next-line
-    render: (text: string) => <SourceColumn source={text} />,
-  },
   { title: "Status", dataIndex: "status" },
   {
     title: "Actions",
     // eslint-disable-next-line
-    render: (text: string, src: RecordedShow | any) => <a href={src.url} target="_blank" rel="noreferrer noopener">Open <FontAwesomeIcon icon={faExternalLinkAlt} /></a>,
+    render: (text: string, src: RecordedShow | any) => <MoreActions programId={src.id}/>,
     fixed: true,
   },
 ];
@@ -45,10 +41,12 @@ export const RecordedShowsTable: React.FC<{ programId: string }> = (props) => {
     return <Loader />;
   }
   return (
+    <>
     <Table
       loading={isLoading}
       columns={columns}
       dataSource={[...program!.recorded_shows_ng, ...program!.recorded_shows]}
-    ></Table>
+      />
+      </>
   );
 };

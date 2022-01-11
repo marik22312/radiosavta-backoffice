@@ -16,25 +16,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { SideNav } from "./components/Navbar/SideNav";
 import { NavigationBar } from "./components/Navbar/NavigationBar";
-import { HomePage } from "./pages/protected/home-page/home.page";
-import { ProgramsPage } from "./pages/protected/programs/programs.page";
-import { SingleProgramPage } from "./pages/protected/programs/singleProgram/singleProgram.page";
-import { CreateUserPage } from "./pages/protected/users/create/createUser.page";
-import IdentityStore from "./stores/identity.store";
-import { CreateProgramPage } from "./pages/protected/programs/create-program/CreateProgram";
-import { UsersPage } from "./pages/protected/users/Users.page";
-import { SingleUserPage } from "./pages/protected/users/SingleUser/SingleUser.page";
-import { UploadedRecordedShowPage } from "./pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
 import { ResetPasswordPage } from "./pages/reset-password/ResetPassword.page";
 import { ForgotPasswordPage } from "./pages/forgot-password/ForgotPassword.page";
 import { useAuth } from "./hooks/auth/useAuth";
 import { LoginPage } from "./pages/login-page/login.page";
 import { RoleNames } from "./domain/Users";
-import { MyPrograms } from "./pages/protected/my-programs/myPrograms.page";
 import { isPermitted } from "./utils/identity.utils";
-import { routesData, useRoutes } from "./hooks/useRoutes";
+import { useRoutes } from "./hooks/useRoutes";
 import { ChildMenuItem, ParentMenuItem } from "./domain/Routes";
-import { useSubscribeToStreamerConnected } from "./hooks/useSubscribeToStreamerConnected";
 
 const RoleProtectedRoute: React.FC<{
   requiredRoles?: RoleNames[];
