@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 
 import { Socket, io } from "socket.io-client";
-import { BASE_API_URL } from '../config/api.config';
+import { BASE_API_URL } from "../config/api.config";
 
 interface SignalContext {
   socket: Socket;

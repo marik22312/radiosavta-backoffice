@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Modal, Input, Form } from "antd";
 
 import { useRecordedShowById } from "../../hooks/useRecordedShowById";
@@ -11,15 +11,26 @@ export interface EditRecordedShowModalProps {
   recordedShowId: string | number;
 }
 
-export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({ isOpen, onClose, recordedShowId }) => {
-    const {recordedShow, isLoading} = useRecordedShowById(recordedShowId);
-  const {editRecordedShow, isLoading:isUpdating} = useEditRecordedShow(recordedShowId, { onSuccess: onClose, onError: () => showErrorToast('Something went wrong, please try again later')});
+export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({
+  isOpen,
+  onClose,
+  recordedShowId,
+}) => {
+  const { recordedShow, isLoading } = useRecordedShowById(recordedShowId);
+  const { editRecordedShow, isLoading: isUpdating } = useEditRecordedShow(
+    recordedShowId,
+    {
+      onSuccess: onClose,
+      onError: () =>
+        showErrorToast("Something went wrong, please try again later"),
+    }
+  );
 
   const [formInstance] = Form.useForm();
 
   useEffect(() => {
-    formInstance.setFieldsValue({name: recordedShow?.name})
-  }, [formInstance, recordedShow])
+    formInstance.setFieldsValue({ name: recordedShow?.name });
+  }, [formInstance, recordedShow]);
 
   const closeAndReset = () => {
     formInstance.resetFields();
@@ -27,8 +38,8 @@ export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({ isOpen,
   };
 
   const updateShow = (values: any) => {
-      editRecordedShow({name: values.name});
-  }
+    editRecordedShow({ name: values.name });
+  };
 
   const submitModal = async () => {
     const values = await formInstance.validateFields();
@@ -38,7 +49,7 @@ export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({ isOpen,
 
   return (
     <Modal
-      title={recordedShow?.name || 'Loading...'}
+      title={recordedShow?.name || "Loading..."}
       visible={true}
       onCancel={closeAndReset}
       onOk={submitModal}

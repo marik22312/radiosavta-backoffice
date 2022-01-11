@@ -42,11 +42,11 @@ export const RecordedShowsTable: React.FC<{ programId: string }> = (props) => {
   }
   return (
     <>
-    <Table
-      loading={isLoading}
-      columns={columns}
-      dataSource={[...program!.recorded_shows_ng, ...program!.recorded_shows]}
+      <Table
+        loading={isLoading}
+        columns={columns}
+        dataSource={[...program!.recorded_shows_ng, ...program!.recorded_shows]}
       />
-      </>
+    </>
   );
 };

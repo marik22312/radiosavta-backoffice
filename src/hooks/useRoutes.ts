@@ -7,7 +7,7 @@ import {
   UserAddOutlined,
   UnorderedListOutlined,
   FileAddOutlined,
-  FileAddFilled
+  FileAddFilled,
 } from "@ant-design/icons";
 import { RoleNames } from "../domain/Users";
 import { useMemo } from "react";
