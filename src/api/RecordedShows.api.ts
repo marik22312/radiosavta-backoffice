@@ -48,3 +48,13 @@ export const getRecordedShow = async (id: string | number) => {
   );
   return data;
 };
+export const updateRecordedShow = async (
+  id: string | number,
+  newData: Pick<RecordedShow, "name">
+) => {
+  const { data } = await httpClient.put<{ recordedShow: RecordedShow }>(
+    `/v2/recorded-shows/${id}`,
+    newData
+  );
+  return data;
+};

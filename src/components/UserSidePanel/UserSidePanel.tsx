@@ -49,7 +49,6 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
     );
   };
 
-
   return (
     <>
       <Drawer
@@ -97,8 +96,7 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
                 <Typography.Title level={5}>Participating in</Typography.Title>
               </Col>
               {user?.programs?.map((program) => {
-                return (<ProgramTile key={program.id} {...program} />
-                )
+                return <ProgramTile key={program.id} {...program} />;
               })}
             </Row>
           </>

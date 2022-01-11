@@ -17,7 +17,7 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [progress, setProgress] = useState(0);
-  
+
   const { program, isLoading: isProgramLoading } = useProgramById(
     props.programId
   );
