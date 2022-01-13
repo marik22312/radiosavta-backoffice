@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import ReactDOM from "react-dom";
 import { useUserById } from "../../hooks/useUserById";
-import { createElement } from "react";
 
 import EditUserModal from "../EditUserModal/EditUserModal";
 
@@ -12,7 +10,6 @@ import {
   Divider,
   Drawer,
   Row,
-  Space,
   Typography,
 } from "antd";
 

@@ -47,7 +47,7 @@ export const LoginForm = () => {
   const history = useHistory();
   const { preformLogin } = useLogin();
 
-  const [error, setError] = useState(false);
+  const [error] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const onFormSubmit = async (fields: any) => {

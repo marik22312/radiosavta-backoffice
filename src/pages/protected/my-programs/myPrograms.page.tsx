@@ -3,7 +3,6 @@ import { Col, Row } from "antd";
 import { useAuth } from "../../../hooks/auth/useAuth";
 import { ProgramTile } from "../../../components/ProgramTile/ProgramTile";
 import { Page } from "../../../components/Page/Page";
-import { Card } from "../../../components/Card/Card";
 import { User } from "../../../domain/Users";
 import { NoPrograms } from "./components/EmptyState";
 
@@ -11,7 +10,6 @@ const ProgramsPageContent: React.FC<{ programs: User["programs"] }> = (
   props
 ) => {
   if (props.programs?.length) {
-    console.log("programs?");
     return (
       <>
         {props.programs.map((program) => {

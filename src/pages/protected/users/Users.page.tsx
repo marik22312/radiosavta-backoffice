@@ -1,4 +1,4 @@
-import { Row, Table, Avatar } from "antd";
+import { Table, Avatar } from "antd";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Card } from "../../../components/Card/Card";
@@ -44,7 +44,6 @@ const columns = [
 
 export const UsersPage: React.FC = (props) => {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-  const history = useHistory();
   const { isLoading, users } = useUsers();
 
   return (

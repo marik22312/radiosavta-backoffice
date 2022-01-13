@@ -1,11 +1,10 @@
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { CreateUserForm, CreateUserFormProps } from "./CreateUserForm";
 import { CreateUserFormDriver } from "./CreateUserForm.driver";
 import { act } from "react-dom/test-utils";
 import {
   createFakeUser,
-  stubCreateUser,
 } from "../../../../../api/Users.api.mock";
 import {
   stubUseCreateUser,
@@ -69,7 +68,7 @@ describe("CreateUserForm", () => {
       const fakeUser = createFakeUser();
       const onUserCreated = jest.fn();
       stubUseCreateUserSuccess(fakeUser);
-      const driver = renderForm({ onUserCreated });
+      renderForm({ onUserCreated });
 
       expect(onUserCreated).toBeCalledWith(fakeUser);
     });
@@ -85,7 +84,7 @@ describe("CreateUserForm", () => {
       const onError = jest.fn();
       const error = new Error("SomeError");
       stubUseCreateUserError(error);
-      const driver = renderForm({ onError });
+      renderForm({ onError });
       expect(onError).toBeCalledWith(error);
     });
   });

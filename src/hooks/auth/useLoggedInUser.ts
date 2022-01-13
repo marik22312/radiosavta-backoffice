@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 import { getMe } from "../../api/Auth.api";
 
-const emptyArr = [];
 interface UseLoggedInUserArgs {
   enabled?: boolean;
 }

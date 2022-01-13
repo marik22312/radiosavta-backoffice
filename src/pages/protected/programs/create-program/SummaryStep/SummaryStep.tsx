@@ -5,7 +5,6 @@ import {
   Col,
   Row,
   Typography,
-  Space,
   Avatar,
   Button,
 } from "antd";

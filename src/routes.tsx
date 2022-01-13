@@ -1,7 +1,6 @@
 import React, { useMemo, ReactElement } from "react";
 import {
   BrowserRouter as Router,
-  Redirect,
   Route,
   RouteProps,
   Switch,
@@ -98,26 +97,6 @@ const ProtectedRoute: React.FC = (props) => {
         </Layout.Content>
       </Layout>
     </Layout>
-  );
-};
-
-const ChildrenRoutes: React.FC<{ childrenRoutes: any[] }> = (props) => {
-  console.log("Children inside", props.childrenRoutes);
-  return (
-    <>
-      {props.childrenRoutes.map((r) => {
-        console.log("Returnng role protected for", r);
-        return (
-          <RoleProtectedRoute
-            exact={true}
-            key={r.id}
-            requiredRoles={r.requiredRole}
-            path={r.route}
-            component={r.page}
-          />
-        );
-      })}
-    </>
   );
 };
 
