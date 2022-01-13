@@ -58,3 +58,7 @@ export const updateRecordedShow = async (
   );
   return data;
 };
+export const deleteRecordedShow = async (id: string | number) => {
+  const { data } = await httpClient.delete(`/v2/recorded-shows/${id}`);
+  return data;
+};
