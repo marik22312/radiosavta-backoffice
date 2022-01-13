@@ -3,9 +3,7 @@ import { render, waitFor } from "@testing-library/react";
 import { CreateUserForm, CreateUserFormProps } from "./CreateUserForm";
 import { CreateUserFormDriver } from "./CreateUserForm.driver";
 import { act } from "react-dom/test-utils";
-import {
-  createFakeUser,
-} from "../../../../../api/Users.api.mock";
+import { createFakeUser } from "../../../../../api/Users.api.mock";
 import {
   stubUseCreateUser,
   stubUseCreateUserError,

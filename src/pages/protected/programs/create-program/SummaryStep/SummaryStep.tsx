@@ -1,13 +1,5 @@
 import React, { Fragment } from "react";
-import {
-  Card,
-  Descriptions,
-  Col,
-  Row,
-  Typography,
-  Avatar,
-  Button,
-} from "antd";
+import { Card, Descriptions, Col, Row, Typography, Avatar, Button } from "antd";
 import moment from "moment";
 
 import { IUser } from "../../../../../models/types";
