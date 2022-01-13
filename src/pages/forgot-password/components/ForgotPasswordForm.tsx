@@ -2,10 +2,8 @@ import { Form, Input, Button, Alert } from "antd";
 import React, { useState } from "react";
 import { useForgotPassword } from "./hooks/useForgotPassword";
 import { RECAPTCHA_CLIENT } from "../../../config/api.config";
-import { ResetPasswordErrorTypes } from "../domain/Errors";
 
 import ReCAPTCHA from "react-google-recaptcha";
-import { useHistory } from "react-router-dom";
 interface ForgotPasswordFields {
   email: string;
 }

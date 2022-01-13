@@ -9,14 +9,12 @@ import {
   Divider,
   Button,
 } from "antd";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { Card } from "../../../../components/Card/Card";
 import { Page } from "../../../../components/Page/Page";
-import { UserSidePanel } from "../../../../components/UserSidePanel/UserSidePanel";
 import { BASE_IMAGES_URL } from "../../../../config/constants.config";
 import { useUserById } from "../../../../hooks/useUserById";
-import { useUsers } from "../../../../hooks/useUsers";
 import css from "./SingleUserPage.module.scss";
 
 export const SingleUserPage: React.FC = (props) => {

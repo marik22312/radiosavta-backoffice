@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Calendar, ViewKey, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/sass/styles.scss";
 import moment from "moment";
 import { useSchedule } from "../../hooks/useSchedule";

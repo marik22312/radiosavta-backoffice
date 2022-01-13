@@ -1,5 +1,4 @@
 import { AxiosRequestConfig } from "axios";
-import { useState } from "react";
 import { useMutation } from "react-query";
 import {
   uploadRecordedShow,

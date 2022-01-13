@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Upload, Form, Button, Progress } from "antd";
 import { useUploadRecordedShow } from "../../../../../../hooks/useUploadRecordedShow";
-import Loader from "react-loader-spinner";
 import { RecordedShowPlayer } from "../../../../../../components/RecordedShowPlayer/RecordedShowPlayer";
 import { useProgramById } from "../../../../../../hooks/usePgoramById";
 import { BASE_IMAGES_URL } from "../../../../../../config/constants.config";
