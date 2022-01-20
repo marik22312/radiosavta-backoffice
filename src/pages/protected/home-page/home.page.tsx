@@ -5,13 +5,12 @@ import IdentityStore from "../../../stores/identity.store";
 
 import Interval from "react-interval";
 
-import { Col, Row, Card, List, Typography, Empty, Result } from "antd";
+import { Col, Row, Card, List, Typography } from "antd";
 import { Page } from "../../../components/Page/Page";
 import { StatCard } from "../../../components/StatCard/StatCart";
 import BaseApiService from "../../../services/base.api.service";
 import { Schedule } from "../../../components/Schedule/Schedule";
-import { Line } from '@ant-design/plots';
-import { httpClient } from "../../../services/http.client";
+import { ListenerStatistics } from "../../../components/ListenerStatistics/ListenerStatistics";
 
 const announcments = [
   {
@@ -35,49 +34,6 @@ interface Props extends RouteComponentProps {
 
 interface State {
   stats: any;
-  statistics: any;
-}
-
-interface lineChartItem {
-  'date': string;
-  'value': number;
-  'broadcaster': string;
-}
-
-interface ResponseDataObject {
-  [key:string]: number
-}
-
-interface ResponseData {
-  [key:string]: ResponseDataObject
-}
-
-interface Response {
-  data: {
-    response: { 
-      data: ResponseData
-    }
-  }
-}
-
-function mapResponseToChart(item: ResponseData): lineChartItem[] {
-  const options = {
-    month: "numeric",
-    day: "numeric",
-  };
-  const arr:lineChartItem[] = []
-  const items = Object.keys(item).forEach((broadcaster) => {
-    Object.keys(item[broadcaster]).forEach(date => {
-        arr.push({
-          broadcaster,
-          value: item[broadcaster][date],
-          date:  new Intl.DateTimeFormat("en-GB", options).format(
-            new Date(date)
-          )
-        })
-    })
-  })
-  return arr
 }
 
 @inject("identityStore", "apiStore")
@@ -89,39 +45,14 @@ export class HomePage extends React.Component<Props, State> {
 
     this.state = {
       stats: {},
-      statistics: [],
     };
   }
 
   public componentDidMount() {
     this.fetchStats();
-    this.fetchStatistics();
   }
 
   public render() {
-    const { stats, statistics } = this.state;
-
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    };
-    const date = new Intl.DateTimeFormat("en-GB", options).format(
-      new Date(stats.stream_start || null)
-    );
-
-    console.log(statistics)
-
-    const config = {
-      data: statistics,
-      xField: 'date',
-      yField: 'value',
-      seriesField: 'broadcaster',
-      color: ['#7856FF', '#FF7557', '#80E1D9', '#F8BC3B', '#B2596E', '#72BEF4'],
-    };
-
-
     return (
       <Page>
         <Row>
@@ -148,11 +79,7 @@ export class HomePage extends React.Component<Props, State> {
         >
           <Col span={24}>
             <Card title="statistics?">
-                {statistics?.length ? <Line {...config} /> :(
-                <Result
-                  status="error"
-                  title="Something went wrong"
-                />)}
+              <ListenerStatistics />
             </Card>
           </Col>
         </Row>
@@ -225,23 +152,12 @@ export class HomePage extends React.Component<Props, State> {
 
     try {
       const { data } = await apiStore.get("/statistics/server");
-      
+
       this.setState({
-        stats: data
+        stats: data,
       });
     } catch (error) {
       // TODO: Add notifications module to support HTTP errors
     }
   };
-
-  private readonly fetchStatistics = async () => {
-
-    const statistics:Response = await httpClient.get("/v2/statistics/live-player/play");
-
-    const statisticsData = mapResponseToChart(statistics.data.response.data)
-
-    this.setState({
-      statistics: statisticsData
-    })
-  }
 }
