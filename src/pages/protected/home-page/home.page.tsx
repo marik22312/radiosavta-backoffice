@@ -10,6 +10,7 @@ import { Page } from "../../../components/Page/Page";
 import { StatCard } from "../../../components/StatCard/StatCart";
 import BaseApiService from "../../../services/base.api.service";
 import { Schedule } from "../../../components/Schedule/Schedule";
+import { ListenerStatistics } from "../../../components/ListenerStatistics/ListenerStatistics";
 
 const announcments = [
   {
@@ -52,17 +53,6 @@ export class HomePage extends React.Component<Props, State> {
   }
 
   public render() {
-    const { stats } = this.state;
-
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "numeric",
-      day: "numeric",
-    };
-    const date = new Intl.DateTimeFormat("en-GB", options).format(
-      new Date(stats.stream_start || null)
-    );
     return (
       <Page>
         <Row>
@@ -79,6 +69,17 @@ export class HomePage extends React.Component<Props, State> {
                   </List.Item>
                 )}
               />
+            </Card>
+          </Col>
+        </Row>
+        <Row
+          style={{
+            marginTop: 15,
+          }}
+        >
+          <Col span={24}>
+            <Card title="Live play statistics">
+              <ListenerStatistics />
             </Card>
           </Col>
         </Row>
@@ -151,6 +152,7 @@ export class HomePage extends React.Component<Props, State> {
 
     try {
       const { data } = await apiStore.get("/statistics/server");
+
       this.setState({
         stats: data,
       });
