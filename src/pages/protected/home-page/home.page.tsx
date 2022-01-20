@@ -14,16 +14,16 @@ import { ListenerStatistics } from "../../../components/ListenerStatistics/Liste
 
 const announcments = [
   {
-    date: "17.10.2020",
-    content: "Added todays agenda",
+    date: "20.01.2022",
+    content: "Added Live player statistics view",
   },
   {
-    date: "05.10.2020",
-    content: "Added Users list",
+    date: "14.01.2022",
+    content: "Added Delete recorded show",
   },
   {
-    date: "17.07.2020",
-    content: "Added remove user from program",
+    date: "11.01.2022",
+    content: "Added Edit recorded show",
   },
 ];
 
