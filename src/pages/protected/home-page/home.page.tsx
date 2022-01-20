@@ -78,7 +78,7 @@ export class HomePage extends React.Component<Props, State> {
           }}
         >
           <Col span={24}>
-            <Card title="statistics?">
+            <Card title="Live play statistics">
               <ListenerStatistics />
             </Card>
           </Col>
