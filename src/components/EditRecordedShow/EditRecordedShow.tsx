@@ -49,7 +49,7 @@ export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({
 
   return (
     <Modal
-      title={recordedShow?.name || "Loading..."}
+      title={`Rename ${recordedShow?.name}` || "Loading..."}
       visible={true}
       onCancel={closeAndReset}
       onOk={submitModal}

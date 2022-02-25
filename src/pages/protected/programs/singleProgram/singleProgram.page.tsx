@@ -229,14 +229,15 @@ export class SingleProgramPage extends React.Component<Props, State> {
                   <Descriptions layout="horizontal">
                     {this.renderInfoRow({
                       icon: "description",
-                      title: "Description",
-                      data: this.state.program?.description,
-                    })}
-                    {this.renderInfoRow({
-                      icon: "description",
                       title: "When",
-                      data: `${moment.weekdays(
-                        this.state.program?.programTimes[0].day_of_week
+                      data: `${new Intl.DateTimeFormat("en", {
+                        weekday: "short",
+                      }).format(
+                        moment()
+                          .weekday(
+                            this.state.program?.programTimes[0].day_of_week
+                          )
+                          .toDate()
                       )} - ${this.state.program?.programTimes[0].start_time}`,
                     })}
                   </Descriptions>
