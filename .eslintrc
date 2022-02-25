@@ -36,6 +36,7 @@
 		"@typescript-eslint/camelcase": ["off"],
 		"@typescript-eslint/interface-name-prefix": ["off"],
 		"@typescript-eslint/ban-ts-ignore": "off",
+		"@typescript-eslint/ban-ts-comment": "off",
 		"@typescript-eslint/no-use-before-define": ["off"],
 		"react/prop-types": ["off"],
 	},
