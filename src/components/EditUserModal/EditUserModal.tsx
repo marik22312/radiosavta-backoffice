@@ -9,10 +9,16 @@ import { User } from "../../domain/Users";
 interface ModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  onUserUpdated?: () => void;
   user: IFullUser | User;
 }
 
-const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
+const EditUserModal: React.FC<ModalProps> = ({
+  isOpen,
+  closeModal,
+  user,
+  onUserUpdated,
+}) => {
   const [formInstance] = Form.useForm();
   const [updateUser, { isLoading: isUpdating }] = useUpdateUser();
 
@@ -27,7 +33,10 @@ const EditUserModal: React.FC<ModalProps> = ({ isOpen, closeModal, user }) => {
     updateUser(
       { userId: user.id, data: values },
       {
-        onSuccess: () => closeModal(),
+        onSuccess: () => {
+          onUserUpdated && onUserUpdated();
+          closeModal();
+        },
       }
     );
   };

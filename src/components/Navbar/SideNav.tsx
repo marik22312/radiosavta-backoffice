@@ -33,6 +33,9 @@ export const SideNav: React.FC<Record<string, unknown>> = () => {
         </LogoWrapper>
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
           {routes.map((o) => {
+            if (o.hideFromMenu) {
+              return null;
+            }
             const { children } = o as ParentMenuItem;
             if (children) {
               return (

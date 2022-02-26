@@ -6,6 +6,7 @@ export interface ParentMenuItem {
   title: string;
   children: ChildMenuItem[];
   icon?: any;
+  hideFromMenu?: boolean;
   page?: any;
 }
 export interface ChildMenuItem {
