@@ -86,10 +86,8 @@ export const RecordedShowPlayer: React.FC<RecordedShowPlayerProps> = (
           data-testid="play-pause-button"
         >
           {playerState === PlayerStates.Paused ? (
-            // @ts-expect-error
             <FontAwesomeIcon icon={faPlay} size="3x" color="#ffffff" />
           ) : (
-            // @ts-expect-error
             <FontAwesomeIcon icon={faPause} size="3x" color="#ffffff" />
           )}
         </button>

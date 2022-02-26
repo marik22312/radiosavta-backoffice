@@ -12,6 +12,7 @@ export interface IProgramsService {
   createProgram(program: CreateProgramRequest): Promise<IProgram>;
   getProgramById(id: IProgram["id"]): Promise<IFullProgram>;
   updateProgramById(id: IProgram["id"] | string, data: any): Promise<IProgram>;
+  updateProgramImage(id: IProgram["id"] | string, data: any): Promise<IProgram>;
   disableProgram(id: IProgram["id"]): Promise<IProgram>;
   getAvailableUsersFor(
     id: IProgram["id"]
@@ -43,6 +44,11 @@ export class ProgramsService implements IProgramsService {
 
   public async updateProgramById(id: IProgram["id"], data: any) {
     const response = await this.api.put<IProgram>(`/programs/${id}`, data);
+    return response.data;
+  }
+
+  public async updateProgramImage(id:IProgram["id"], data: any) {
+    const response = await this.api.put(`/v2/programs/${id}/image`, data)
     return response.data;
   }
 

@@ -18,6 +18,7 @@ import { EditProgramTimes } from "../../../../components/EditProgramTimes/EditPr
 import { getProgramById } from "../../../../api/Programs.api";
 
 import { RecordedShowsTable } from "./components/RecordedShows";
+import { EditProgramImage } from "./editProgramImage";
 
 interface SingleProgramPageParams {
   id: string;
@@ -138,24 +139,22 @@ export class SingleProgramPage extends React.Component<Props, State> {
       <Descriptions.Item label={props.title}>{props.data}</Descriptions.Item>
     );
   }
+
+  private updateImage(programId: any, image: any) {
+    console.log(this.state);
+    const id = this.state?.program?.id || programId;
+    console.log(id, image)
+    if(id && image) {
+      this.props.programsService.updateProgramImage(id, image)
+    }
+  }
+
   private renderImage() {
     const { program } = this.state;
     const imageUrl = program?.cover_image || program?.users[0].profile_image;
 
-    const imageStyle: React.CSSProperties = {
-      width: "auto",
-      maxHeight: "200px",
-    };
-
     return (
-      <img
-        alt={program?.name_en}
-        src={
-          "https://res.cloudinary.com/marik-shnitman/image/upload/w_600/v1547932540/" +
-          imageUrl
-        }
-        style={imageStyle}
-      />
+        <EditProgramImage program={program} imageUrl={imageUrl} updateImage={this.props.programsService.updateProgramImage}/>
     );
   }
 
