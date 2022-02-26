@@ -72,14 +72,23 @@ export const UserPage: React.FC<{
                 <Image src={user?.profile_image} />
               </Col>
               <Col span={18}>
-                <Descriptions>
-                  <Descriptions.Item label="Name">
+                <Descriptions layout="vertical">
+                  <Descriptions.Item
+                    label="Name"
+                    labelStyle={{ fontWeight: "bold" }}
+                  >
                     {user?.name}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Email">
+                  <Descriptions.Item
+                    label="Email"
+                    labelStyle={{ fontWeight: "bold" }}
+                  >
                     {user?.email}
                   </Descriptions.Item>
-                  <Descriptions.Item label="Location">
+                  <Descriptions.Item
+                    label="Location"
+                    labelStyle={{ fontWeight: "bold" }}
+                  >
                     {user?.location}
                   </Descriptions.Item>
                 </Descriptions>
