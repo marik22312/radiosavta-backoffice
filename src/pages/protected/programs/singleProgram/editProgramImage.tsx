@@ -8,7 +8,7 @@ import { AxiosRequestConfig } from "axios";
 interface EditProgramImageProps {
   program?: IFullProgram;
   imageUrl?: string;
-  updateImage: (imageUrl: string) => void;
+  updateImage: Function;
 }
 
 export const EditProgramImage = (props: EditProgramImageProps) => {
