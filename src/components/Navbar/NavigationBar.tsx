@@ -11,6 +11,7 @@ import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal"
 import { useLogout } from "../../hooks/auth/useLogout";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { BASE_IMAGES_URL } from "../../config/constants.config";
+import { useHistory } from "react-router-dom";
 
 interface State {
   isOpen: boolean;
@@ -23,6 +24,14 @@ interface Props {
 const LogoutMenuItem: React.FC = () => {
   const { logout } = useLogout();
   return <Menu.Item onClick={logout}>Logout</Menu.Item>;
+};
+const ProfileMenuItem: React.FC = () => {
+  const history = useHistory();
+  return (
+    <Menu.Item onClick={() => history.push("/settings/profile")}>
+      My Profile
+    </Menu.Item>
+  );
 };
 
 const NavBarMenuButton: React.FC = (props) => {
@@ -60,6 +69,7 @@ export class NavigationBar extends React.Component<Props, State> {
   public render() {
     const userMenu = (
       <Menu>
+        <ProfileMenuItem />
         <Menu.Item onClick={() => this.openChangePasswordModal()}>
           Change password
         </Menu.Item>
@@ -69,7 +79,7 @@ export class NavigationBar extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Layout.Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+        <Layout.Header style={{ position: "fixed", zIndex: 3, width: "100%" }}>
           <Row>
             <Col span={4} offset={17}>
               <Dropdown overlay={userMenu}>

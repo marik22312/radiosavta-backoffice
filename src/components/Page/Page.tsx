@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Layout, Breadcrumb, Typography } from "antd";
-import { Link } from "react-router-dom";
+import { Layout, Breadcrumb, Typography, PageHeader } from "antd";
+import { Link, useHistory } from "react-router-dom";
 
 interface PageProps {
   breadcrumbs?: string[];
@@ -26,9 +26,7 @@ export class Page extends React.Component<PageProps, Record<string, unknown>> {
     const { children, title } = this.props;
     return (
       <React.Fragment>
-        <div>
-          <Typography.Title>{title}</Typography.Title>
-        </div>
+        <CustomPageHeader title={title} />
         <Layout.Content className="site-layout" style={{ margin: "0 16px" }}>
           {this.props.breadcrumbs && (
             <Breadcrumb style={{ margin: "16px 0" }}>
@@ -42,3 +40,15 @@ export class Page extends React.Component<PageProps, Record<string, unknown>> {
     );
   }
 }
+
+const CustomPageHeader: React.FC<{ title?: string }> = (props) => {
+  const history = useHistory();
+
+  return (
+    <PageHeader
+      className="site-page-header"
+      onBack={() => history.goBack()}
+      title={props.title}
+    />
+  );
+};

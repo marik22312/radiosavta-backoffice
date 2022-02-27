@@ -5,7 +5,7 @@ interface UseLoggedInUserArgs {
   enabled?: boolean;
 }
 export const useLoggedInUser = (args?: UseLoggedInUserArgs) => {
-  const { data, isLoading } = useQuery("logged_in_user", getMe, {
+  const { data, isLoading, refetch } = useQuery("logged_in_user", getMe, {
     ...args,
     refetchOnWindowFocus: false,
   });
@@ -14,5 +14,6 @@ export const useLoggedInUser = (args?: UseLoggedInUserArgs) => {
     user: data?.data,
     roles: data?.data.roles.map((r) => r.name) || [],
     isLoading,
+    refetch,
   };
 };

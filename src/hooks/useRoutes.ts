@@ -19,6 +19,7 @@ import { MyPrograms } from "../pages/protected/my-programs/myPrograms.page";
 import { HomePage } from "../pages/protected/home-page/home.page";
 import { SingleProgramPage } from "../pages/protected/programs/singleProgram/singleProgram.page";
 import { UploadedRecordedShowPage } from "../pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
+import { ProfilePage } from "../pages/protected/profile/ProfilePage";
 
 export const routesData: MenuItem[] = [
   {
@@ -93,6 +94,21 @@ export const routesData: MenuItem[] = [
         title: "My Programs",
         icon: AudioOutlined,
         page: MyPrograms,
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Settings",
+    route: "/settings",
+    hideFromMenu: true,
+    children: [
+      {
+        id: 41,
+        title: "My Profile",
+        route: "/settings/profile",
+        page: ProfilePage,
+        hideFromMenu: true,
       },
     ],
   },

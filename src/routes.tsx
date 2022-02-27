@@ -37,7 +37,6 @@ const RoleProtectedRoute: React.FC<{
     // return <Redirect to="/" />;
     return null;
   }
-  console.log("Rendering route", props.path);
 
   return (
     <Route path={props.path} exact={props.exact} component={props.component} />
