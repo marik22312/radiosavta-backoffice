@@ -1,5 +1,5 @@
 import { inject, observer } from "mobx-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import ProgramsStore from "../../../../stores/programs.store";
 
@@ -361,17 +361,31 @@ const WrappedEditImageModal: React.FC<{
   onCancel: () => void;
   onImageUpdated: () => void;
 }> = (props) => {
-  const { updateImage, isLoading } = useUpdateProgramImage(props.programId);
-  const uploadImage = async (image: File) => {
-    await updateImage(image);
+  const onSuccess = () => {
     props.onImageUpdated();
   };
+  const [errorMessage, setErrorMessage] = useState();
+  const { updateImage, isLoading } = useUpdateProgramImage(props.programId, {
+    onError: (err) =>
+      setErrorMessage("Something went wrong, please refresh and try again"),
+    onSuccess,
+  });
+  const uploadImage = async (image: File) => {
+    await updateImage(image);
+  };
+
+  useEffect(() => {
+    if (props.isOpen) {
+      setErrorMessage(undefined);
+    }
+  }, [props.isOpen]);
   return (
     <EditImageModal
       isOpen={props.isOpen}
       onCancel={props.onCancel}
       onOk={uploadImage}
       isLoading={isLoading}
+      errorMessage={errorMessage}
     />
   );
 };

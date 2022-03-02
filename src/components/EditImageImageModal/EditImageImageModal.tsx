@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, useRef, useState } from "react";
-import { Button, Modal, Upload } from "antd";
+import { Alert, Button, Modal, Upload } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 export interface EditImageModalProps {
   isOpen: boolean;
@@ -7,6 +7,7 @@ export interface EditImageModalProps {
   onOk: (file: File) => void;
   onCancel: () => void;
   isLoading?: boolean;
+  errorMessage?: string;
 }
 
 export const EditImageModal: React.FC<EditImageModalProps> = (props) => {
@@ -26,7 +27,6 @@ export const EditImageModal: React.FC<EditImageModalProps> = (props) => {
 
   const onChange = (file: File) => {
     const url = URL.createObjectURL(file);
-    console.log(file.size);
     setPreviewImageUrl(url);
     setFileToUpload(file);
   };
@@ -54,6 +54,9 @@ export const EditImageModal: React.FC<EditImageModalProps> = (props) => {
       }}
       onOk={onOk}
     >
+      {props.errorMessage && (
+        <Alert message={props.errorMessage} type="error" />
+      )}
       {!fileToUpload ? (
         <ImageUpload onChange={onChange}>
           <p className="ant-upload-drag-icon">
