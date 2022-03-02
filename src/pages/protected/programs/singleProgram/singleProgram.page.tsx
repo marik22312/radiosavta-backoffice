@@ -364,7 +364,7 @@ const WrappedEditImageModal: React.FC<{
   const onSuccess = () => {
     props.onImageUpdated();
   };
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState<string>();
   const { updateImage, isLoading } = useUpdateProgramImage(props.programId, {
     onError: (err) =>
       setErrorMessage("Something went wrong, please refresh and try again"),
