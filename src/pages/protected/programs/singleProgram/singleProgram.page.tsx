@@ -6,8 +6,7 @@ import ProgramsStore from "../../../../stores/programs.store";
 import { Page } from "../../../../components/Page/Page";
 import { ProgramUser, IFullProgram } from "../../../../models/types";
 import { AddUserToShowCard } from "../../../../components/AddUserToShow/AddUserToShow";
-import { Tag, Col, Row, Card, Space, Button, Descriptions, Table } from "antd";
-import { NoRecordedShows } from "../../../../components/EmptyState/NoRecordedShows";
+import { Tag, Col, Row, Card, Space, Button, Descriptions } from "antd";
 import {
   ValidateRecordedShowResponse,
   ProgramsService,
@@ -18,7 +17,8 @@ import { EditProgramTimes } from "../../../../components/EditProgramTimes/EditPr
 import { getProgramById } from "../../../../api/Programs.api";
 
 import { RecordedShowsTable } from "./components/RecordedShows";
-import { EditProgramImage } from "./editProgramImage";
+import { EditImageModal } from "../../../../components/EditImageImageModal/EditImageImageModal";
+import { useUpdateProgramImage } from "./hooks/useUpdateProgramImage";
 
 interface SingleProgramPageParams {
   id: string;
@@ -36,6 +36,7 @@ enum ProgramsLoaderTypes {
 
 enum SingeProgramPageModals {
   EDIT_TIMES = "EDIT_TIMES",
+  EDIT_IMAGE = "EDIT_IMAGE",
 }
 
 enum AddRecordedShowStatuses {
@@ -140,21 +141,32 @@ export class SingleProgramPage extends React.Component<Props, State> {
     );
   }
 
-  private updateImage(programId: any, image: any) {
-    console.log(this.state);
-    const id = this.state?.program?.id || programId;
-    console.log(id, image)
-    if(id && image) {
-      this.props.programsService.updateProgramImage(id, image)
-    }
-  }
-
   private renderImage() {
     const { program } = this.state;
     const imageUrl = program?.cover_image || program?.users[0].profile_image;
+    const imageStyle: React.CSSProperties = {
+      width: "auto",
+      maxHeight: "200px",
+    };
 
     return (
-        <EditProgramImage program={program} imageUrl={imageUrl} updateImage={this.props.programsService.updateProgramImage}/>
+      <div>
+        <img
+          alt={program?.name_en}
+          src={
+            "https://res.cloudinary.com/marik-shnitman/image/upload/w_600/v1547932540/" +
+            imageUrl
+          }
+          style={imageStyle}
+        />
+        <Button
+          onClick={() =>
+            this.setState({ openModal: SingeProgramPageModals.EDIT_IMAGE })
+          }
+        >
+          Change image
+        </Button>
+      </div>
     );
   }
 
@@ -329,36 +341,37 @@ export class SingleProgramPage extends React.Component<Props, State> {
           startTime={program?.programTimes.start_time}
           onClose={() => this.toggleEditTimeModal()}
         />
+        <WrappedEditImageModal
+          programId={this.props.match.params.id}
+          isOpen={this.state.openModal === SingeProgramPageModals.EDIT_IMAGE}
+          onCancel={() => this.setState({ openModal: null })}
+          onImageUpdated={() => {
+            this.setState({ openModal: null });
+            this.fetchProgram();
+          }}
+        />
       </Page>
     );
   }
-
-  private renderRecordedShowContent() {
-    const { program } = this.state;
-
-    if (program?.recorded_shows.length) {
-      return program?.recorded_shows.map((show) => {
-        return (
-          <tr key={show.id}>
-            <th>{show.id}</th>
-            <td>{show.name}</td>
-            <td>{show.duration}</td>
-            <td>{show.url}</td>
-            <td>{show.is_displayed ? "Yes" : "No"}</td>
-          </tr>
-        );
-      });
-    }
-
-    return <NoRecordedShows />;
-  }
-
-  private renderRecordedShowsTable() {
-    return (
-      <Table
-        columns={columns}
-        dataSource={this.state.program?.recorded_shows}
-      />
-    );
-  }
 }
+
+const WrappedEditImageModal: React.FC<{
+  programId: string | number;
+  isOpen: boolean;
+  onCancel: () => void;
+  onImageUpdated: () => void;
+}> = (props) => {
+  const { updateImage, isLoading } = useUpdateProgramImage(props.programId);
+  const uploadImage = async (image: File) => {
+    await updateImage(image);
+    props.onImageUpdated();
+  };
+  return (
+    <EditImageModal
+      isOpen={props.isOpen}
+      onCancel={props.onCancel}
+      onOk={uploadImage}
+      isLoading={isLoading}
+    />
+  );
+};
