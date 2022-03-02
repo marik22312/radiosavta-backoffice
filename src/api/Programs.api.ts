@@ -24,3 +24,22 @@ export const getProgramById = async (programId: string | number) => {
   );
   return data.program;
 };
+
+export const updateProgramImage = async (
+  programId: number | string,
+  image: File
+) => {
+  const form = new FormData();
+  form.append("image", image);
+
+  const { data } = await HttpClient.put(
+    `/v2/programs/${programId}/image`,
+    form,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+  return data;
+};

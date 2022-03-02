@@ -5,7 +5,6 @@ import {
   IFullProgram,
 } from "../models/types";
 import { IBaseApiService } from "./base.api.service";
-import { observable } from "mobx";
 
 export interface IProgramsService {
   getAllPrograms(): Promise<IProgram[]>;
