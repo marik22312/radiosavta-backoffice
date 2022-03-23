@@ -5,6 +5,7 @@ import EditUserModal from "../EditUserModal/EditUserModal";
 
 import {
   Avatar,
+  Button,
   Col,
   Descriptions,
   Divider,
@@ -17,6 +18,8 @@ import { EditOutlined } from "@ant-design/icons";
 
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { ProgramTile } from "../../pages/protected/programs/program-tile/programTile";
+import { EditImageModal } from "../EditImageImageModal/EditImageImageModal";
+import { useEditUserImage } from "./hooks/useEditUserImage";
 
 interface UserSidePanelProps {
   userId: number;
@@ -24,8 +27,27 @@ interface UserSidePanelProps {
   onClose: () => void;
 }
 export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
-  const { user } = useUserById(props.userId);
+  const { user, refetch } = useUserById(props.userId);
   const [modalOpen, setModalOpen] = useState(false);
+  const [isEditImageModalOpen, setIsEditImageModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  const { isLoading, updateImage } = useEditUserImage(user?.id ?? "", {
+    onError: (err) =>
+      setErrorMessage("Something went wrong, please refresh and try again"),
+    onSuccess: () => {
+      setIsEditImageModalOpen(false);
+      refetch();
+    },
+  });
+
+  const onEditImage = (image: File) => {
+    updateImage(image);
+  };
+
+  const onCancelEditImage = () => {
+    setIsEditImageModalOpen(false);
+  };
 
   const openModal = () => {
     setModalOpen(true);
@@ -69,6 +91,13 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
             </Avatar>
           </Col>
         </Row>
+        <Row justify="center">
+          <Col>
+            <Button onClick={() => setIsEditImageModalOpen(true)}>
+              Edit Image
+            </Button>
+          </Col>
+        </Row>
         <Divider />
         <Row>
           <Col span={24}>
@@ -102,6 +131,13 @@ export const UserSidePanel: React.FC<UserSidePanelProps> = (props) => {
       {!!user && (
         <EditUserModal isOpen={modalOpen} closeModal={closeModal} user={user} />
       )}
+      <EditImageModal
+        isOpen={isEditImageModalOpen}
+        onOk={onEditImage}
+        onCancel={onCancelEditImage}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };
