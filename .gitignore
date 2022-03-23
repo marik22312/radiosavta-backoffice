@@ -24,7 +24,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # lockfiles
-*.lock
 package-lock.json
 
 # styles
