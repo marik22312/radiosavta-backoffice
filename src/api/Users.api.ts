@@ -61,3 +61,15 @@ export const createUser = async (user: CreateUserRequest) => {
 
   return data;
 };
+
+export const updateUserImage = async (userId: number | string, image: File) => {
+  const form = new FormData();
+  form.append("profile_image", image);
+
+  const { data } = await HttpClient.put(`/v2/users/${userId}`, form, {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+  return data;
+};
