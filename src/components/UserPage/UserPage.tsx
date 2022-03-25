@@ -47,8 +47,10 @@ export const UserPage: React.FC<{
   user: User;
   title?: string;
   onClickEditUser?: () => void;
+  onClickEditUserImage?: () => void;
 }> = (props) => {
   const { user, title } = props;
+
   return (
     <Page title={title || user.name}>
       <Row>
@@ -60,6 +62,11 @@ export const UserPage: React.FC<{
                 {props.onClickEditUser && (
                   <Button type="primary" onClick={props.onClickEditUser}>
                     Edit
+                  </Button>
+                )}
+                {props.onClickEditUserImage && (
+                  <Button onClick={props.onClickEditUserImage}>
+                    Edit Image
                   </Button>
                 )}
                 {/* // TODO: Refactor change password modal to work with external consumers */}
