@@ -12,6 +12,15 @@ import { useLogout } from "../../hooks/auth/useLogout";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { useHistory } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBroadcastTower,
+  faCompactDisc,
+  faHeadphones,
+} from "@fortawesome/free-solid-svg-icons";
+import { useStreamInfo } from "./hooks/userServerStats";
+
+import ServerStatsStyle from "./ServerStats.module.scss";
 
 interface State {
   isOpen: boolean;
@@ -81,7 +90,10 @@ export class NavigationBar extends React.Component<Props, State> {
       <React.Fragment>
         <Layout.Header style={{ position: "fixed", zIndex: 3, width: "100%" }}>
           <Row>
-            <Col span={4} offset={17}>
+            <Col span={6}>
+              <ServerStats />
+            </Col>
+            <Col span={4} offset={11}>
               <Dropdown overlay={userMenu}>
                 <NavBarMenuButton />
               </Dropdown>
@@ -123,3 +135,26 @@ export class NavigationBar extends React.Component<Props, State> {
     return null;
   }
 }
+
+export const ServerStats = () => {
+  const { streamInfo } = useStreamInfo();
+  return (
+    <div className={ServerStatsStyle.serverStatsWrapper}>
+      <div className={ServerStatsStyle.stat} title="Stream source">
+        <FontAwesomeIcon
+          size="2x"
+          icon={
+            streamInfo?.isLive
+              ? (faBroadcastTower as any)
+              : (faCompactDisc as any)
+          }
+        />{" "}
+        {streamInfo?.isLive ? "Live" : "Auto DJ"}
+      </div>
+      <div className={ServerStatsStyle.stat} title="Live Listeners">
+        <FontAwesomeIcon size="2x" icon={faHeadphones as any} color="#ffffff" />{" "}
+        {streamInfo?.listeners} Live Listeners
+      </div>
+    </div>
+  );
+};
