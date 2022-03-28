@@ -4,16 +4,7 @@ import { inject, observer } from "mobx-react";
 
 import { toast } from "react-toastify";
 
-import {
-  Layout,
-  Menu,
-  Dropdown,
-  Row,
-  Col,
-  Avatar,
-  Button,
-  Tooltip,
-} from "antd";
+import { Layout, Menu, Dropdown, Row, Col, Avatar, Button } from "antd";
 
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
@@ -21,16 +12,9 @@ import { useLogout } from "../../hooks/auth/useLogout";
 import { useAuth } from "../../hooks/auth/useAuth";
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBroadcastTower,
-  faCompactDisc,
-  faHeadphones,
-} from "@fortawesome/free-solid-svg-icons";
-import { useStreamInfo } from "./hooks/userServerStats";
 
-import ServerStatsStyle from "./ServerStats.module.scss";
 import { LIVE_STREAM_URL } from "../../config/contacts";
+import { ServerStats } from "./components/ServerStats";
 
 interface State {
   isOpen: boolean;
@@ -145,42 +129,3 @@ export class NavigationBar extends React.Component<Props, State> {
     return null;
   }
 }
-
-export const ServerStats = () => {
-  const { streamInfo } = useStreamInfo();
-  return (
-    <div className={ServerStatsStyle.serverStatsWrapper}>
-      <div className={ServerStatsStyle.stat} title="Stream source">
-        <Tooltip placement="bottom" title="Stream source">
-          <FontAwesomeIcon
-            size="2x"
-            icon={
-              streamInfo?.isLive
-                ? (faBroadcastTower as any)
-                : (faCompactDisc as any)
-            }
-          />{" "}
-          {streamInfo?.isLive ? "Live" : "Auto DJ"}
-        </Tooltip>
-      </div>
-      <div className={ServerStatsStyle.stat} title="Live Listeners">
-        <Tooltip placement="bottom" title="Live Listeners Count">
-          <FontAwesomeIcon
-            size="2x"
-            icon={faHeadphones as any}
-            color="#ffffff"
-          />{" "}
-          {streamInfo?.listeners} Live Listeners
-        </Tooltip>
-      </div>
-      {/* // TODO: Fix playing state so it wont "pause"  */}
-      {/* <div className={ServerStatsStyle.stat} title="Live Listeners">
-        <audio
-          className={ServerStatsStyle.livePlayer}
-          src={LIVE_STREAM_URL}
-          controls
-        />
-      </div> */}
-    </div>
-  );
-};
