@@ -13,6 +13,9 @@ import { useAuth } from "../../hooks/auth/useAuth";
 import { BASE_IMAGES_URL } from "../../config/constants.config";
 import { useHistory } from "react-router-dom";
 
+import { LIVE_STREAM_URL } from "../../config/contacts";
+import { ServerStats } from "./components/ServerStats";
+
 interface State {
   isOpen: boolean;
   isChangePasswordModalOpen: boolean;
@@ -81,7 +84,10 @@ export class NavigationBar extends React.Component<Props, State> {
       <React.Fragment>
         <Layout.Header style={{ position: "fixed", zIndex: 3, width: "100%" }}>
           <Row>
-            <Col span={4} offset={17}>
+            <Col span={12}>
+              <ServerStats />
+            </Col>
+            <Col span={4} offset={5}>
               <Dropdown overlay={userMenu}>
                 <NavBarMenuButton />
               </Dropdown>

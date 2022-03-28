@@ -1,0 +1,19 @@
+.serverStatsWrapper {
+	display: flex;
+	flex-direction: row;
+	color: #ffffff;
+}
+
+.stat {
+	margin-right: 20px;
+
+	svg {
+		vertical-align: middle;
+	}
+}
+
+.livePlayer {
+	max-height: 30px;
+    max-width: 200px;
+    vertical-align: middle;
+}
