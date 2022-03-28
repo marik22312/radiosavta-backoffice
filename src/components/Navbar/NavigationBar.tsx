@@ -4,7 +4,16 @@ import { inject, observer } from "mobx-react";
 
 import { toast } from "react-toastify";
 
-import { Layout, Menu, Dropdown, Row, Col, Avatar, Button } from "antd";
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  Row,
+  Col,
+  Avatar,
+  Button,
+  Tooltip,
+} from "antd";
 
 import IdentityStore from "../../stores/identity.store";
 import { ChangePasswordModal } from "../ChangePasswordModal/ChangePasswordModal";
@@ -21,6 +30,7 @@ import {
 import { useStreamInfo } from "./hooks/userServerStats";
 
 import ServerStatsStyle from "./ServerStats.module.scss";
+import { LIVE_STREAM_URL } from "../../config/contacts";
 
 interface State {
   isOpen: boolean;
@@ -90,10 +100,10 @@ export class NavigationBar extends React.Component<Props, State> {
       <React.Fragment>
         <Layout.Header style={{ position: "fixed", zIndex: 3, width: "100%" }}>
           <Row>
-            <Col span={6}>
+            <Col span={12}>
               <ServerStats />
             </Col>
-            <Col span={4} offset={11}>
+            <Col span={4} offset={5}>
               <Dropdown overlay={userMenu}>
                 <NavBarMenuButton />
               </Dropdown>
@@ -141,20 +151,36 @@ export const ServerStats = () => {
   return (
     <div className={ServerStatsStyle.serverStatsWrapper}>
       <div className={ServerStatsStyle.stat} title="Stream source">
-        <FontAwesomeIcon
-          size="2x"
-          icon={
-            streamInfo?.isLive
-              ? (faBroadcastTower as any)
-              : (faCompactDisc as any)
-          }
-        />{" "}
-        {streamInfo?.isLive ? "Live" : "Auto DJ"}
+        <Tooltip placement="bottom" title="Stream source">
+          <FontAwesomeIcon
+            size="2x"
+            icon={
+              streamInfo?.isLive
+                ? (faBroadcastTower as any)
+                : (faCompactDisc as any)
+            }
+          />{" "}
+          {streamInfo?.isLive ? "Live" : "Auto DJ"}
+        </Tooltip>
       </div>
       <div className={ServerStatsStyle.stat} title="Live Listeners">
-        <FontAwesomeIcon size="2x" icon={faHeadphones as any} color="#ffffff" />{" "}
-        {streamInfo?.listeners} Live Listeners
+        <Tooltip placement="bottom" title="Live Listeners Count">
+          <FontAwesomeIcon
+            size="2x"
+            icon={faHeadphones as any}
+            color="#ffffff"
+          />{" "}
+          {streamInfo?.listeners} Live Listeners
+        </Tooltip>
       </div>
+      {/* // TODO: Fix playing state so it wont "pause"  */}
+      {/* <div className={ServerStatsStyle.stat} title="Live Listeners">
+        <audio
+          className={ServerStatsStyle.livePlayer}
+          src={LIVE_STREAM_URL}
+          controls
+        />
+      </div> */}
     </div>
   );
 };
