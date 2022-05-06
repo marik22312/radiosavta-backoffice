@@ -30,7 +30,7 @@ export const UploadedRecordedShowPage: React.FC = () => {
   >();
 
   const [currentStep, setCurrentStep] = useState(
-    UploadRecordedShowSteps.Review
+    UploadRecordedShowSteps.Upload
   );
 
   const onUploadStepSuccess = (args: {
