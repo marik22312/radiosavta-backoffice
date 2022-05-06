@@ -16,6 +16,7 @@ import {
   TelegramIcon,
   TelegramShareButton,
 } from "react-share";
+import { showSuccessToast } from "../../../../../../utils/toast.util";
 export interface AllDoneStepProps {
   recordedShowId: string | number;
   onClickStartOver(): void;
@@ -68,7 +69,11 @@ export const AllDoneStep: React.FC<AllDoneStepProps> = (props) => {
                   <input
                     onFocus={(e) => {
                       e.currentTarget.select();
-                      navigator.clipboard.writeText(shareableRecordedShowUrl);
+                      navigator.clipboard
+                        .writeText(shareableRecordedShowUrl)
+                        .then(() => {
+                          showSuccessToast("Copied to clipboard");
+                        });
                     }}
                     style={{ width: "100%" }}
                     type="text"

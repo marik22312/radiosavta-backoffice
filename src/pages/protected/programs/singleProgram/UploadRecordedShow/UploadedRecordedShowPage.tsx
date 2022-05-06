@@ -25,9 +25,9 @@ const steps = [
 export const UploadedRecordedShowPage: React.FC = () => {
   const { programId } = useParams<{ programId: string }>();
   const { program } = useProgramById(programId);
-  const [recordedShowId, setRecordedShowId] = useState<number | string | null>(
-    881
-  );
+  const [recordedShowId, setRecordedShowId] = useState<
+    number | string | null
+  >();
 
   const [currentStep, setCurrentStep] = useState(
     UploadRecordedShowSteps.Review
