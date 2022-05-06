@@ -1,11 +1,16 @@
 import React from "react";
 import { Popover, Button, List } from "antd";
-import { MoreOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  ShareAltOutlined,
+} from "@ant-design/icons";
 import { useEditRecordedShowModal } from "../../../../../components/EditRecordedShow/useEditRecordedShowModal";
 import { useConfirmDeleteRecordedShow } from "../../../../../components/ConfirmDeleteRecordedShow/useConfirmDeleteRecordedShow";
 
 interface MoreActionsProps {
-  programId: string | number;
+  recordedShowId: string | number;
 }
 
 export const MoreActions: React.FC<MoreActionsProps> = (props) => {
@@ -35,12 +40,17 @@ export const MoreActions: React.FC<MoreActionsProps> = (props) => {
               {
                 title: "Edit",
                 icon: <EditOutlined />,
-                onClick: () => open(props.programId),
+                onClick: () => open(props.recordedShowId),
               },
+              //   {
+              //     title: "Share",
+              //     icon: <ShareAltOutlined />,
+              //     onClick: () => alert("Share TBD"),
+              //   },
               {
                 title: "Delete",
                 icon: <DeleteOutlined style={{ color: "red" }} />,
-                onClick: () => deleteRecordedShow(props.programId),
+                onClick: () => deleteRecordedShow(props.recordedShowId),
                 style: {
                   color: "red",
                 },

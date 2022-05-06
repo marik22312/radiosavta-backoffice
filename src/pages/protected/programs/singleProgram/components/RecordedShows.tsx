@@ -18,7 +18,7 @@ const columns = [
   {
     title: "Actions",
     // eslint-disable-next-line
-    render: (text: string, src: RecordedShow | any) => <MoreActions programId={src.id}/>,
+    render: (text: string, src: RecordedShow | any) => <MoreActions recordedShowId={src.id}/>,
     fixed: true,
   },
 ];
