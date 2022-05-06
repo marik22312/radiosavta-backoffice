@@ -3,7 +3,10 @@ import React from "react";
 import { Button, Col, Divider, Row, Typography } from "antd";
 import { useRecordedShowById } from "../../../../../../hooks/useRecordedShowById";
 import { RecordedShowPlayer } from "../../../../../../components/RecordedShowPlayer/RecordedShowPlayer";
-import { BASE_IMAGES_URL } from "../../../../../../config/constants.config";
+import {
+  BASE_IMAGES_URL,
+  REACT_APP_BASE_CLIENT_URL,
+} from "../../../../../../config/constants.config";
 import Loader from "react-loader-spinner";
 import { useHistory, useParams } from "react-router-dom";
 import {
@@ -26,7 +29,7 @@ export const AllDoneStep: React.FC<AllDoneStepProps> = (props) => {
   const history = useHistory();
   const { programId } = useParams<{ programId: string }>();
 
-  const shareableRecordedShowUrl = `https://www.radiosavta.com/archive?showId=${props.recordedShowId}`;
+  const shareableRecordedShowUrl = `${REACT_APP_BASE_CLIENT_URL}/archive?showId=${props.recordedShowId}`;
   return (
     <div>
       <Typography.Title>All Done!</Typography.Title>
