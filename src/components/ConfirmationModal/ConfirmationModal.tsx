@@ -7,6 +7,7 @@ export interface ConfirmationModalProps {
   onCancel: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
+  type?: "danger";
 }
 export const ConfirmationModal: React.FC<ConfirmationModalProps> = (props) => {
   return (
@@ -18,6 +19,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = (props) => {
       zIndex={1001} // because UserSidePanel is 1000
       closable
       confirmLoading={props.isLoading}
+      okType={props.type}
     >
       {props.message}
     </Modal>

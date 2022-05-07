@@ -10,33 +10,33 @@ export interface ConfirmDeleteRecordedShowProps {
   onCancel: () => void;
   onSuccess: () => void;
 }
-export const ConfirmDeleteRecordedShow: React.FC<ConfirmDeleteRecordedShowProps> =
-  (props) => {
-    const { recordedShow } = useRecordedShowById(props.recordedShowId);
+export const ConfirmDeleteRecordedShow: React.FC<
+  ConfirmDeleteRecordedShowProps
+> = (props) => {
+  const { recordedShow } = useRecordedShowById(props.recordedShowId);
 
-    const onSuccess = () => {
-      queryCache.invalidateQueries("recorded_shows");
-      props.onSuccess();
-    };
-
-    const onError = (err: Error) => {
-      showErrorToast(err.message);
-      props.onCancel();
-    };
-    const { deleteRecordedShow, isLoading: isDeleting } = useDeleteRecordedShow(
-      {
-        onSuccess,
-        onError,
-      }
-    );
-
-    return (
-      <ConfirmationModal
-        title={`Delete ${recordedShow?.name}?`}
-        message={`Are you sure you want to delete ${recordedShow?.name}? The recording will be deleted permanently and the operation canno't be undone!`}
-        onCancel={props.onCancel}
-        onConfirm={() => deleteRecordedShow(props.recordedShowId)}
-        isLoading={isDeleting}
-      />
-    );
+  const onSuccess = () => {
+    queryCache.invalidateQueries("recorded_shows");
+    props.onSuccess();
   };
+
+  const onError = (err: Error) => {
+    showErrorToast(err.message);
+    props.onCancel();
+  };
+  const { deleteRecordedShow, isLoading: isDeleting } = useDeleteRecordedShow({
+    onSuccess,
+    onError,
+  });
+
+  return (
+    <ConfirmationModal
+      title={`Delete ${recordedShow?.name}?`}
+      message={`Are you sure you want to delete ${recordedShow?.name}? The recording will be deleted permanently and the operation canno't be undone!`}
+      onCancel={props.onCancel}
+      onConfirm={() => deleteRecordedShow(props.recordedShowId)}
+      isLoading={isDeleting}
+      type="danger"
+    />
+  );
+};

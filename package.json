@@ -65,6 +65,7 @@
     "react-loader-spinner": "^3.1.14",
     "react-query": "^2.23.1",
     "react-router-dom": "^5.1.2",
+    "react-share": "^4.4.0",
     "react-toastify": "^6.0.5",
     "resolve": "1.12.2",
     "resolve-url-loader": "3.1.1",

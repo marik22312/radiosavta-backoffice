@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { toast, ToastOptions } from "react-toastify";
 
 export const showPasswordChangedToast = () => {
   toast.success("Password changed successfully!", {
@@ -15,8 +15,9 @@ export const showGeneralErrorToast = (e: any) => {
   });
 };
 
-export const showSuccessToast = (message: string) => {
+export const showSuccessToast = (message: string, options?: ToastOptions) => {
   return toast.success(message, {
+    ...options,
     position: "bottom-right",
     autoClose: 3000,
   });
