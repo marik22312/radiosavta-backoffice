@@ -21,7 +21,6 @@ import { SingleProgramPage } from "../pages/protected/programs/singleProgram/sin
 import { UploadedRecordedShowPage } from "../pages/protected/programs/singleProgram/UploadRecordedShow/UploadedRecordedShowPage";
 import { ProfilePage } from "../pages/protected/profile/ProfilePage";
 
-
 export const routesData: MenuItem[] = [
   {
     id: 1,
@@ -41,6 +40,7 @@ export const routesData: MenuItem[] = [
         title: "Users List",
         icon: UnorderedListOutlined,
         page: UsersPage,
+        requiredRole: [RoleNames.ADMIN],
       },
       {
         id: 22,
@@ -49,6 +49,13 @@ export const routesData: MenuItem[] = [
         icon: UserAddOutlined,
         requiredRole: [RoleNames.ADMIN],
         page: CreateUserPage,
+      },
+      {
+        id: 23,
+        route: "/settings/profile",
+        title: "My Profile",
+        icon: UserOutlined,
+        page: ProfilePage,
       },
     ],
   },
@@ -109,7 +116,7 @@ export const routesData: MenuItem[] = [
         title: "My Profile",
         route: "/settings/profile",
         page: ProfilePage,
-        hideFromMenu: true,
+        // hideFromMenu: true,
       },
     ],
   },

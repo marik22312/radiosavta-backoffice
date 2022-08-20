@@ -1,43 +1,23 @@
+# Radiosavta backoffice - The backoffice for Radiosavta
 ![Travis (.org)](https://img.shields.io/travis/marik22312/radiosavta-backoffice?label=Master%20Build)
 ![](https://img.shields.io/github/languages/top/marik22312/radiosavta-backoffice)
 ![](https://img.shields.io/snyk/vulnerabilities/github/marik22312/radiosavta-backoffice)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## How to run locally
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-
-### Guidelines
-- All API endpoints should be stored as environment variables
-- All sensitive data shuold be stored as environment variables
-
-### TODO
- - Add documentation for env variables
- - complete readme
- - connect to travis
+1. Set up required env variables
+```env
+REACT_APP_BASE_API_URL=""
+REACT_APP_BASE_IMAGES_URL=""
+REACT_APP_LIVE_STREAM_URL=""
+REACT_APP_BASE_CLIENT_URL=""
+```
+2. Install dependencies running 
+```bash
+yarn install
+```
+3. Run the application
+```bash
+yarn start
+```
 
