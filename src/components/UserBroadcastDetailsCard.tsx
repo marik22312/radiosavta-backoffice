@@ -40,7 +40,6 @@ export const UserBroadcastDetailsCard: React.FC = () => {
           </Descriptions>
         </Col>
         <Col span={12}>
-          {" "}
           <Descriptions title={"Connection Config"} layout="vertical">
             <Descriptions.Item label="Host" labelStyle={{ fontWeight: "bold" }}>
               {RADIO_SERVER_URL}
