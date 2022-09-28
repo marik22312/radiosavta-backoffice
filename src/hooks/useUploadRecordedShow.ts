@@ -1,15 +1,21 @@
-import { AxiosRequestConfig } from "axios";
+import { AxiosError, AxiosRequestConfig } from "axios";
 import { useMutation } from "react-query";
 import {
   uploadRecordedShow,
   UploadRecordedShowParms,
 } from "../api/RecordedShows.api";
 
-export const useUploadRecordedShow = (opts?: AxiosRequestConfig) => {
+interface UseUploadRecordedShowArgs {
+  requestConfig?: AxiosRequestConfig;
+  onError: (error: AxiosError) => void;
+  onSuccess: (data: any) => void;
+}
+export const useUploadRecordedShow = (opts?: UseUploadRecordedShowArgs) => {
   const [mutate] = useMutation(
-    (args: UploadRecordedShowParms) => uploadRecordedShow(args, opts),
+    (args: UploadRecordedShowParms) =>
+      uploadRecordedShow(args, opts?.requestConfig),
     {
-      onError: () => console.log("error"),
+      onError: opts?.onError,
     }
   );
 

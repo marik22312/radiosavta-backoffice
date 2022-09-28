@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Upload, Form, Button, Progress } from "antd";
+import { Upload, Form, Button, Progress, Alert } from "antd";
 import { useUploadRecordedShow } from "../../../../../../hooks/useUploadRecordedShow";
 import { RecordedShowPlayer } from "../../../../../../components/RecordedShowPlayer/RecordedShowPlayer";
 import { useProgramById } from "../../../../../../hooks/usePgoramById";
@@ -8,12 +8,12 @@ import { BASE_IMAGES_URL } from "../../../../../../config/constants.config";
 
 interface UploadStepProps {
   onSuccess(args: { fileUrl: string; recordedShowId: number }): void;
-  onError(err: any): void;
   programId: string | number;
 }
 
 export const UploadStep: React.FC<UploadStepProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [progress, setProgress] = useState(0);
 
@@ -29,18 +29,30 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
   };
 
   const { uploadRecordedShow } = useUploadRecordedShow({
-    onUploadProgress,
+    requestConfig: { onUploadProgress },
+    onError: (err) => {
+      setError(err.response?.data.message);
+    },
+    onSuccess: (recordedShowResponse) => {
+      setProgress(0);
+      props.onSuccess(recordedShowResponse);
+      setIsLoading(false);
+    },
   });
 
   const uploadRecording = async (values: any) => {
     setIsLoading(true);
     const recordingFile = values.recordedShow.file.originFileObj;
-    const recordedShowResponse = await uploadRecordedShow({
+    uploadRecordedShow({
       programId: props.programId,
       recordedShow: recordingFile,
     });
+  };
+
+  const onResetForm = () => {
+    setPreviewUrl("");
+    setError("");
     setProgress(0);
-    props.onSuccess(recordedShowResponse);
     setIsLoading(false);
   };
 
@@ -74,7 +86,22 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
             recordingDate={new Date().toString()}
           />
         ) : isLoading ? (
-          <Progress type="circle" percent={progress} />
+          <>
+            <Progress
+              type="circle"
+              percent={progress}
+              status={error ? "exception" : "active"}
+            />
+            <Alert
+              type="error"
+              message={error}
+              action={
+                <Button size="small" type="text" onClick={onResetForm}>
+                  Retry
+                </Button>
+              }
+            />
+          </>
         ) : (
           <Upload.Dragger
             listType="text"
@@ -102,8 +129,8 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
         <Button
           type="primary"
           htmlType="submit"
-          loading={isLoading}
-          disabled={isLoading}
+          loading={isLoading && !error}
+          disabled={isLoading || !!error}
         >
           Next
         </Button>
