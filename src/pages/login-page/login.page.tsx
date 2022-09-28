@@ -57,7 +57,7 @@ export const LoginForm = () => {
 
   const onFormSubmit = async (fields: any) => {
     setIsLoading(true);
-    setError(undefined);
+    setError("");
     const res = await preformLogin(fields);
     if (res) {
       history.push("/");
