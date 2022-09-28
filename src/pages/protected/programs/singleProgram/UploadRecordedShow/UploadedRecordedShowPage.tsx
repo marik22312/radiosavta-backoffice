@@ -62,7 +62,6 @@ export const UploadedRecordedShowPage: React.FC = () => {
                 recordedShowId: args.recordedShowId,
               })
             }
-            onError={(err) => console.log("Err", err)}
             programId={programId}
           />
         );
