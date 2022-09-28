@@ -44,14 +44,20 @@ export const LoginPage: React.FC = () => {
 };
 
 export const LoginForm = () => {
-  const history = useHistory();
-  const { preformLogin } = useLogin();
-
-  const [error] = useState(false);
+  const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+
+  const onLoginError = (error: any) => {
+    setError(error.response.data.message);
+    setIsLoading(false);
+    console.error("Login Error:", error.response.data.message);
+  };
+  const history = useHistory();
+  const { preformLogin } = useLogin(onLoginError);
 
   const onFormSubmit = async (fields: any) => {
     setIsLoading(true);
+    setError(undefined);
     const res = await preformLogin(fields);
     if (res) {
       history.push("/");
