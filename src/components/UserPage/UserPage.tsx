@@ -6,6 +6,12 @@ import { User } from "../../domain/Users";
 import { Program } from "../../domain/Programs";
 import { useHistory } from "react-router-dom";
 import { ListenerStatistics } from "../ListenerStatistics/ListenerStatistics";
+import {
+  RADIO_SERVER_MOUNT,
+  RADIO_SERVER_PORT,
+  RADIO_SERVER_URL,
+} from "../../config/constants.config";
+import { UserBroadcastDetailsCard } from "../UserBroadcastDetailsCard";
 
 const ProgramActions: React.FC<{ program: Program }> = (props) => {
   const history = useHistory();
@@ -123,60 +129,7 @@ export const UserPage: React.FC<{
       <Row>
         <Col span={12}></Col>
       </Row>
-      <Card
-        title={"Broadcasting & Streamer"}
-        extra={
-          <a
-            href="https://docs.azuracast.com/en/user-guide/streaming-software"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button>Configure Connection</Button>
-          </a>
-        }
-      >
-        <Row>
-          <Col span={12}>
-            <Descriptions title={"Connection information"} layout="vertical">
-              <Descriptions.Item
-                label="Username"
-                labelStyle={{ fontWeight: "bold" }}
-              >
-                {user?.streamer?.[0].user_name}
-              </Descriptions.Item>
-              <Descriptions.Item
-                label="Display name"
-                labelStyle={{ fontWeight: "bold" }}
-              >
-                {user?.streamer?.[0].display_name}
-              </Descriptions.Item>
-            </Descriptions>
-          </Col>
-          <Col span={12}>
-            {" "}
-            <Descriptions title={"Connection Config"} layout="vertical">
-              <Descriptions.Item
-                label="Host"
-                labelStyle={{ fontWeight: "bold" }}
-              >
-                broadcast.radiosavta.com
-              </Descriptions.Item>
-              <Descriptions.Item
-                label="Port"
-                labelStyle={{ fontWeight: "bold" }}
-              >
-                8005
-              </Descriptions.Item>
-              <Descriptions.Item
-                label="Mount"
-                labelStyle={{ fontWeight: "bold" }}
-              >
-                /
-              </Descriptions.Item>
-            </Descriptions>
-          </Col>
-        </Row>
-      </Card>
+      <UserBroadcastDetailsCard />
       <Card title="My Stats">
         <ListenerStatistics />
       </Card>
