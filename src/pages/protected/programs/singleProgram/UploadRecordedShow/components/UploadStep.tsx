@@ -92,15 +92,17 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
               percent={progress}
               status={error ? "exception" : "active"}
             />
-            <Alert
-              type="error"
-              message={error}
-              action={
-                <Button size="small" type="text" onClick={onResetForm}>
-                  Retry
-                </Button>
-              }
-            />
+            {error && (
+              <Alert
+                type="error"
+                message={error}
+                action={
+                  <Button size="small" type="text" onClick={onResetForm}>
+                    Retry
+                  </Button>
+                }
+              />
+            )}
           </>
         ) : (
           <Upload.Dragger

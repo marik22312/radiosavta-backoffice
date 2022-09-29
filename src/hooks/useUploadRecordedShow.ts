@@ -16,6 +16,7 @@ export const useUploadRecordedShow = (opts?: UseUploadRecordedShowArgs) => {
       uploadRecordedShow(args, opts?.requestConfig),
     {
       onError: opts?.onError,
+      onSuccess: opts?.onSuccess,
     }
   );
 
