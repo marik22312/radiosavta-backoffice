@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 
 import { Provider } from "mobx-react";
 import "./App.scss";
-import { io } from "socket.io-client";
 
 import { Routes } from "./routes";
 import httpClient from "./services/http.client";
@@ -18,6 +17,7 @@ import { ProgramsService } from "./services/programs.service";
 import "antd/dist/antd.css";
 import { AuthenticaitonProvider } from "./providers/AuthenticationProvider";
 import { SignalContextProvider } from "./providers/SignalProvider";
+import { FeatureFlagsProvider } from "./providers/FeatureFlags";
 
 import { SignalReciever } from "./components/SignalReciever/SignalReciever";
 
@@ -35,16 +35,18 @@ const stores = {
 
 const App: React.FC = () => {
   return (
-    <AuthenticaitonProvider>
-      <SignalContextProvider>
-        <div className="App">
-          <Provider {...stores}>
-            <SignalReciever />
-            <Routes />
-          </Provider>
-        </div>
-      </SignalContextProvider>
-    </AuthenticaitonProvider>
+    <FeatureFlagsProvider>
+      <AuthenticaitonProvider>
+        <SignalContextProvider>
+          <div className="App">
+            <Provider {...stores}>
+              <SignalReciever />
+              <Routes />
+            </Provider>
+          </div>
+        </SignalContextProvider>
+      </AuthenticaitonProvider>
+    </FeatureFlagsProvider>
   );
 };
 
