@@ -37,6 +37,7 @@ export const LoginPage: React.FC = () => {
             </Col>
           </Row>
           <LoginForm />
+          {/* <NewLoginForm /> */}
         </Card>
       </Col>
     </Row>
