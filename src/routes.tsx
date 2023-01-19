@@ -1,10 +1,11 @@
-import React, { useMemo, ReactElement } from "react";
+import React, { useMemo, ReactElement, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
   RouteProps,
   Switch,
   useHistory,
+  useLocation,
 } from "react-router-dom";
 
 import { Layout } from "antd";
@@ -23,6 +24,7 @@ import { RoleNames } from "./domain/Users";
 import { isPermitted } from "./utils/identity.utils";
 import { useRoutes } from "./hooks/useRoutes";
 import { ChildMenuItem, ParentMenuItem } from "./domain/Routes";
+import { logRouteChange } from "./api/mixpanel.api";
 
 const RoleProtectedRoute: React.FC<{
   requiredRoles?: RoleNames[];
@@ -43,10 +45,18 @@ const RoleProtectedRoute: React.FC<{
   );
 };
 
+const useRouteChangeBi = () => {
+  const location = useLocation();
+  useEffect(() => {
+    logRouteChange(location.pathname);
+  }, [location]);
+};
+
 const ProtectedRoute: React.FC = (props) => {
   const { isAuthenticated } = useAuth();
   const { routes } = useRoutes();
   const history = useHistory();
+  useRouteChangeBi();
 
   const routesToRender = useMemo(() => {
     const components: ReactElement[] = [];

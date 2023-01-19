@@ -5,21 +5,29 @@ import { IProgram } from "../../models/types";
 import { useHistory } from "react-router";
 import styles from "./ProgramTile.module.scss";
 
-export const ProgramTile: React.FC<IProgram> = (program) => {
+interface ProgramTileProps extends IProgram {
+  onClick?: () => void;
+}
+export const ProgramTile: React.FC<ProgramTileProps> = (props) => {
   const history = useHistory();
+
+  const onClickProgram = () => {
+    props.onClick?.();
+    history.push(`/programs/${props.id}`);
+  };
   return (
     <Card
-      onClick={() => history.push(`/programs/${program.id}`)}
+      onClick={onClickProgram}
       hoverable
       style={{ width: 240 }}
       cover={
         <img
-          src={`${BASE_IMAGES_URL}/${program.cover_image}`}
-          alt={program.name_en}
+          src={`${BASE_IMAGES_URL}/${props.cover_image}`}
+          alt={props.name_en}
         />
       }
     >
-      <Card.Meta title={program.name_en} />
+      <Card.Meta title={props.name_en} />
     </Card>
     // <div
     //   onClick={() => history.push(`/programs/${program.id}`)}

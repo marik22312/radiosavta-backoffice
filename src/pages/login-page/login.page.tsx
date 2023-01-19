@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { RouteComponentProps, useHistory } from "react-router-dom";
-import IdentityStore from "../../stores/identity.store";
+import { useHistory } from "react-router-dom";
 
 import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
 import { useLogin } from "../../hooks/auth/useLogin";
+import { logPressLoginButton } from "../../api/mixpanel.api";
 
 export const LoginPage: React.FC = () => {
   return (
@@ -42,6 +42,7 @@ export const LoginForm = () => {
   const { preformLogin } = useLogin(onLoginError);
 
   const onFormSubmit = async (fields: any) => {
+    logPressLoginButton();
     setIsLoading(true);
     setError("");
     const res = await preformLogin(fields);
