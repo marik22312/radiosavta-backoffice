@@ -5,17 +5,27 @@ import { ProgramTile } from "../../../components/ProgramTile/ProgramTile";
 import { Page } from "../../../components/Page/Page";
 import { User } from "../../../domain/Users";
 import { NoPrograms } from "./components/EmptyState";
+import { logPressOnProgram } from "../../../api/mixpanel.api";
 
 const ProgramsPageContent: React.FC<{ programs: User["programs"] }> = (
   props
 ) => {
+  const onPressProgram = (programId: string) => {
+    logPressOnProgram({
+      origin: "my_programs",
+      programId: programId as string,
+    });
+  };
   if (props.programs?.length) {
     return (
       <>
         {props.programs.map((program) => {
           return (
             <Col span={8} key={program.id}>
-              <ProgramTile {...program} />
+              <ProgramTile
+                {...program}
+                onClick={() => onPressProgram(program.id as string)}
+              />
             </Col>
           );
         })}
