@@ -5,21 +5,6 @@ import IdentityStore from "../../stores/identity.store";
 import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
 import { useLogin } from "../../hooks/auth/useLogin";
 
-interface Props extends RouteComponentProps {
-  identityStore: IdentityStore;
-}
-
-interface LoginFormValues {
-  email: string;
-  password: string;
-  isLoading: boolean;
-}
-
-interface LoginPageState {
-  isLoading: boolean;
-  error: any;
-}
-
 export const LoginPage: React.FC = () => {
   return (
     <Row
