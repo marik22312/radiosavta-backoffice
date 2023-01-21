@@ -59,7 +59,7 @@ export const InfoStep: React.FC<InfoStepProps> = (props) => {
                   showUploadList={false}
                   accept="image/*"
                   customRequest={(o) => {
-                    const url = URL.createObjectURL(o.file);
+                    const url = URL.createObjectURL(o.file as Blob);
                     setPicturePreview(url);
                   }}
                 >

@@ -12,7 +12,7 @@ interface lineChartItem {
 }
 
 function mapResponseToChart(item?: ResponseData): lineChartItem[] {
-  const options = {
+  const options: Intl.DateTimeFormatOptions = {
     month: "numeric",
     day: "numeric",
   };

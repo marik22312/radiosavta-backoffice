@@ -41,7 +41,7 @@ export const CreateUserForm: React.FC<CreateUserFormProps> = (props) => {
     };
     try {
       createUser(newValues);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     }
   };

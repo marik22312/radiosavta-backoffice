@@ -4,8 +4,14 @@ import { useHistory } from "react-router-dom";
 import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
 import { useLogin } from "../../hooks/auth/useLogin";
 import { logPressLoginButton } from "../../api/mixpanel.api";
+import { useFeatureFlags } from "../../hooks/useFeatureFlags";
+import { LoginForm as NewLoginForm } from "./components/LoginForm";
 
 export const LoginPage: React.FC = () => {
+  const { isFeatureEnabled } = useFeatureFlags([
+    "backoffice.paswordless_login",
+  ]);
+
   return (
     <Row
       justify="center"
@@ -21,8 +27,11 @@ export const LoginPage: React.FC = () => {
               <h1>Login</h1>
             </Col>
           </Row>
-          <LoginForm />
-          {/* <NewLoginForm /> */}
+          {isFeatureEnabled("backoffice.paswordless_login") ? (
+            <NewLoginForm />
+          ) : (
+            <LoginForm />
+          )}
         </Card>
       </Col>
     </Row>
