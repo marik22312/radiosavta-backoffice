@@ -95,14 +95,13 @@ const ProtectedRoute: React.FC = (props) => {
     return null;
   }
 
-  console.log("Routes to render", routesToRender);
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <SideNav />
       <Layout style={{ marginLeft: 200 }}>
         <NavigationBar />
         <Layout.Content style={{ padding: "0 50px", marginTop: 64 }}>
-          <Switch>{routesToRender}</Switch>
+          <Switch>{routesToRender as any}</Switch>
         </Layout.Content>
       </Layout>
     </Layout>

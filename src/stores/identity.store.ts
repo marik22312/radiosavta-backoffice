@@ -55,7 +55,7 @@ export default class IdentityStore {
       try {
         const { data } = await this.identityService.getUser(this.token);
         this.user = data;
-      } catch (e) {
+      } catch (e: any) {
         if (e.response?.status === 401) {
           this.logout();
         }
@@ -102,7 +102,7 @@ export default class IdentityStore {
         error: null,
         data,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.log(error.response);
       let stringError = PasswordValidationError.UKNOWN_ERROR;
 

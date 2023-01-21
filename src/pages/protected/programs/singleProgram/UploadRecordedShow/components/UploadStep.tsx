@@ -110,7 +110,7 @@ export const UploadStep: React.FC<UploadStepProps> = (props) => {
             showUploadList={false}
             accept="audio/*"
             customRequest={(o) => {
-              const url = URL.createObjectURL(o.file);
+              const url = URL.createObjectURL(o.file as Blob);
               setPreviewUrl(url);
             }}
           >
