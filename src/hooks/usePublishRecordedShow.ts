@@ -1,9 +1,10 @@
-import { useMutation, queryCache } from "react-query";
+import { useMutation } from "react-query";
 import { publishRecordedShow } from "../api/RecordedShows.api";
+import { queryClient } from "../services/queryClient";
 
 export const usePublisRecordedShow = () => {
-  const [mutate, { isLoading }] = useMutation(publishRecordedShow, {
-    onSuccess: () => queryCache.invalidateQueries(["recordedShow"]),
+  const { mutate, isLoading } = useMutation(publishRecordedShow, {
+    onSuccess: () => queryClient.invalidateQueries(["recordedShow"]),
   });
 
   return {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Row, Col, Button, Card, Form, Input, Alert } from "antd";
@@ -6,11 +6,21 @@ import { useLogin } from "../../hooks/auth/useLogin";
 import { logPressLoginButton } from "../../api/mixpanel.api";
 import { useFeatureFlags } from "../../hooks/useFeatureFlags";
 import { LoginForm as NewLoginForm } from "./components/LoginForm";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 export const LoginPage: React.FC = () => {
   const { isFeatureEnabled } = useFeatureFlags([
     "backoffice.paswordless_login",
   ]);
+
+  const { user } = useAuth();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+      history.push("/");
+    }
+  }, [history, user]);
 
   return (
     <Row

@@ -11,7 +11,7 @@ interface UseUploadRecordedShowArgs {
   onSuccess: (data: any) => void;
 }
 export const useUploadRecordedShow = (opts?: UseUploadRecordedShowArgs) => {
-  const [mutate] = useMutation(
+  const { mutate } = useMutation(
     (args: UploadRecordedShowParms) =>
       uploadRecordedShow(args, opts?.requestConfig),
     {

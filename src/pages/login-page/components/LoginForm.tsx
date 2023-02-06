@@ -1,23 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Alert } from "antd";
+
+import { useHistory } from "react-router-dom";
+import { useAuthContext } from "../../../providers/AuthenticationProvider";
+import { LoginProvider } from "../../../domain/Auth";
 
 export const LoginForm: React.FC = (props) => {
   const [isPasswordLogin, setIsPasswordLogin] = useState<boolean>(false);
   const [error, setError] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
+  const { login } = useAuthContext();
 
   const onShowPasswordField = (e: any) => {
     e.preventDefault();
     setIsPasswordLogin((prevState) => !prevState);
   };
 
-  const onFormSubmit = (fields: { email: string; password?: string }) => {
+  const onFormSubmit = async (fields: { email: string; password?: string }) => {
+    setIsLoading(true);
+
+    let loginCreds;
     if (isPasswordLogin) {
-      console.log("Email login", fields);
-      return;
+      loginCreds = {
+        provider: LoginProvider.EMAIL,
+        email: fields.email,
+        password: fields.password,
+      };
+    } else {
+      loginCreds = {
+        provider: LoginProvider.MAGIC_LINK,
+        email: fields.email,
+      };
     }
 
-    console.log("Magic login", fields);
+    try {
+      await login(loginCreds);
+      setIsLoading(false);
+      history.push("/");
+    } catch (error) {
+      setIsLoading(false);
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -83,7 +107,6 @@ export const LoginForm: React.FC = (props) => {
             </Button>
             <Button
               type={"link"}
-              loading={isLoading}
               disabled={isLoading}
               onClick={onShowPasswordField}
             >

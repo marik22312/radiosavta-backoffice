@@ -1,3 +1,4 @@
+import { LoginProvider } from "../domain/Auth";
 import { User } from "../domain/Users";
 import HttpClient from "../services/http.client";
 import {
@@ -41,4 +42,23 @@ export const login = (credentials: TryLogigArgs) => {
 
 export const getMe = () => {
   return HttpClient.get<User>("/me");
+};
+
+export interface V3LoginRequest {
+  email?: string;
+  password?: string;
+  token?: string;
+  provider?: LoginProvider;
+}
+
+export interface V3LoginResponse {
+  user: User;
+  token: string;
+}
+export const loginV3 = (request: V3LoginRequest) => {
+  return HttpClient.post<V3LoginResponse>("/v3/auth/login", request);
+};
+
+export const authenticateV3 = () => {
+  return HttpClient.post<V3LoginResponse>("/v3/auth/authenticate");
 };

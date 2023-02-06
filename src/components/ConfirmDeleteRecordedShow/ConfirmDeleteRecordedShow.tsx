@@ -1,5 +1,5 @@
 import React from "react";
-import { queryCache } from "react-query";
+import { useQueryClient } from "react-query";
 import { useDeleteRecordedShow } from "../../hooks/useDeleteRecordedShow";
 import { useRecordedShowById } from "../../hooks/useRecordedShowById";
 import { showErrorToast } from "../../utils/toast.util";
@@ -13,6 +13,7 @@ export interface ConfirmDeleteRecordedShowProps {
 export const ConfirmDeleteRecordedShow: React.FC<
   ConfirmDeleteRecordedShowProps
 > = (props) => {
+  const queryCache = useQueryClient();
   const { recordedShow } = useRecordedShowById(props.recordedShowId);
 
   const onSuccess = () => {

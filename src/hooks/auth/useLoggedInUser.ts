@@ -1,5 +1,7 @@
 import { useQuery } from "react-query";
 import { getMe } from "../../api/Auth.api";
+import { User } from "../../domain/Users";
+import { queryClient } from "../../services/queryClient";
 
 interface UseLoggedInUserArgs {
   enabled?: boolean;
@@ -10,10 +12,17 @@ export const useLoggedInUser = (args?: UseLoggedInUserArgs) => {
     refetchOnWindowFocus: false,
   });
 
+  const setLoggedInUser = (user: User) => {
+    queryClient.setQueryData("logged_in_user", {
+      user,
+    });
+  };
+
   return {
     user: data?.data,
-    roles: data?.data.roles.map((r) => r.name) || [],
+    roles: data?.data?.roles?.map((r) => r.name) || [],
     isLoading,
     refetch,
+    setLoggedInUser,
   };
 };
