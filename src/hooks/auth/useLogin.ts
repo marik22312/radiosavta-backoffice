@@ -1,5 +1,5 @@
 import { AxiosError } from "axios";
-import { queryCache, useMutation } from "react-query";
+import { useQueryClient, useMutation } from "react-query";
 import { login } from "../../api/Auth.api";
 import { useAuthContext } from "../../providers/AuthenticationProvider";
 import { cookieOven } from "../../services/CookieOven";
@@ -8,7 +8,12 @@ import { TryLogigArgs } from "../../services/identity.service";
 
 export const useLogin = (onError?: (err: AxiosError) => void) => {
   const { setAuthToken } = useAuthContext();
-  const [tryLogin, { isLoading, isError }] = useMutation(login, {
+  const queryCache = useQueryClient();
+  const {
+    mutateAsync: tryLogin,
+    isLoading,
+    isError,
+  } = useMutation(login, {
     onError,
   });
 

@@ -5,7 +5,7 @@ export const useDeleteRecordedShow = (opts?: {
   onError?: (err: Error) => void;
   onSuccess?: () => void;
 }) => {
-  const [deleteRecordedShow, { isLoading }] = useMutation(
+  const { mutate: deleteRecordedShow, isLoading } = useMutation(
     (recordedShowId: string | number) =>
       preformDeleteRecordedShow(recordedShowId),
     {

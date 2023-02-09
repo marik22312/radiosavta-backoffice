@@ -14,15 +14,13 @@ interface EditProgramTimesProps {
 
 export const EditProgramTimes: React.FC<EditProgramTimesProps> = (props) => {
   const [formRef] = Form.useForm();
-  const [
+  const {
     setProgramTime,
-    {
-      isLoading,
-      error: SetProgramTimeError,
-      reset: resetSetProgramTime,
-      isSuccess,
-    },
-  ] = useSetProgramTime();
+    isLoading,
+    error: SetProgramTimeError,
+    reset: resetSetProgramTime,
+    isSuccess,
+  } = useSetProgramTime();
 
   useEffect(() => {
     formRef.setFieldsValue({
