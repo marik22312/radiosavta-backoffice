@@ -25,6 +25,8 @@ import { isPermitted } from "./utils/identity.utils";
 import { useRoutes } from "./hooks/useRoutes";
 import { ChildMenuItem, ParentMenuItem } from "./domain/Routes";
 import { logRouteChange } from "./api/mixpanel.api";
+import { useAppContext } from "@antv/xflow-core";
+import { useAuthContext } from "./providers/AuthenticationProvider";
 
 const RoleProtectedRoute: React.FC<{
   requiredRoles?: RoleNames[];
@@ -111,14 +113,12 @@ const ProtectedRoute: React.FC = (props) => {
 export const Routes: React.FC = () => {
   return (
     <>
-      <Router>
-        <Switch>
-          <Route path="/login" component={LoginPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
-          <Route path="/reset-password" component={ResetPasswordPage} />
-          <Route component={() => <ProtectedRoute />} />
-        </Switch>
-      </Router>
+      <Switch>
+        <Route path="/login" component={LoginPage} />
+        <Route path="/forgot-password" component={ForgotPasswordPage} />
+        <Route path="/reset-password" component={ResetPasswordPage} />
+        <Route component={() => <ProtectedRoute />} />
+      </Switch>
       <ToastContainer />
     </>
   );

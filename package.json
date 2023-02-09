@@ -46,6 +46,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "lodash": "^4.17.21",
+    "magic-sdk": "^13.1.0",
     "mini-css-extract-plugin": "0.8.0",
     "mixpanel-browser": "^2.45.0",
     "mobx": "^5.14.2",
@@ -97,7 +98,7 @@
     "lint": "eslint '*/**/*.{js,ts,tsx}'",
     "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --fix",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watchAll",
     "snyk-protect": "snyk protect"
   },
   "browserslist": {
@@ -117,7 +118,7 @@
     "@babel/preset-typescript": "^7.7.4",
     "@svgr/webpack": "4.3.3",
     "@testing-library/react": "^11.2.6",
-    "@testing-library/react-hooks": "^5.1.2",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^13.1.5",
     "@types/axios": "^0.14.0",
     "@types/chance": "^1.0.10",

@@ -20,6 +20,9 @@ import { SignalContextProvider } from "./providers/SignalProvider";
 import { FeatureFlagsProvider } from "./providers/FeatureFlags";
 
 import { SignalReciever } from "./components/SignalReciever/SignalReciever";
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "./services/queryClient";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import { QueryClientProvider } from "react-query";
 import { queryClient } from "./services/queryClient";
@@ -44,8 +47,10 @@ const App: React.FC = () => {
           <SignalContextProvider>
             <div className="App">
               <Provider {...stores}>
-                <SignalReciever />
-                <Routes />
+                <Router>
+                  <SignalReciever />
+                  <Routes />
+                </Router>
               </Provider>
             </div>
           </SignalContextProvider>
