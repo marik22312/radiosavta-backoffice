@@ -20,7 +20,7 @@ const EditUserModal: React.FC<ModalProps> = ({
   onUserUpdated,
 }) => {
   const [formInstance] = Form.useForm();
-  const [updateUser, { isLoading: isUpdating }] = useUpdateUser();
+  const { updateUser, isLoading: isUpdating } = useUpdateUser();
 
   const closeAndReset = () => {
     closeModal();

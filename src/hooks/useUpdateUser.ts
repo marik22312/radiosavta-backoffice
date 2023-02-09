@@ -1,10 +1,10 @@
-import { useMutation, useQueryCache } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { updateUserById } from "../api/Users.api";
 
 export const useUpdateUser = () => {
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
-  return useMutation(
+  const { mutate, ...rest } = useMutation(
     ({ userId, data }: any) => {
       return updateUserById(userId, data);
     },
@@ -12,4 +12,9 @@ export const useUpdateUser = () => {
       onSuccess: () => queryCache.invalidateQueries("users"),
     }
   );
+
+  return {
+    updateUser: mutate,
+    ...rest,
+  };
 };

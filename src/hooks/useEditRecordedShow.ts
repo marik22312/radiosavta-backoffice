@@ -1,15 +1,16 @@
-import { useMutation, queryCache } from "react-query";
+import { useMutation } from "react-query";
 import { updateRecordedShow } from "../api/RecordedShows.api";
+import { queryClient } from "../services/queryClient";
 
 export const useEditRecordedShow = (
   programId: string | number,
   opts?: { onSuccess?: () => void; onError?: () => void }
 ) => {
-  const [mutate, { isLoading }] = useMutation(
+  const { mutate, isLoading } = useMutation(
     ({ name }: any) => updateRecordedShow(programId, { name }),
     {
       onSuccess: () => {
-        queryCache.invalidateQueries("programs");
+        queryClient.invalidateQueries("programs");
         opts?.onSuccess?.();
       },
       onError: opts?.onError,

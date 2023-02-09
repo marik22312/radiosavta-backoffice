@@ -21,6 +21,9 @@ import { FeatureFlagsProvider } from "./providers/FeatureFlags";
 
 import { SignalReciever } from "./components/SignalReciever/SignalReciever";
 
+import { QueryClientProvider } from "react-query";
+import { queryClient } from "./services/queryClient";
+
 const cookieOven = new CookieOven();
 const apiService = new BaseApiService(BASE_API_URL, httpClient);
 const identityService = new IdentityService(apiService, cookieOven);
@@ -35,18 +38,20 @@ const stores = {
 
 const App: React.FC = () => {
   return (
-    <FeatureFlagsProvider>
-      <AuthenticaitonProvider>
-        <SignalContextProvider>
-          <div className="App">
-            <Provider {...stores}>
-              <SignalReciever />
-              <Routes />
-            </Provider>
-          </div>
-        </SignalContextProvider>
-      </AuthenticaitonProvider>
-    </FeatureFlagsProvider>
+    <QueryClientProvider client={queryClient}>
+      <FeatureFlagsProvider>
+        <AuthenticaitonProvider>
+          <SignalContextProvider>
+            <div className="App">
+              <Provider {...stores}>
+                <SignalReciever />
+                <Routes />
+              </Provider>
+            </div>
+          </SignalContextProvider>
+        </AuthenticaitonProvider>
+      </FeatureFlagsProvider>
+    </QueryClientProvider>
   );
 };
 
