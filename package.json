@@ -153,5 +153,6 @@
       "react-app"
     ]
   },
-  "snyk": false
+  "snyk": false,
+  "packageManager": "yarn@3.4.1"
 }
