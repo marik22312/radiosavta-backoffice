@@ -5,9 +5,8 @@ import { LoginProvider } from "../domain/Auth";
 import { User, RoleNames } from "../domain/Users";
 import { useLoggedInUser } from "../hooks/auth/useLoggedInUser";
 import { FeatureFlags, useFeatureFlags } from "../hooks/useFeatureFlags";
-import { cookieOven } from "../services/CookieOven";
 import { setToken } from "../services/http.client";
-import { getMagicAuthToken, loginWithEmailOTP } from "../services/MagicLink";
+import { loginWithEmailOTP } from "../services/MagicLink";
 
 interface LoginArgs {
   provider: LoginProvider;
