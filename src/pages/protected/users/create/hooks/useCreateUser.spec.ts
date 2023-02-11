@@ -7,11 +7,12 @@ import {
   stubRejectedCreateUser,
 } from "../../../../../api/Users.api.mock";
 import { useCreateUser, UseCreateUserArgs } from "./useCreateUser";
+import { renderHookWithQueryClient } from "../../../../../../__tests__/helpers/renderHookWithQueryClient";
 
 const chance = Chance();
 describe("useCreateUser", () => {
   const renderUseCreateUser = (args?: UseCreateUserArgs) => {
-    return renderHook(() => useCreateUser(args));
+    return renderHookWithQueryClient(() => useCreateUser(args));
   };
   beforeEach(() => {
     stubCreateUser();

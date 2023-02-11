@@ -1,6 +1,9 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { stubLoginV3 } from "../api/Auth.api.mock";
-import { useAuthContext } from "./AuthenticationProvider";
+import {
+  AuthenticaitonProvider,
+  useAuthContext,
+} from "./AuthenticationProvider";
 import { chance } from "../../__tests__/chance";
 import { LoginProvider } from "../domain/Auth";
 
@@ -10,7 +13,9 @@ describe.skip("AuthenticationProvider", () => {
   });
 
   it("Should call loginV3 with correct credentials when preforming login", async () => {
-    const { result } = renderHook(() => useAuthContext());
+    const { result } = renderHook(() => useAuthContext(), {
+      wrapper: AuthenticaitonProvider,
+    });
 
     const email = chance.email();
     const provider = chance.pickone(Object.values(LoginProvider));

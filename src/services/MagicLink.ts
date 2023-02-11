@@ -1,11 +1,8 @@
-import { Magic } from "magic-sdk";
-const magic = new Magic(process.env.REACT_APP_MAGIC_LINK_API_KEY!);
-
-export { magic };
+import { getMagicSDK } from "../singletons/MagicLink";
 
 export const getMagicAuthToken = async () => {
   try {
-    const token = await magic.user.generateIdToken();
+    const token = await getMagicSDK().user.generateIdToken();
     return token;
   } catch (error) {
     return null;
@@ -13,5 +10,9 @@ export const getMagicAuthToken = async () => {
 };
 
 export const loginWithEmailOTP = (email: string) => {
-  return magic.auth.loginWithEmailOTP({ email });
+  return getMagicSDK().auth.loginWithEmailOTP({ email });
+};
+
+export const loggout = () => {
+  return getMagicSDK().user.logout();
 };

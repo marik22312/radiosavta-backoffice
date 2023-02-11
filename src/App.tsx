@@ -24,9 +24,6 @@ import { QueryClientProvider } from "react-query";
 import { queryClient } from "./services/queryClient";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { QueryClientProvider } from "react-query";
-import { queryClient } from "./services/queryClient";
-
 const cookieOven = new CookieOven();
 const apiService = new BaseApiService(BASE_API_URL, httpClient);
 const identityService = new IdentityService(apiService, cookieOven);
