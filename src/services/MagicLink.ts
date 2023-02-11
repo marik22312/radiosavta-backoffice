@@ -12,3 +12,7 @@ export const getMagicAuthToken = async () => {
 export const loginWithEmailOTP = (email: string) => {
   return getMagicSDK().auth.loginWithEmailOTP({ email });
 };
+
+export const loggout = () => {
+  return getMagicSDK().user.logout();
+};
