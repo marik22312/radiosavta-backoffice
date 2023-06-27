@@ -2,7 +2,7 @@ import { createElement } from "react";
 import ReactDOM from "react-dom";
 import {
   ConfirmDeleteRecordedShowProps,
-  ConfirmDeleteRecordedShow,
+  WrappedConfirmDeleteRecordedShow,
 } from "./ConfirmDeleteRecordedShow";
 
 export const useConfirmDeleteRecordedShow = () => {
@@ -19,7 +19,10 @@ export const useConfirmDeleteRecordedShow = () => {
     const portal = document.createElement("div");
     portal.setAttribute("id", "delete-recorded-show-modal");
     document.body.appendChild(portal);
-    ReactDOM.render(createElement(ConfirmDeleteRecordedShow, props), portal);
+    ReactDOM.render(
+      createElement(WrappedConfirmDeleteRecordedShow, props),
+      portal
+    );
   };
 
   const unmountEditRecordedShowModal = () => {
