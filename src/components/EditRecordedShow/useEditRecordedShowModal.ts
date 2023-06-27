@@ -2,7 +2,7 @@ import { createElement } from "react";
 import ReactDOM from "react-dom";
 import {
   EditRecordedShowModalProps,
-  EditRecordedShow,
+  WrappedEditRecordedShow,
 } from "./EditRecordedShow";
 
 export const useEditRecordedShowModal = () => {
@@ -16,7 +16,7 @@ export const useEditRecordedShowModal = () => {
     };
     portal.setAttribute("id", "edit-recorded-show-modal-wrapper");
     document.body.appendChild(portal);
-    ReactDOM.render(createElement(EditRecordedShow, props), portal);
+    ReactDOM.render(createElement(WrappedEditRecordedShow, props), portal);
   };
 
   const unmountEditRecordedShowModal = () => {

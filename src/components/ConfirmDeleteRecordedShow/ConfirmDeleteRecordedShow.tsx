@@ -1,9 +1,10 @@
 import React from "react";
-import { useQueryClient } from "react-query";
+import { QueryClientProvider, useQueryClient } from "react-query";
 import { useDeleteRecordedShow } from "../../hooks/useDeleteRecordedShow";
 import { useRecordedShowById } from "../../hooks/useRecordedShowById";
 import { showErrorToast } from "../../utils/toast.util";
 import { ConfirmationModal } from "../ConfirmationModal/ConfirmationModal";
+import { queryClient } from "../../services/queryClient";
 
 export interface ConfirmDeleteRecordedShowProps {
   recordedShowId: string | number;
@@ -39,5 +40,15 @@ export const ConfirmDeleteRecordedShow: React.FC<
       isLoading={isDeleting}
       type="danger"
     />
+  );
+};
+
+export const WrappedConfirmDeleteRecordedShow: React.FC<
+  ConfirmDeleteRecordedShowProps
+> = (props) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ConfirmDeleteRecordedShow {...props} />
+    </QueryClientProvider>
   );
 };

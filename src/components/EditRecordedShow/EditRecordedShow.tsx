@@ -4,6 +4,8 @@ import { Modal, Input, Form } from "antd";
 import { useRecordedShowById } from "../../hooks/useRecordedShowById";
 import { useEditRecordedShow } from "../../hooks/useEditRecordedShow";
 import { showErrorToast } from "../../utils/toast.util";
+import { queryClient } from "../../services/queryClient";
+import { QueryClientProvider } from "react-query";
 
 export interface EditRecordedShowModalProps {
   isOpen: boolean;
@@ -67,5 +69,15 @@ export const EditRecordedShow: React.FC<EditRecordedShowModalProps> = ({
         </Form.Item>
       </Form>
     </Modal>
+  );
+};
+
+export const WrappedEditRecordedShow: React.FC<EditRecordedShowModalProps> = (
+  props
+) => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <EditRecordedShow {...props} />
+    </QueryClientProvider>
   );
 };
