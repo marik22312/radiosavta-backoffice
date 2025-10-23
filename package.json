@@ -46,7 +46,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "lodash": "^4.17.21",
-    "magic-sdk": "^13.1.0",
+    "magic-sdk": "^29.0.0",
     "mini-css-extract-plugin": "0.8.0",
     "mixpanel-browser": "^2.45.0",
     "mobx": "^5.14.2",
